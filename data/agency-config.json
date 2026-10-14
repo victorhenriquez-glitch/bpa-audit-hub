@@ -1,0 +1,33 @@
+{
+  "agency": {
+    "name": "Bright Pink Agency",
+    "shortName": "BPA",
+    "tagline": "Franchise SEO & Digital Strategy Built for the Entire Network",
+    "portalName": "BPA Technical SEO Audit Hub",
+    "version": "2.0.0",
+    "brandColors": {
+      "primaryMagenta": "#E6007E",
+      "primaryMagentaDark": "#C2006A",
+      "brandViolet": "#2E1343",
+      "brandVioletDeep": "#1A0929",
+      "accentPurple": "#732483",
+      "softLavender": "#FBF7FD",
+      "cardBorder": "#EFE6F7"
+    },
+    "team": [
+      { "name": "Víctor Henríquez", "role": "Technical SEO Specialist & Developer Bridge", "badgeColor": "purple" },
+      { "name": "Gyongyi Castellanos", "role": "Account Manager (ohDEER, Qualicare)", "badgeColor": "pink" },
+      { "name": "Alisha Hughes", "role": "Digital Marketing Strategist & SEO Lead", "badgeColor": "blue" },
+      { "name": "Jonie", "role": "Senior WordPress Developer", "badgeColor": "indigo" },
+      { "name": "Augustina", "role": "Senior Full-Stack Developer", "badgeColor": "teal" },
+      { "name": "Donna", "role": "Senior Content Lead", "badgeColor": "amber" }
+    ],
+    "clients": [
+      { "slug": "oh-deer", "name": "ohDEER", "domain": "oh-deer.com", "status": "Active Audit", "type": "Multisite Retainer", "accountManager": "Gyongyi Castellanos", "score": 92 },
+      { "slug": "us-lawns", "name": "US Lawns", "domain": "uslawns.com", "status": "Pre-Migration", "type": "WordPress Migration", "accountManager": "TBD / Account Team", "score": 74 },
+      { "slug": "puroclean", "name": "PuroClean", "domain": "puroclean.com", "status": "Scheduled", "type": "Enterprise Retainer", "accountManager": "Account Team", "score": 88 },
+      { "slug": "qualicare", "name": "Qualicare", "domain": "qualicare.com", "status": "Tracking Rebuild", "type": "GTM & GA4 Scope", "accountManager": "Gyongyi Castellanos", "score": 85 },
+      { "slug": "pacific-lawn", "name": "Pacific Lawn Sprinklers", "domain": "pacificlawnsprinklers.com", "status": "Post-Launch", "type": "Gutenberg CMS", "accountManager": "Account Team", "score": 94 }
+    ]
+  }
+}

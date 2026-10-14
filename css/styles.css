@@ -1,0 +1,47 @@
+/* Bright Pink Agency Technical Audit Hub - Custom Styles */
+body {
+  background-color: #FAF7FC;
+  color: #2D1445;
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, #1A0929 0%, #2E1343 50%, #441A63 100%);
+}
+
+.gradient-magenta {
+  background: linear-gradient(135deg, #DE0073 0%, #B1005C 100%);
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #D8B4E2;
+  border-radius: 9999px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: #F3E8F9;
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+  }
+  .gradient-hero {
+    background: #2E1343 !important;
+    color: white !important;
+  }
+  .page-break {
+    page-break-before: always;
+  }
+}

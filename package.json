@@ -1,0 +1,16 @@
+{
+  "name": "bpa-audit-hub",
+  "version": "1.0.0",
+  "description": "Bright Pink Agency — Centralized Technical SEO Client Audit & Retainer Hub",
+  "author": "Víctor Henríquez <victor.henriquez@brightpinkagency.com>",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "seo",
+    "technical-seo",
+    "screaming-frog",
+    "bright-pink-agency",
+    "dashboard"
+  ]
+}

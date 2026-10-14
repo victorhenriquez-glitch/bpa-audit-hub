@@ -1,0 +1,196 @@
+{
+  "clientName": "ohDEER",
+  "clientSlug": "oh-deer",
+  "domain": "oh-deer.com",
+  "industry": "All-Natural Mosquito & Tick Control Franchise Network",
+  "auditDate": "October 2026",
+  "auditCycle": "Monthly Maintenance & Deep Crawl Cross-Validation",
+  "accountManager": "Gyongyi Castellanos",
+  "technicalSeoLead": "Víctor Henríquez",
+  "cmsStack": {
+    "platform": "WordPress Multisite",
+    "structure": "Subdirectory network for local franchises (/cape-cod, /central-mass, /marthas-vineyard)",
+    "hosting": "WP Engine + Cloudflare WAF",
+    "seoPlugin": "Rank Math SEO Pro",
+    "theme": "BPA Custom In-House Themes (bpa-ohdeer-hq & bps-ohdeer-franchise) with SCSS"
+  },
+  "kpis": {
+    "totalCrawledUrls": 5692,
+    "clean200HtmlPages": 945,
+    "indexableHtmlCount": 945,
+    "internal301Redirects": 245,
+    "broken404Pages": 0,
+    "wafFalsePositive403": 818,
+    "duplicateH1s": 324,
+    "duplicateTitlesPaginated": 14,
+    "crawlDepthBreakdown": {
+      "level1": 1,
+      "level2": 138,
+      "level3": 724,
+      "level4Plus": 84
+    },
+    "healthScores": {
+      "rawSemrushScore": 78,
+      "calibratedTrueHealth": 92,
+      "calibrationNote": "Semrush reported 818 pages with 'Error 403' due to Cloudflare WAF bot mitigation against SemrushBot. Screaming Frog validation verified 100% of these URLs return 200 OK to live users and Googlebot."
+    }
+  },
+  "sprintSummary": {
+    "totalEstimatedMinutes": 30,
+    "totalEstimatedHours": "0.5 hrs",
+    "billable": true,
+    "approvalStatus": "Ready for AM Retainer Review",
+    "budgetImpact": "Austere & Budget-Safe (30 min) — Zero dev hours required in October."
+  },
+  "tasks": [
+    {
+      "id": "OHD-SPRINT-01",
+      "phase": "Current Sprint",
+      "sprintOrder": 1,
+      "title": "Rank Math Blog Pagination Title Fix (%page%)",
+      "category": "Pagination",
+      "priority": "High",
+      "status": "In Review / Dev Handed Off",
+      "assignedRole": "Víctor Henríquez / Florin Chiriac",
+      "estimatedMinutes": 15,
+      "billable": true,
+      "rootCause": "13 paginated blog URLs (/blog/page/2/ to /page/14/) duplicate the exact static title configured for Page 1: 'Dive into ohDEER's Blog of Natural Living'.",
+      "businessImpact": "Eliminates duplicate titles across blog archives and resolves high-priority audit warnings without touching code.",
+      "sampleUrls": [
+        "https://oh-deer.com/blog/page/2/",
+        "https://oh-deer.com/blog/page/3/",
+        "https://oh-deer.com/blog/page/14/"
+      ],
+      "technicalInstructions": "1. Option A (CMS Level): Navigate to Rank Math > Titles & Meta > Post Archives / Categories. Update Archive Title format to: `%title% %sep% Page %page% %sep% %sitename%`.\n2. Option B (Theme Level for Florin): In `bpa-ohdeer-hq/functions.php`, add:\n```php\nadd_filter('rank_math/frontend/title', function($title) {\n    if (is_paged()) { $page = get_query_var('paged'); return $title . ' - Page ' . $page; }\n    return $title;\n});\n```\n3. Purge WP Engine object cache and Cloudflare edge cache.",
+      "acceptanceCriteria": [
+        "Browser tab title on /blog/page/2/ renders as 'Blog - Page 2 - ohDEER'",
+        "Googlebot crawls distinct title tags on all pagination levels"
+      ],
+      "verificationMethod": "curl -ILs 'https://oh-deer.com/blog/page/2/' | grep -i '<title>'",
+      "workbookUrl": "https://docs.google.com/spreadsheets/d/1fmY7Y1su8nK8_t_nGC400_Pk3LK6greu/edit?gid=603582706#gid=603582706"
+    },
+    {
+      "id": "OHD-SPRINT-02",
+      "phase": "Current Sprint",
+      "sprintOrder": 2,
+      "title": "Internal 301 Inlink Mapping Preparation for Dev Phase 2",
+      "category": "Crawl Budget",
+      "priority": "Medium",
+      "status": "Delivered to Development",
+      "assignedRole": "Víctor Henríquez",
+      "estimatedMinutes": 15,
+      "billable": true,
+      "rootCause": "245 internal hyperlinks across global navigation and location footers link to non-slash URLs (e.g. /cape-cod instead of canonical /cape-cod/).",
+      "businessImpact": "Prepares clean mapping for Dev Phase 2, preserving crawl budget and eliminating redirect latency across the franchise network.",
+      "sampleUrls": [
+        "https://oh-deer.com/cape-cod -> https://oh-deer.com/cape-cod/ [301]",
+        "https://oh-deer.com/central-mass -> https://oh-deer.com/central-mass/ [301]"
+      ],
+      "technicalInstructions": "1. Cross-reference Screaming Frog inlinks export for all 245 internal 301 redirects.\n2. Delivered Master Workbook Sheet 'Internal 301 Redirects (245)': https://docs.google.com/spreadsheets/d/1fmY7Y1su8nK8_t_nGC400_Pk3LK6greu/edit?gid=603582706#gid=603582706\n3. Handed off to Jonie Iordache & Florin Chiriac for execution in November Phase 2.",
+      "acceptanceCriteria": [
+        "Mapping spreadsheet delivered to development with clear source anchor and target URL pairs"
+      ],
+      "verificationMethod": "Review Master Google Spreadsheet: https://docs.google.com/spreadsheets/d/1fmY7Y1su8nK8_t_nGC400_Pk3LK6greu/edit?gid=603582706#gid=603582706",
+      "workbookUrl": "https://docs.google.com/spreadsheets/d/1fmY7Y1su8nK8_t_nGC400_Pk3LK6greu/edit?gid=603582706#gid=603582706"
+    },
+    {
+      "id": "OHD-DEV-01",
+      "phase": "Phase 2 (November)",
+      "sprintOrder": 3,
+      "title": "Sitewide Navigation & Footer Trailing Slash 301 URL Update",
+      "category": "Navigation",
+      "priority": "Medium",
+      "status": "Scheduled for Dev",
+      "assignedRole": "Florin Chiriac / Jonie Iordache (Dev Team)",
+      "estimatedMinutes": 60,
+      "billable": true,
+      "rootCause": "Global header menu and footer location links point to non-slash URLs, causing 245 internal 301 redirects across the multisite network.",
+      "businessImpact": "Eliminates unnecessary server redirects on every visitor click, speeding up navigation.",
+      "sampleUrls": [
+        "https://oh-deer.com/nashoba-valley -> https://oh-deer.com/nashoba-valley/ [301 Trailing Slash]",
+        "https://oh-deer.com/northwest-austin-tx -> https://oh-deer.com/northwest-austin-tx/ [301 Trailing Slash]",
+        "https://oh-deer.com/central-mass -> https://oh-deer.com/central-mass/ [301 Trailing Slash]",
+        "https://oh-deer.com/locations/ [Footer location query links missing trailing slashes]"
+      ],
+      "technicalInstructions": "1. Open Master Workbook Sheet 'Internal 301 Redirects (245)': https://docs.google.com/spreadsheets/d/1fmY7Y1su8nK8_t_nGC400_Pk3LK6greu/edit?gid=603582706#gid=603582706\n2. In WordPress theme template files (footer.php and header navigation loops in bpa-ohdeer-hq / bps-ohdeer-franchise), update dynamic location queries and hardcoded menu URLs to append canonical trailing slashes (/).\n3. Update legacy service subpage links (/mosquito-and-tick-spray/tick-control/) to point directly to active canonical service URLs (/tick-control/).\n4. Deploy to WP Engine staging, purge Cloudflare cache, and verify with Screaming Frog.",
+      "acceptanceCriteria": [
+        "All internal navigation and footer location links return direct HTTP 200 OK without intermediate 301 redirect hops",
+        "Screaming Frog internal 301 response count drops to 0 across navigation assets",
+        "Master Workbook Sheet 'Internal 301 Redirects' verified in staging"
+      ],
+      "verificationMethod": "curl -ILs 'https://oh-deer.com/nashoba-valley/' | grep -E 'HTTP/|location:'",
+      "workbookUrl": "https://docs.google.com/spreadsheets/d/1fmY7Y1su8nK8_t_nGC400_Pk3LK6greu/edit?gid=603582706#gid=603582706"
+    },
+    {
+      "id": "OHD-CONTENT-01",
+      "phase": "Phase 2 (Content)",
+      "sprintOrder": 4,
+      "title": "Empty Franchise Placeholder Pages Review & Content Decision",
+      "category": "Content",
+      "priority": "Low",
+      "status": "Awaiting Content Review",
+      "assignedRole": "Dana Aliaga / Donna (Content Strategy)",
+      "estimatedMinutes": 45,
+      "billable": true,
+      "rootCause": "6 franchise location subdirectories contain empty placeholder review pages without content.",
+      "businessImpact": "Prevents thin content penalties and improves user experience for local franchise visitors.",
+      "sampleUrls": [
+        "https://oh-deer.com/metro-west/about-us/what-our-clients-say/"
+      ],
+      "technicalInstructions": "1. Review list of empty franchise pages.\n2. Option A: Populate with local customer reviews and location imagery.\n3. Option B: If no reviews available, apply 301 redirect to main franchise page (/metro-west/).",
+      "acceptanceCriteria": [
+        "Pages either populated with unique local copy or redirected cleanly with 301 to parent landing"
+      ],
+      "verificationMethod": "Review in browser to ensure no empty placeholder pages exist in index.",
+      "workbookUrl": "https://docs.google.com/spreadsheets/d/1fmY7Y1su8nK8_t_nGC400_Pk3LK6greu/edit?gid=603582706#gid=603582706"
+    }
+  ],
+  "completedTasks": [
+    {
+      "id": "OHD-FLORIN-01",
+      "title": "Missing H1 Headings Implementation Across Core Pages (12 URLs)",
+      "category": "Headings",
+      "completedDate": "May 2026",
+      "verifiedDate": "October 2026",
+      "verifiedBy": "Víctor Henríquez",
+      "summary": "Florin added missing H1 tags to 12 core URLs. October deep crawl confirmed 100% stability with 0 indexable HTML pages missing H1."
+    },
+    {
+      "id": "OHD-FLORIN-02",
+      "title": "Structured Data Parse Errors Remediation (6 URLs)",
+      "category": "Schema",
+      "completedDate": "May 2026",
+      "verifiedDate": "October 2026",
+      "verifiedBy": "Víctor Henríquez",
+      "summary": "Florin corrected syntax parse halts in schema markup. October testing verified clean JSON-LD validation across tested templates."
+    },
+    {
+      "id": "OHD-FLORIN-03",
+      "title": "Core Header Logo & Quote Button 301 Redirect Repair",
+      "category": "Navigation",
+      "completedDate": "May 2026",
+      "verifiedDate": "October 2026",
+      "verifiedBy": "Víctor Henríquez",
+      "summary": "Florin corrected hardcoded links in header logo and get-a-quote button. Both resolve directly to 200 OK canonicals."
+    },
+    {
+      "id": "OHD-OCT-01",
+      "title": "Baseline 5,692 URLs Screaming Frog Deep Crawl & WAF Cross-Validation",
+      "category": "Audit Baseline",
+      "completedDate": "October 2026",
+      "verifiedDate": "October 2026",
+      "verifiedBy": "Víctor Henríquez",
+      "summary": "Comprehensive spider crawl executed across all franchise subdirectories. Confirmed 0 internal 403 errors and established 92% true site health."
+    },
+    {
+      "id": "OHD-OCT-02",
+      "title": "Master Technical SEO Workbook & 245 Inlink Mapping Delivery",
+      "category": "Deliverable / Strategy",
+      "completedDate": "October 2026",
+      "verifiedDate": "October 2026",
+      "verifiedBy": "Víctor Henríquez",
+      "summary": "Compiled and delivered full 5-sheet Master SEO Workbook with 245 source-to-target redirect mappings and WAF validation. Live sheet: https://docs.google.com/spreadsheets/d/1fmY7Y1su8nK8_t_nGC400_Pk3LK6greu/edit?gid=603582706#gid=603582706"
+    }
+  ],
+  "workbookUrl": "https://docs.google.com/spreadsheets/d/1fmY7Y1su8nK8_t_nGC400_Pk3LK6greu/edit?gid=603582706#gid=603582706"
+}
