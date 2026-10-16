@@ -98,7 +98,8 @@ window.switchClient = function(slug) {
   const btnMap = {
     'oh-deer': document.getElementById('btn-client-ohdeer'),
     'us-lawns': document.getElementById('btn-client-uslawns'),
-    'owl-be-there': document.getElementById('btn-client-owlbethere')
+    'owl-be-there': document.getElementById('btn-client-owlbethere'),
+    'pacific-lawn-sprinklers': document.getElementById('btn-client-pacificlawn')
   };
 
   const activeClass = 'px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-bpa-magenta shadow-xs border border-purple-100';

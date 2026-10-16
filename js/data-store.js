@@ -784,7 +784,289 @@ window.BPA_DATA = {
         "summary": "Completed full empirical crawl across Corporate HQ and all 7 franchise subsites (95 indexable HTML pages, 100% 200 OK, 0 broken links). Pinpointed exact DOM/page locations for 3 cross-location city meta bleeds, 5 internal 301 redirect links, 2 missing editorial alt attributes, duplicate category H1s, and LocalBusiness Schema enhancements."
       }
     ]
-  }
+  },
+  'pacific-lawn-sprinklers': {
+    "clientName": "Pacific Lawn Sprinklers",
+    "clientSlug": "pacific-lawn-sprinklers",
+    "domain": "pacificlawnsprinklers.com",
+    "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit",
+    "gdocUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit",
+    "industry": "Residential & Commercial Irrigation, Lawn Sprinkler Systems & Landscape Lighting",
+    "industry_en": "Residential & Commercial Irrigation, Lawn Sprinkler Systems & Landscape Lighting",
+    "auditDate": "October 2026",
+    "auditCycle": "Post-Launch Technical SEO Audit & Site Health Benchmark",
+    "auditCycle_en": "Post-Launch Technical SEO Audit & Site Health Benchmark",
+    "accountManager": "Gabriel Rojas",
+    "technicalSeoLead": "Víctor Henríquez",
+    "cmsStack": {
+        "platform": "WordPress 7.1.3 (Gutenberg / ACF & SCSS)",
+        "structure": "Corporate Hub + Regional Service Locations (/san-antonio-tx/, /tampa-fl/, etc.)",
+        "hosting": "Cloudflare WAF + Fastly Edge CDN",
+        "seoPlugin": "Rank Math SEO",
+        "theme": "BPA Custom In-House Theme (bpa-pacific) with Gutenberg/ACF & Modular SCSS"
+    },
+    "kpis": {
+        "totalCrawledUrls": 4052,
+        "clean200HtmlPages": 4025,
+        "indexableHtmlCount": 274,
+        "internal301Redirects": 17,
+        "broken404Pages": 9,
+        "wafFalsePositive403": 0,
+        "duplicateH1s": 16,
+        "crawlDepthBreakdown": {
+            "level1": 26,
+            "level2": 72,
+            "level3": 188,
+            "level4Plus": 1
+        },
+        "healthScores": {
+            "rawSemrushScore": 88,
+            "calibratedTrueHealth": 98.2,
+            "calibrationNote": "Semrush crawled only 428 pages and flagged 682 temporary 302 redirects due to Cloudflare WAF bot challenges. Live Screaming Frog deep crawl of 4,052 URLs proved 99.3% of the architecture (4,025 URLs) returns 200 OK, with exactly 17 permanent 301 redirects (15 legacy DotNetNuke links) and 9 isolated 404s (pagination and phone link tags).",
+            "calibrationNote_en": "Semrush crawled only 428 pages and flagged 682 temporary 302 redirects due to Cloudflare WAF bot challenges. Live Screaming Frog deep crawl of 4,052 URLs proved 99.3% of the architecture (4,025 URLs) returns 200 OK, with exactly 17 permanent 301 redirects (15 legacy DotNetNuke links) and 9 isolated 404s (pagination and phone link tags)."
+        }
+    },
+    "sprintSummary": {
+        "totalEstimatedMinutes": 30,
+        "totalEstimatedHours": "0.5 hrs",
+        "billable": true,
+        "approvalStatus": "Ready for AM Review (Gabriel Rojas)",
+        "approvalStatus_en": "Ready for AM Review (Gabriel Rojas)",
+        "budgetImpact": "Austere 30-min CMS Quick Sprint (0.5 hrs) — Resolves 4 missing location meta descriptions, fixes 3 malformed phone/web links, and adds 301 redirect for Wet-Check."
+    },
+    "tasks": [
+        {
+            "id": "PLS-SPRINT-01",
+            "phase": "Current Sprint",
+            "sprintOrder": 1,
+            "title": "Add High-CTR Meta Descriptions on Location Landing Pages (San Antonio & Tampa)",
+            "category": "Local SEO & Metadata",
+            "priority": "High",
+            "status": "Ready for CMS Execution",
+            "assignedRole": "Víctor Henríquez",
+            "estimatedMinutes": 10,
+            "billable": true,
+            "rootCause": "WHERE ON PAGE / DOM: <head> -> <meta name=\"description\">. Core regional franchise location pages /san-antonio-tx/ and /tampa-fl/ are missing meta descriptions entirely, forcing Google to generate dynamic snippets.",
+            "businessImpact": "Improves local search organic CTR and prevents random page fragment text from appearing in competitive San Antonio and Tampa search results.",
+            "sampleUrls": [
+                "https://www.pacificlawnsprinklers.com/san-antonio-tx/",
+                "https://www.pacificlawnsprinklers.com/tampa-fl/"
+            ],
+            "technicalInstructions": "1. In WordPress Admin -> Pages -> Edit 'San Antonio, TX' -> Rank Math Meta Box -> Description:\n   'Professional lawn sprinkler and irrigation services in San Antonio, TX. Pacific Lawn Sprinklers offers repairs, installations, and seasonal maintenance. Call today!' (153 chars)\n2. Edit 'Tampa, FL' -> Rank Math Meta Box -> Description:\n   'Top-rated lawn sprinkler installation, repair, and landscape lighting in Tampa, FL. Count on Pacific Lawn Sprinklers for reliable, eco-friendly irrigation services.' (154 chars)",
+            "acceptanceCriteria": [
+                "Both location URLs output verified custom meta description tags in DOM.",
+                "Character length remains under 155 characters."
+            ],
+            "verificationMethod": "curl -s https://www.pacificlawnsprinklers.com/san-antonio-tx/ | grep -i 'meta name=\"description\"'",
+            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+        },
+        {
+            "id": "PLS-SPRINT-02",
+            "phase": "Current Sprint",
+            "sprintOrder": 2,
+            "title": "Fix Malformed Relative Telephone Links (href=\"/tel:...\")",
+            "category": "Crawl Budget & 404 Resolution",
+            "priority": "High",
+            "status": "Ready for CMS Execution",
+            "assignedRole": "Víctor Henríquez",
+            "estimatedMinutes": 10,
+            "billable": true,
+            "rootCause": "WHERE ON PAGE / DOM: Hardcoded telephone links containing leading slashes: href=\"/tel:888-438-7224\" (2 inlinks) and href=\"/tel:8884387224\" (3 inlinks). Web browsers and search crawlers resolve these as relative paths on the domain, producing 404 errors.",
+            "businessImpact": "Eliminates 5 internal 404 errors and ensures mobile click-to-call triggers the native phone dialer immediately for prospective customers.",
+            "sampleUrls": [
+                "https://www.pacificlawnsprinklers.com/tel:888-438-7224",
+                "https://www.pacificlawnsprinklers.com/tel:8884387224"
+            ],
+            "technicalInstructions": "Search post content and header/footer widgets for '/tel:' and remove the leading slash so links read strictly: href=\"tel:888-438-7224\" and href=\"tel:8884387224\".",
+            "acceptanceCriteria": [
+                "All telephone anchors in DOM output valid tel: URI scheme without leading slash.",
+                "Crawler encounters zero 404 errors on telephone strings."
+            ],
+            "verificationMethod": "Inspect page source for href=\"tel:888-438-7224\"",
+            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+        },
+        {
+            "id": "PLS-SPRINT-03",
+            "phase": "Current Sprint",
+            "sprintOrder": 3,
+            "title": "Implement 301 Permanent Redirect for Legacy Wet-Check Page",
+            "category": "Redirect Mapping",
+            "priority": "High",
+            "status": "Ready for CMS Execution",
+            "assignedRole": "Víctor Henríquez",
+            "estimatedMinutes": 5,
+            "billable": true,
+            "rootCause": "WHERE ON PAGE / DOM: Legacy DotNetNuke URL /Services/Lawn-Sprinkler-Systems/Inspection-Wet-Check is linked in internal post content (2 inlinks) but returns HTTP 404 because no 301 redirect rule was established during migration.",
+            "businessImpact": "Recovers internal link equity and directs visitors searching for wet-check inspections to the modern active service category.",
+            "sampleUrls": [
+                "https://www.pacificlawnsprinklers.com/Services/Lawn-Sprinkler-Systems/Inspection-Wet-Check"
+            ],
+            "technicalInstructions": "In WordPress Admin -> Rank Math -> Redirections -> Add New:\n- Source URL: /Services/Lawn-Sprinkler-Systems/Inspection-Wet-Check\n- Destination URL: https://www.pacificlawnsprinklers.com/services/lawn-sprinkler-systems/\n- Redirection Type: 301 Permanent Move",
+            "acceptanceCriteria": [
+                "curl -ILs returns HTTP 301 redirect to https://www.pacificlawnsprinklers.com/services/lawn-sprinkler-systems/"
+            ],
+            "verificationMethod": "curl -ILs 'https://www.pacificlawnsprinklers.com/Services/Lawn-Sprinkler-Systems/Inspection-Wet-Check' | grep -i 'HTTP/'",
+            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+        },
+        {
+            "id": "PLS-SPRINT-04",
+            "phase": "Current Sprint",
+            "sprintOrder": 4,
+            "title": "Fix Malformed External Link (href=\"www.pacificlawnsprinklers.com\")",
+            "category": "Crawl Budget & 404 Resolution",
+            "priority": "Medium",
+            "status": "Ready for CMS Execution",
+            "assignedRole": "Víctor Henríquez",
+            "estimatedMinutes": 5,
+            "billable": true,
+            "rootCause": "WHERE ON PAGE / DOM: In-content link written as href=\"www.pacificlawnsprinklers.com\" missing the https:// protocol scheme, causing the browser to append it to the current path and return 404.",
+            "businessImpact": "Cleans up internal broken link and ensures users navigating to homepage reach 200 OK cleanly.",
+            "sampleUrls": [
+                "https://www.pacificlawnsprinklers.com/www.pacificlawnsprinklers.com"
+            ],
+            "technicalInstructions": "Locate the affected post content via inlinks and update anchor href from 'www.pacificlawnsprinklers.com' to 'https://www.pacificlawnsprinklers.com/'.",
+            "acceptanceCriteria": [
+                "Link points to absolute https:// URL with 200 OK."
+            ],
+            "verificationMethod": "Verify href attribute in post HTML",
+            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+        },
+        {
+            "id": "PLS-DEV-01",
+            "phase": "Phase 2 (Dev Backlog)",
+            "sprintOrder": 5,
+            "title": "Fix Critical Canonical Tag Override on Corporate Form (/pls-corporate-form/)",
+            "category": "Canonical Architecture",
+            "priority": "Critical",
+            "status": "Ready for Dev Execution",
+            "assignedRole": "Dev Team",
+            "estimatedMinutes": 15,
+            "billable": true,
+            "rootCause": "1. SYMPTOM & EVIDENCE: https://www.pacificlawnsprinklers.com/pls-corporate-form/ outputs <link rel=\"canonical\" href=\"https://www.pacificlawnsprinklers.com/about/blog/\">.\n2. ROOT CAUSE: Hardcoded canonical override in post meta or template-parts/pls-corporate.php instructing Google to index blog index instead of form.",
+            "businessImpact": "Prevents catastrophic canonical mismatch where Google de-indexes the corporate customer intake form.",
+            "sampleUrls": [
+                "https://www.pacificlawnsprinklers.com/pls-corporate-form/"
+            ],
+            "technicalInstructions": "Clear custom canonical field in Rank Math page meta or remove manual rel=\"canonical\" output in theme template, restoring standard wp_get_canonical_url().",
+            "acceptanceCriteria": [
+                "Canonical tag on /pls-corporate-form/ matches self: https://www.pacificlawnsprinklers.com/pls-corporate-form/"
+            ],
+            "verificationMethod": "curl -s https://www.pacificlawnsprinklers.com/pls-corporate-form/ | grep -i 'canonical'",
+            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+        },
+        {
+            "id": "PLS-DEV-02",
+            "phase": "Phase 2 (Dev Backlog)",
+            "sprintOrder": 6,
+            "title": "Fix Blog Archive Pagination 404 Loops (/page/5/ & ?cat=14)",
+            "category": "Theme Templates & Pagination",
+            "priority": "High",
+            "status": "Ready for Dev Execution",
+            "assignedRole": "Dev Team",
+            "estimatedMinutes": 30,
+            "billable": true,
+            "rootCause": "1. SYMPTOM & EVIDENCE: /about/blog/page/5/ and /about/blog/page/4/?cat=14 return 404 Not Found, but are linked by archive pagination buttons.\n2. ROOT CAUSE: Custom pagination helper uses global post count rather than filtered taxonomy term query, generating links to pages that have zero posts.",
+            "businessImpact": "Eliminates 9 inlinks pointing to broken 404 archive pages, protecting search crawler crawl budget.",
+            "sampleUrls": [
+                "https://www.pacificlawnsprinklers.com/about/blog/page/5/",
+                "https://www.pacificlawnsprinklers.com/about/blog/page/4/?cat=14"
+            ],
+            "technicalInstructions": "Update archive-blog.php pagination logic to respect $query->max_num_pages:\n$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;\necho paginate_links(['total' => $blog_query->max_num_pages, 'current' => $paged]);",
+            "acceptanceCriteria": [
+                "Pagination controls never render page links beyond $blog_query->max_num_pages.",
+                "Zero 404 responses encountered on pagination links."
+            ],
+            "verificationMethod": "curl -ILs https://www.pacificlawnsprinklers.com/about/blog/page/4/ | grep -i 'page/5/'",
+            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+        },
+        {
+            "id": "PLS-DEV-03",
+            "phase": "Phase 2 (Dev Backlog)",
+            "sprintOrder": 7,
+            "title": "Replace 17 Internal DotNetNuke Redirect Links in Theme Templates",
+            "category": "Crawl Budget & Redirect Hops",
+            "priority": "High",
+            "status": "Ready for Dev Execution",
+            "assignedRole": "Dev Team",
+            "estimatedMinutes": 30,
+            "billable": true,
+            "rootCause": "1. SYMPTOM & EVIDENCE: 17 internal links trigger 301 redirects to lowercase/modern slugs (e.g. /About-Us/Company-Info -> /about/ with 11 inlinks).\n2. ROOT CAUSE: Hardcoded legacy DotNetNuke URLs in navigation menus, footer widgets, and Gutenberg template parts.",
+            "businessImpact": "Eliminates 17 internal redirect hops across the site, speeding up navigation and preserving link equity.",
+            "sampleUrls": [
+                "https://www.pacificlawnsprinklers.com/About-Us/Company-Info",
+                "https://www.pacificlawnsprinklers.com/Services/Lawn-Sprinkler-Systems/Spring-Start-Ups",
+                "https://www.pacificlawnsprinklers.com/Services/Lawn-Sprinkler-Systems/WIFI-Controllers"
+            ],
+            "technicalInstructions": "1. Update Appearance > Menus to modern lowercase slugs.\n2. Execute WP-CLI search-replace across wp_posts:\nwp search-replace '/About-Us/Company-Info' '/about/' --dry-run\nwp search-replace '/Services/Lawn-Sprinkler-Systems/' '/services/lawn-sprinkler-systems/' --dry-run",
+            "acceptanceCriteria": [
+                "All navigation menus and footer widgets link directly to canonical 200 OK URLs."
+            ],
+            "verificationMethod": "Verify menu HTML source code for modern lowercase slugs",
+            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+        },
+        {
+            "id": "PLS-DEV-04",
+            "phase": "Phase 2 (Dev Backlog)",
+            "sprintOrder": 8,
+            "title": "Dynamic Heading (H1) and Title on Blog Taxonomy Archives",
+            "category": "Heading Hierarchy & On-Page SEO",
+            "priority": "Medium",
+            "status": "Ready for Dev Execution",
+            "assignedRole": "Dev Team",
+            "estimatedMinutes": 15,
+            "billable": true,
+            "rootCause": "1. SYMPTOM & EVIDENCE: 16 blog category pagination pages duplicate the exact same Title and H1: 'Outdoor Service Tips & Pacific Lawn Sprinklers News'.\n2. ROOT CAUSE: archive-blog.php hardcodes static blog title instead of querying single_cat_title().",
+            "businessImpact": "Eliminates duplicate H1 tags across 16 category pages and establishes proper semantic heading hierarchy.",
+            "sampleUrls": [
+                "https://www.pacificlawnsprinklers.com/about/blog/?cat=1",
+                "https://www.pacificlawnsprinklers.com/about/blog/?cat=14"
+            ],
+            "technicalInstructions": "In archive-blog.php:\n<?php if (is_category()) : ?>\n  <h1><?php single_cat_title(); ?> — Tips & News</h1>\n<?php else : ?>\n  <h1>Outdoor Service Tips & Pacific Lawn Sprinklers News</h1>\n<?php endif; ?>",
+            "acceptanceCriteria": [
+                "Category archive pages output dynamic H1 including category name."
+            ],
+            "verificationMethod": "curl -s 'https://www.pacificlawnsprinklers.com/about/blog/?cat=14' | grep -i '<h1'",
+            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+        },
+        {
+            "id": "PLS-CNT-01",
+            "phase": "Phase 2 (Content)",
+            "sprintOrder": 9,
+            "title": "Trim 29 Page Titles Exceeding 60 Characters & Replace Legacy Blog Asset",
+            "category": "Content & Metadata",
+            "priority": "Low",
+            "status": "Queued for Content Sprint",
+            "assignedRole": "Content Team",
+            "estimatedMinutes": 60,
+            "billable": true,
+            "rootCause": "29 page titles truncate in SERPs due to site title suffix ' | Pacific Lawn Sprinklers', and 1 legacy 2017 blog post references a missing DotNetNuke rotator thumbnail (/Portals/0/EasyDNNRotator/2680/thumb/thumb_neigj02k.jpg).",
+            "businessImpact": "Polishes search snippet display and eliminates broken thumbnail reference on legacy content.",
+            "sampleUrls": [
+                "https://www.pacificlawnsprinklers.com/about/blog/how-to-winterize-a-sprinkler-system/"
+            ],
+            "technicalInstructions": "1. Review 29 titles identified in Master Workbook Tab 'Immediate Actions' and adjust character counts under 60 chars.\n2. In 2017 blog post, remove broken <img> tag or replace with high-resolution image asset.",
+            "acceptanceCriteria": [
+                "Targeted page titles render without truncation in SERP simulators.",
+                "Broken image call removed from post HTML."
+            ],
+            "verificationMethod": "Inspect page title lengths in Screaming Frog",
+            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+        }
+    ],
+    "completedTasks": [
+        {
+            "id": "PLS-CMP-01",
+            "title": "Full 4,052-URL Screaming Frog Deep Crawl, Semrush Reconciliation & 5-Tab Master Technical SEO Workbook",
+            "category": "Technical Audit Baseline",
+            "completedDate": "October 16, 2026",
+            "verifiedDate": "October 16, 2026",
+            "verifiedBy": "Víctor Henríquez",
+            "investedMinutes": 45,
+            "assignedRole": "Víctor Henríquez",
+            "summary": "Completed full empirical crawl across Pacific Lawn Sprinklers architecture (4,052 URLs, 99.3% 200 OK). Reconciled Semrush crawler limitations, debunked 682 temporary 302 redirects as Cloudflare WAF bot-challenge false positives, identified 1 critical canonical bug (/pls-corporate-form/), mapped all 17 permanent 301 redirects, and isolated exact root causes for all 9 404 URLs."
+        }
+    ]
+}
 };
 
 // Sanitization & Defensive Helpers

@@ -104,6 +104,7 @@ assert(window.BPA_DATA && typeof window.BPA_DATA === 'object', 'BPA_DATA exists 
 assert(window.BPA_DATA['oh-deer'] !== undefined, 'oh-deer client data is loaded');
 assert(window.BPA_DATA['us-lawns'] !== undefined, 'us-lawns client data is loaded');
 assert(window.BPA_DATA['owl-be-there'] !== undefined, 'owl-be-there client data is loaded');
+assert(window.BPA_DATA['pacific-lawn-sprinklers'] !== undefined, 'pacific-lawn-sprinklers client data is loaded');
 
 // TEST 2: Sanitize Utility
 assert(typeof window.sanitize === 'function', 'window.sanitize function is available');
@@ -112,7 +113,7 @@ assert(window.sanitize(null) === '', 'window.sanitize handles null gracefully');
 assert(window.sanitize(undefined) === '', 'window.sanitize handles undefined gracefully');
 
 // TEST 3: Client Schema Validation
-for (const slug of ['oh-deer', 'us-lawns', 'owl-be-there']) {
+for (const slug of ['oh-deer', 'us-lawns', 'owl-be-there', 'pacific-lawn-sprinklers']) {
   const c = window.BPA_DATA[slug];
   assert(Boolean(c.clientName), `[${slug}] Has clientName`);
   assert(Boolean(c.domain), `[${slug}] Has domain`);
@@ -254,6 +255,43 @@ for (const task of owl.tasks) {
   }
   assert(modalPassed, `Modal opens cleanly for Owl Be There task ${task.id}`);
   assert(Boolean(task.workbookUrl && task.workbookUrl.includes('1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x')), `Task ${task.id} includes Google Sheet workbookUrl link`);
+}
+
+// TEST 15: Test Pacific Lawn Sprinklers Ground-Truth, Roles & Modal Execution
+console.log('\n--- Testing renderClient("pacific-lawn-sprinklers") ---');
+const pls = window.BPA_DATA['pacific-lawn-sprinklers'];
+assert(Boolean(pls.workbookUrl && pls.workbookUrl.startsWith('https://docs.google.com/')), 'Pacific Lawn Sprinklers has verified cloud workbookUrl');
+assert(!pls.cmsStack.theme.toLowerCase().includes('divi'), 'Pacific Lawn Sprinklers theme does NOT assume Divi');
+assert(pls.cmsStack.theme.includes('bpa-pacific'), 'Pacific Lawn Sprinklers references real custom BPA theme (bpa-pacific)');
+assert(pls.kpis.totalCrawledUrls === 4052, 'Pacific Lawn Sprinklers totalCrawledUrls is 4052');
+assert(pls.kpis.clean200HtmlPages === 4025, 'Pacific Lawn Sprinklers clean200HtmlPages is 4025');
+assert(pls.kpis.broken404Pages === 9, 'Pacific Lawn Sprinklers broken404Pages is 9');
+assert(pls.kpis.internal301Redirects === 17, 'Pacific Lawn Sprinklers internal301Redirects is 17');
+
+let plsPassed = true;
+try {
+  window.switchClient('pacific-lawn-sprinklers');
+} catch (e) {
+  plsPassed = false;
+  console.error('Error switching to Pacific Lawn Sprinklers:', e);
+}
+assert(plsPassed, 'switchClient("pacific-lawn-sprinklers") executes without errors');
+assert(elementsMap['client-name'].textContent === 'Pacific Lawn Sprinklers', 'Pacific Lawn Sprinklers client-name element populated correctly');
+assert(elementsMap['count-all'].textContent === 9, 'Pacific Lawn Sprinklers total tasks count is 9');
+assert(elementsMap['count-sprint'].textContent === 4, 'Pacific Lawn Sprinklers current sprint tasks count is 4');
+assert(elementsMap['count-dev'].textContent === 4, 'Pacific Lawn Sprinklers Dev Team tasks count is 4');
+assert(elementsMap['count-content'].textContent === 1, 'Pacific Lawn Sprinklers Content Team tasks count is 1');
+
+for (const task of pls.tasks) {
+  let modalPassed = true;
+  try {
+    window.openTaskModal(task.id);
+  } catch (e) {
+    modalPassed = false;
+    console.error(`Error opening modal for ${task.id}:`, e);
+  }
+  assert(modalPassed, `Modal opens cleanly for Pacific Lawn Sprinklers task ${task.id}`);
+  assert(Boolean(task.workbookUrl && task.workbookUrl.startsWith('https://docs.google.com/')), `Task ${task.id} includes cloud workbookUrl link`);
 }
 
 console.log('\n====================================================');
