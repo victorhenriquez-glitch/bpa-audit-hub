@@ -156,6 +156,18 @@ window.renderClient = function(slug) {
       elCms.innerHTML = `<i data-lucide="code" class="w-3.5 h-3.5"></i> ${window.sanitize(data.cmsStack.platform)}`;
     }
 
+    const elWb = document.getElementById('hero-workbook-link');
+    if (elWb) {
+      if (data.workbookUrl) {
+        elWb.href = data.workbookUrl;
+        elWb.classList.remove('hidden');
+        elWb.classList.add('inline-flex');
+      } else {
+        elWb.classList.add('hidden');
+        elWb.classList.remove('inline-flex');
+      }
+    }
+
     // Health Scores
     if (data.kpis && data.kpis.healthScores) {
       const elRaw = document.getElementById('score-raw');
@@ -666,6 +678,20 @@ window.openTaskModal = function(taskId) {
       verifCode.textContent = verifText;
     } else if (verifContainer) {
       verifContainer.classList.add('hidden');
+    }
+
+    // 11. Google Sheet Link
+    const elModalSheet = document.getElementById('modal-sheet-link');
+    if (elModalSheet) {
+      const wbUrl = task.workbookUrl || client.workbookUrl;
+      if (wbUrl) {
+        elModalSheet.href = wbUrl;
+        elModalSheet.classList.remove('hidden');
+        elModalSheet.classList.add('inline-flex');
+      } else {
+        elModalSheet.classList.add('hidden');
+        elModalSheet.classList.remove('inline-flex');
+      }
     }
 
     // Show Modal

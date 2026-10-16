@@ -237,8 +237,9 @@ try {
 assert(owlPassed, 'switchClient("owl-be-there") executes without errors');
 assert(elementsMap['client-name'].textContent === 'Owl Be There', 'Owl Be There client-name element populated correctly');
 assert(elementsMap['count-all'].textContent === 9, 'Owl Be There total tasks count is 9');
-assert(elementsMap['count-sprint'].textContent === 4, 'Owl Be There current sprint tasks count is 4');
+assert(elementsMap['count-sprint'].textContent === 3, 'Owl Be There current sprint tasks count is 3');
 assert(elementsMap['count-dev'].textContent === 5, 'Owl Be There Dev Team tasks count is 5');
+assert(elementsMap['count-content'].textContent >= 1, 'Owl Be There has Content Team tasks');
 
 const owlDevTasks = owl.tasks.filter(t => t.id.startsWith('OBT-DEV-'));
 assert(owlDevTasks.every(t => t.assignedRole === 'Dev Team'), 'All Owl Be There dev tasks are assigned strictly to "Dev Team"');
@@ -252,7 +253,7 @@ for (const task of owl.tasks) {
     console.error(`Error opening modal for ${task.id}:`, e);
   }
   assert(modalPassed, `Modal opens cleanly for Owl Be There task ${task.id}`);
-  assert(Boolean(task.workbookUrl), `Task ${task.id} includes workbookUrl traceability link`);
+  assert(Boolean(task.workbookUrl && task.workbookUrl.includes('1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x')), `Task ${task.id} includes Google Sheet workbookUrl link`);
 }
 
 console.log('\n====================================================');

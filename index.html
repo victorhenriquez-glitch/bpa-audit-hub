@@ -179,6 +179,11 @@
               <i data-lucide="clock" class="w-3.5 h-3.5 text-emerald-400"></i>
               <span>Proposed Sprint: <strong id="hero-sprint-time" class="text-emerald-300 font-bold">0.75 hrs</strong></span>
             </div>
+            <a id="hero-workbook-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden items-center gap-1.5 text-pink-200 hover:text-white bg-white/10 hover:bg-white/20 px-2.5 py-0.5 rounded-lg border border-white/15 transition-colors" title="Open Canonical Master SEO Workbook in Google Sheets">
+              <i data-lucide="sheet" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>Google Sheet</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-pink-300"></i>
+            </a>
           </div>
         </div>
 
@@ -553,9 +558,16 @@
 
       <!-- Modal Footer -->
       <div class="px-6 py-4 border-t border-purple-100 bg-slate-50 flex items-center justify-between">
-        <button onclick="closeModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800">
-          Close
-        </button>
+        <div class="flex items-center gap-2">
+          <button onclick="closeModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800">
+            Close
+          </button>
+          <a id="modal-sheet-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden px-3 py-1.5 rounded-lg text-xs font-semibold text-purple-900 bg-purple-100/70 hover:bg-purple-200 border border-purple-200 items-center gap-1.5 transition-colors">
+            <i data-lucide="sheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>Open Google Sheet</span>
+            <i data-lucide="external-link" class="w-3 h-3 text-purple-500"></i>
+          </a>
+        </div>
         <button id="modal-copy-ticket-btn" onclick="copyCurrentModalTicket()" class="px-4 py-2 rounded-xl text-xs font-bold text-white gradient-magenta hover:opacity-90 shadow-xs flex items-center gap-1.5 transition-all">
           <i data-lucide="copy" class="w-3.5 h-3.5"></i>
           <span>Copy ClickUp Ticket</span>

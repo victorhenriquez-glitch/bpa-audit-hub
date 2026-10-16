@@ -484,7 +484,8 @@ window.BPA_DATA = {
     "clientName": "Owl Be There",
     "clientSlug": "owl-be-there",
     "domain": "owlbethere.com",
-    "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit",
+    "workbookUrl": "https://docs.google.com/spreadsheets/d/1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x/edit?gid=1376022516#gid=1376022516",
+    "gdocUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit?tab=t.0#heading=h.sxu39jyyah5n",
     "industry": "Senior Living Placement & Advisory Franchise Network (Corporate + 7 Locations)",
     "industry_en": "Senior Living Placement & Advisory Franchise Network (Corporate + 7 Locations)",
     "auditDate": "October 2026",
@@ -522,12 +523,12 @@ window.BPA_DATA = {
       }
     },
     "sprintSummary": {
-      "totalEstimatedMinutes": 35,
-      "totalEstimatedHours": "0.6 hrs",
+      "totalEstimatedMinutes": 24,
+      "totalEstimatedHours": "0.4 hrs",
       "billable": true,
       "approvalStatus": "Ready for AM Retainer Approval (Gyongyi)",
       "approvalStatus_en": "Ready for AM Retainer Approval (Gyongyi)",
-      "budgetImpact": "Austere 35-min CMS Sprint (0.6 hrs of 7.0h monthly retainer — leaves 6.4 hrs untouched and requires zero dev hours this month)."
+      "budgetImpact": "Austere 24-min CMS Sprint (0.4 hrs of 7.0h monthly retainer — leaves 6.6 hrs untouched; editorial review routed to Content Team and complex code to Dev Team)."
     },
     "tasks": [
       {
@@ -538,7 +539,7 @@ window.BPA_DATA = {
         "category": "Local SEO & Metadata",
         "priority": "Critical",
         "status": "Ready for CMS Execution",
-        "assignedRole": "Víctor Henríquez",
+        "assignedRole": "Víctor Henríquez / Content Team",
         "estimatedMinutes": 10,
         "billable": true,
         "rootCause": "WHERE ON PAGE / DOM: <head> -> <meta name=\"description\"> & <meta property=\"og:description\"> (Rank Math Meta Box). Copy-paste territory bleed across 3 franchise 'Assisted Living Placement Guidance' pages: (1) North Orlando (/northorlando/) outputs 'Memphis / Greater Memphis'; (2) Memphis (/memphis/) outputs 'Wilmington and West Chester / Delaware and Pennsylvania'; (3) Wilmington & West Chester (/wilmingtonwestchester/) outputs 'Frederick & Loudoun / Maryland and Virginia'.",
@@ -554,7 +555,7 @@ window.BPA_DATA = {
           "All 3 descriptions remain under 155 characters / 920 pixels."
         ],
         "verificationMethod": "curl -s https://owlbethere.com/northorlando/senior-living-guidance/assisted-living-placement-guidance/ | grep -i 'meta name=\"description\"'",
-        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+        "workbookUrl": "https://docs.google.com/spreadsheets/d/1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x/edit?gid=1376022516#gid=1376022516"
       },
       {
         "id": "OBT-SPRINT-02",
@@ -582,7 +583,7 @@ window.BPA_DATA = {
           "Blog post CTA link points directly to https://owlbethere.com/contact-us/ (HTTP 200 OK)."
         ],
         "verificationMethod": "curl -s https://owlbethere.com/memphis/ | grep -i 'about-us'",
-        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+        "workbookUrl": "https://docs.google.com/spreadsheets/d/1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x/edit?gid=1376022516#gid=1376022516"
       },
       {
         "id": "OBT-SPRINT-03",
@@ -595,7 +596,7 @@ window.BPA_DATA = {
         "assignedRole": "Víctor Henríquez",
         "estimatedMinutes": 4,
         "billable": true,
-        "rootCause": "WHERE ON PAGE / DOM:\n1. https://owlbethere.com/contact-us/ -> Section [wp-block-column image-col] right column beside H2 'Looking for a Local Advisor?': <img src=\".../2025/09/Photo-1.jpg\"> has empty alt=\"\".\n2. https://owlbethere.com/senior-living-guidance/assisted-living-placement-guidance/ -> Section [text-image-v8__block] under H2 'Factors Families Should Consider Before Choosing Assisted Living': <img src=\".../2025/07/Frame-38-6.jpg\"> has empty alt=\"\".",
+        "rootCause": "WHERE ON PAGE / DOM:\n1. https://owlbethere.com/contact-us/ -> Section [wp-block-column image-col] right column beside H2 'Looking for a Local Advisor?': <img src=\".../2026/09/Photo-1.jpg\"> has empty alt=\"\".\n2. https://owlbethere.com/senior-living-guidance/assisted-living-placement-guidance/ -> Section [text-image-v8__block] under H2 'Factors Families Should Consider Before Choosing Assisted Living': <img src=\".../2026/07/Frame-38-6.jpg\"> has empty alt=\"\".",
         "businessImpact": "Improves WCAG 2.1 Level A accessibility compliance for screen readers and strengthens contextual image relevance on core Corporate conversion pages.",
         "sampleUrls": [
           "https://owlbethere.com/contact-us/",
@@ -606,35 +607,35 @@ window.BPA_DATA = {
           "Both editorial images render non-empty, descriptive alt attributes in live HTML source."
         ],
         "verificationMethod": "curl -s https://owlbethere.com/contact-us/ | grep -i 'Photo-1.jpg'",
-        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+        "workbookUrl": "https://docs.google.com/spreadsheets/d/1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x/edit?gid=1376022516#gid=1376022516"
       },
       {
-        "id": "OBT-SPRINT-04",
-        "phase": "Current Sprint",
+        "id": "OBT-CONTENT-01",
+        "phase": "Phase 2 (Content & Strategy)",
         "sprintOrder": 4,
-        "title": "Optimize Truncated SERP Titles (>60c, 7 Pages) & Meta Descriptions (>155c, 16 Pages)",
-        "category": "On-Page SEO & CTR",
-        "priority": "Medium",
-        "status": "Ready for CMS Execution",
-        "assignedRole": "Víctor Henríquez",
-        "estimatedMinutes": 11,
+        "title": "Editorial Strategy Review: Truncated Titles (>60c, 7 Pages) & Meta Descriptions (>155c, 19 Pages)",
+        "category": "Content & Editorial Strategy",
+        "priority": "Low",
+        "status": "Queued for Content Review",
+        "assignedRole": "Content Team (Dana / Octav) & Víctor Henríquez",
+        "estimatedMinutes": 30,
         "billable": true,
-        "rootCause": "WHERE ON PAGE / DOM: <head> -> <title> & <meta name=\"description\"> (Rank Math Snippet Editor). Screaming Frog identified 7 indexable pages with <title> tags exceeding 60 characters / 580px (primarily /wilmingtonwestchester/ service and contact pages up to 68 chars / 625px) and 16 additional pages with meta descriptions exceeding 155 characters / 985px (up to 203 chars / 1,310px on /wilmingtonwestchester/about-us/).",
-        "businessImpact": "Prevents Google SERP ellipsis (...) truncation on local franchise landing pages and blog posts, improving organic click-through rate (CTR).",
+        "rootCause": "WHERE ON PAGE / DOM: <head> -> <title> & <meta name=\"description\">. Screaming Frog crawler advisory audit flags: (1) 7 franchise landing pages where <title> tags measure 61-68 characters (e.g., /wilmingtonwestchester/contact-us/ at 68 chars: 'Contact Owl Be There Wilmington–West Chester | Senior Living Advisor'); (2) 19 pages where meta descriptions measure 156-163 characters (just 1 to 8 characters past the ideal 155c cutoff, with /wilmingtonwestchester/about-us/ at 203 chars). NOTE: These pages are NOT technically broken; they represent minor SERP snippet truncation. Changing them requires content and branding alignment so as not to dilute local keyword intent or brand tone.",
+        "businessImpact": "Optimizes Google SERP snippet display without ellipses (...) on local search results, improving organic click-through rate while protecting branding copy.",
         "sampleUrls": [
           "https://owlbethere.com/wilmingtonwestchester/about-us/",
           "https://owlbethere.com/wilmingtonwestchester/contact-us/",
-          "https://owlbethere.com/wilmingtonwestchester/senior-living-guidance/memory-care-placement-guidance/",
-          "https://owlbethere.com/charleston/about-us/",
-          "https://owlbethere.com/blog/finding-peace-of-mind-when-a-loved-one-has-dementia/"
+          "https://owlbethere.com/greaterwashingtondc/contact-us/",
+          "https://owlbethere.com/charleston/senior-living-guidance/independent-living-advisors/",
+          "https://owlbethere.com/charlottesouth/senior-living-guidance/continuing-care-retirement-communities-guidance/"
         ],
-        "technicalInstructions": "1. In Rank Math Snippet Editor across the 7 long-title pages (listed in Master Workbook Tab 2 under OBT-SPRINT-04), tighten title tags to <= 60 characters (e.g., 'Contact Us - Wilmington & West Chester | Owl Be There' -> 53 chars).\n2. Trim the 16 over-length meta descriptions (particularly /wilmingtonwestchester/about-us/ at 203 chars and /charleston/about-us/ at 176 chars) to 140-155 characters (< 920px).",
+        "technicalInstructions": "1. Content Specialists (Dana / Octav) review the 7 titles and 19 descriptions documented in Tab 2 of the Master Technical SEO Workbook.\n2. Tighten titles to <= 60 characters while preserving the local city and primary service keyword.\n3. Trim meta descriptions to 140-155 characters (e.g. trimming trailing boilerplate) so Google displays full sentences in search snippets.\n4. Apply changes via WordPress Rank Math snippet editor during regular copy review.",
         "acceptanceCriteria": [
-          "All targeted titles measure <= 60 characters and <= 580 pixels.",
-          "All targeted meta descriptions measure <= 155 characters and <= 920 pixels."
+          "Reviewed titles measure <= 60 characters and <= 580 pixels.",
+          "Reviewed descriptions measure 140-155 characters without losing geographic keyword targeting."
         ],
-        "verificationMethod": "Screaming Frog list-mode verification of the 23 updated URLs.",
-        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+        "verificationMethod": "Cross-reference updated titles/descriptions against Master Workbook Tab 2.",
+        "workbookUrl": "https://docs.google.com/spreadsheets/d/1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x/edit?gid=1376022516#gid=1376022516"
       },
       {
         "id": "OBT-DEV-01",
@@ -660,7 +661,7 @@ window.BPA_DATA = {
           "Zero duplicate H1s reported across blog archives."
         ],
         "verificationMethod": "curl -s https://owlbethere.com/blog/category/cost-planning/ | grep -i '<h1'",
-        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+        "workbookUrl": "https://docs.google.com/spreadsheets/d/1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x/edit?gid=1376022516#gid=1376022516"
       },
       {
         "id": "OBT-DEV-02",
@@ -690,34 +691,34 @@ window.BPA_DATA = {
           "State entities in areaServed use @type: AdministrativeArea with 0 warnings in Google Rich Results Test."
         ],
         "verificationMethod": "curl -s https://owlbethere.com/charleston/ | grep -o 'GeoCoordinates'",
-        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+        "workbookUrl": "https://docs.google.com/spreadsheets/d/1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x/edit?gid=1376022516#gid=1376022516"
       },
       {
         "id": "OBT-DEV-03",
         "phase": "Phase 2 (November)",
         "sprintOrder": 7,
-        "title": "Convert 4 Uncompressed PNG Assets (901 KB – 1.43 MB Replicated Across 7 Subsites) to WebP",
+        "title": "Convert 4 Heavy PNG Assets (901 KB – 1.43 MB Across Media Folders) to WebP",
         "category": "Core Web Vitals & LCP",
         "priority": "Medium",
         "status": "Queued for Phase 2",
         "assignedRole": "Dev Team",
         "estimatedMinutes": 45,
         "billable": true,
-        "rootCause": "1. SYMPTOM & LIVE EVIDENCE: Screaming Frog identified 30 image URLs exceeding 800 KB caused by 4 uncompressed PNG files cloned across the Corporate site and all 7 franchise media folders:\n• Kelly_and_David_Circular_Transparent-1-1-2.png (1.43 MB) — on /about-us/ inside Leadership Team Grid under 'Meet Our Founders'.\n• group.png (1.19 MB x 7 subsites) — on /[subsite]/senior-living-guidance/ inside Main Guidance Section.\n• hero-photo-assisted-living.png (1.07 MB x 7 subsites) — on /[subsite]/senior-living-guidance/assisted-living-placement-guidance/ inside Above-the-Fold Hero Banner (LCP element).\n• section-photo-living-guidance-hub-933x1024.png (901 KB x 7 subsites) — on /[subsite]/ inside Senior Living Options Section.\n2. ROOT CAUSE: Original high-res PNGs were uploaded into each subsite's `/wp-content/uploads/sites/[id]/` folder without WebP compression.",
+        "rootCause": "1. SYMPTOM & LIVE EVIDENCE: Screaming Frog identified 30 image URLs exceeding 800 KB caused by 4 uncompressed PNG files cloned across the Corporate site and franchise media folders:\n• Kelly_and_David_Circular_Transparent-1-1-2.png (1.43 MB) — on https://owlbethere.com/about-us/ inside Leadership Team Grid under 'Meet Our Founders'.\n• group.png (1.19 MB) — on franchise guidance pages like https://owlbethere.com/greaterwashingtondc/senior-living-guidance/.\n• hero-photo-assisted-living.png (1.07 MB) — on franchise assisted living pages like https://owlbethere.com/wilmingtonwestchester/senior-living-guidance/assisted-living-placement-guidance/ (Above-the-Fold Hero LCP element).\n• section-photo-living-guidance-hub-933x1024.png (901 KB) — on franchise pages like https://owlbethere.com/charleston/senior-living-guidance/.\n2. ROOT CAUSE: Original high-res PNGs were uploaded into subsite `/wp-content/uploads/sites/[id]/2026/` media folders without WebP compression.",
         "businessImpact": "Reduces hero and section image payload by >85% (from ~1.1 MB to <120 KB per page), directly improving mobile Largest Contentful Paint (LCP) across all 7 franchise markets.",
         "sampleUrls": [
-          "https://owlbethere.com/wp-content/uploads/2025/09/Kelly_and_David_Circular_Transparent-1-1-2.png",
-          "https://owlbethere.com/charleston/wp-content/uploads/sites/6/2025/07/hero-photo-assisted-living.png",
-          "https://owlbethere.com/charleston/wp-content/uploads/sites/6/2025/07/group.png",
-          "https://owlbethere.com/charleston/wp-content/uploads/sites/6/2025/07/section-photo-living-guidance-hub-933x1024.png"
+          "https://owlbethere.com/about-us/",
+          "https://owlbethere.com/wilmingtonwestchester/senior-living-guidance/assisted-living-placement-guidance/",
+          "https://owlbethere.com/greaterwashingtondc/senior-living-guidance/",
+          "https://owlbethere.com/charleston/senior-living-guidance/"
         ],
-        "technicalInstructions": "3. READY-TO-TEST CODE / CLI BATCH:\n```bash\nfor f in $(find wp-content/uploads -name \"hero-photo-assisted-living.png\" -o -name \"group.png\" -o -name \"section-photo-living-guidance-hub-933x1024.png\" -o -name \"Kelly_and_David_Circular_Transparent-1-1-2.png\"); do\n  cwebp -q 82 \"$f\" -o \"${f%.png}.webp\"\ndone\n```\n4. ARCHITECTURAL RECOMMENDATION: Trigger WebP Express bulk conversion across all multisite blogs (`sites/3/` through `sites/11/`) or ensure Jetpack Photon CDN rewrites `.png` hero block sources to `format=webp`.",
+        "technicalInstructions": "3. READY-TO-TEST CODE / CLI BATCH:\n```bash\n# Live example verified: /wp-content/uploads/sites/5/2026/07/hero-photo-assisted-living.png\nfor f in $(find wp-content/uploads -name \"hero-photo-assisted-living.png\" -o -name \"group.png\" -o -name \"section-photo-living-guidance-hub-933x1024.png\" -o -name \"Kelly_and_David_Circular_Transparent-1-1-2*.png\"); do\n  cwebp -q 82 \"$f\" -o \"${f%.png}.webp\"\ndone\n```\n4. ARCHITECTURAL RECOMMENDATION: Trigger WebP Express bulk conversion across all multisite upload folders (`sites/3/` through `sites/9/`) or ensure Jetpack Photon CDN rewrites `.png` hero block sources to `format=webp` automatically.",
         "acceptanceCriteria": [
-          "All 4 master images and their 7 subsite copies serve as WebP under 150 KB.",
-          "Zero images > 500 KB remain in Screaming Frog crawl."
+          "All 4 master images and their subsite copies serve as WebP under 150 KB.",
+          "Zero images > 500 KB remain on core service and about pages."
         ],
-        "verificationMethod": "curl -ILs https://owlbethere.com/wp-content/uploads/2025/09/Kelly_and_David_Circular_Transparent-1-1-2.png | grep -i 'content-length'",
-        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+        "verificationMethod": "curl -ILs https://owlbethere.com/wilmingtonwestchester/wp-content/uploads/sites/5/2026/07/hero-photo-assisted-living.png | grep -i 'content-length'",
+        "workbookUrl": "https://docs.google.com/spreadsheets/d/1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x/edit?gid=1376022516#gid=1376022516"
       },
       {
         "id": "OBT-DEV-04",
@@ -730,19 +731,19 @@ window.BPA_DATA = {
         "assignedRole": "Dev Team",
         "estimatedMinutes": 60,
         "billable": true,
-        "rootCause": "1. SYMPTOM & LIVE EVIDENCE:\n• Semrush flagged 231 warnings for unminified JS/CSS across `/wp-content/themes/owlbethere/assets/js/*.js` and `/wp-content/themes/owlbethere/acf-blocks/*` (71 JS files and 56 CSS files total).\n• Screaming Frog identified 37 decorative background/icon image tags missing an `alt` attribute entirely (`banner-cover-img.jpg` inside `/wp-content/themes/owlbethere/acf-blocks/banner2/cta-v1.php` across 21 pages, plus `play-icon.svg`).\n2. ROOT CAUSE: Build pipeline outputs unminified block assets in production, and decorative `<img>` tags in `cta-v1.php` omit `alt=\"\" role=\"presentation\"`.",
+        "rootCause": "1. SYMPTOM & LIVE EVIDENCE:\n• Semrush flagged 231 warnings for unminified JS/CSS across `/wp-content/themes/owlbethere/assets/js/*.js` and `/wp-content/themes/owlbethere/acf-blocks/*` (71 JS files and 56 CSS files total).\n• Screaming Frog identified 37 decorative background/icon image tags missing an `alt` attribute entirely (`banner-cover-img.jpg` located at `/wp-content/themes/owlbethere/src/images/banner-cover-img.jpg` across 21 pages, plus decorative theme SVGs).\n2. ROOT CAUSE: Theme asset pipeline serves unminified files in production, and decorative `<img>` tags in theme templates omit `alt=\"\" role=\"presentation\"`.",
         "businessImpact": "Clears 231 Semrush asset warnings and silences screen-reader filename announcements on decorative background banners.",
         "sampleUrls": [
-          "https://owlbethere.com/wp-content/themes/owlbethere/acf-blocks/banner2/banner-cover-img.jpg",
-          "https://owlbethere.com/wp-content/themes/owlbethere/assets/images/play-icon.svg"
+          "https://owlbethere.com/",
+          "https://owlbethere.com/wp-content/themes/owlbethere/src/images/banner-cover-img.jpg"
         ],
-        "technicalInstructions": "3. READY-TO-TEST CODE (PHP):\n```php\n// In /wp-content/themes/owlbethere/acf-blocks/banner2/cta-v1.php\n<img src=\"<?php echo esc_url( get_template_directory_uri() . '/acf-blocks/banner2/banner-cover-img.jpg' ); ?>\" alt=\"\" role=\"presentation\" loading=\"lazy\" decoding=\"async\" />\n```\n4. ARCHITECTURAL RECOMMENDATION: Add `alt=\"\" role=\"presentation\"` to decorative template `<img>` tags in `owlbethere` parent theme and enable production asset minification (`terser` / `cssnano`) in the theme build step.",
+        "technicalInstructions": "3. READY-TO-TEST CODE (PHP):\n```php\n// In theme banner template-part\n<img src=\"<?php echo esc_url( get_template_directory_uri() . '/src/images/banner-cover-img.jpg' ); ?>\" alt=\"\" role=\"presentation\" loading=\"lazy\" decoding=\"async\" />\n```\n4. ARCHITECTURAL RECOMMENDATION: Add `alt=\"\" role=\"presentation\"` to decorative template `<img>` tags in `owlbethere` parent theme and enable production asset minification (`terser` / `cssnano`) in the SCSS/JS build pipeline.",
         "acceptanceCriteria": [
-          "banner-cover-img.jpg and play-icon.svg include explicit alt=\"\" role=\"presentation\" in HTML output.",
+          "banner-cover-img.jpg includes explicit alt=\"\" role=\"presentation\" in HTML output.",
           "Theme CSS and JS assets serve minified in production."
         ],
         "verificationMethod": "curl -s https://owlbethere.com/ | grep -i 'banner-cover-img.jpg'",
-        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+        "workbookUrl": "https://docs.google.com/spreadsheets/d/1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x/edit?gid=1376022516#gid=1376022516"
       },
       {
         "id": "OBT-DEV-05",
@@ -767,7 +768,7 @@ window.BPA_DATA = {
           "https://owlbethere.com/llms.txt returns HTTP/2 200 with text/plain or text/markdown content."
         ],
         "verificationMethod": "curl -ILs -A 'SiteAuditBot/0.97' https://owlbethere.com/",
-        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+        "workbookUrl": "https://docs.google.com/spreadsheets/d/1Fx8tsCykRmfqG79Cw0o0K7dZYdJMYK3x/edit?gid=1376022516#gid=1376022516"
       }
     ],
     "completedTasks": [
