@@ -261,6 +261,7 @@ for (const task of owl.tasks) {
 console.log('\n--- Testing renderClient("pacific-lawn-sprinklers") ---');
 const pls = window.BPA_DATA['pacific-lawn-sprinklers'];
 assert(Boolean(pls.workbookUrl && pls.workbookUrl.includes('1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk')), 'Pacific Lawn Sprinklers has verified cloud Google Sheet workbookUrl');
+assert(Boolean(pls.gdocUrl && pls.gdocUrl.includes('1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI')), 'Pacific Lawn Sprinklers has verified cloud Google Doc gdocUrl');
 assert(!pls.cmsStack.theme.toLowerCase().includes('divi'), 'Pacific Lawn Sprinklers theme does NOT assume Divi');
 assert(pls.cmsStack.theme.includes('bpa-pacific'), 'Pacific Lawn Sprinklers references real custom BPA theme (bpa-pacific)');
 assert(pls.kpis.totalCrawledUrls === 4052, 'Pacific Lawn Sprinklers totalCrawledUrls is 4052');
@@ -277,6 +278,8 @@ try {
 }
 assert(plsPassed, 'switchClient("pacific-lawn-sprinklers") executes without errors');
 assert(elementsMap['client-name'].textContent === 'Pacific Lawn Sprinklers', 'Pacific Lawn Sprinklers client-name element populated correctly');
+assert(elementsMap['hero-workbook-link'].href.includes('1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk'), 'Pacific Lawn Sprinklers hero-workbook-link points to Google Sheet');
+assert(elementsMap['hero-gdoc-link'].href.includes('1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI'), 'Pacific Lawn Sprinklers hero-gdoc-link points to Google Doc');
 assert(elementsMap['count-all'].textContent === 9, 'Pacific Lawn Sprinklers total tasks count is 9');
 assert(elementsMap['count-sprint'].textContent === 4, 'Pacific Lawn Sprinklers current sprint tasks count is 4');
 assert(elementsMap['count-dev'].textContent === 4, 'Pacific Lawn Sprinklers Dev Team tasks count is 4');

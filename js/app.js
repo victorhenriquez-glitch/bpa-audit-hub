@@ -169,6 +169,18 @@ window.renderClient = function(slug) {
       }
     }
 
+    const elGdoc = document.getElementById('hero-gdoc-link');
+    if (elGdoc) {
+      if (data.gdocUrl) {
+        elGdoc.href = data.gdocUrl;
+        elGdoc.classList.remove('hidden');
+        elGdoc.classList.add('inline-flex');
+      } else {
+        elGdoc.classList.add('hidden');
+        elGdoc.classList.remove('inline-flex');
+      }
+    }
+
     // Health Scores
     if (data.kpis && data.kpis.healthScores) {
       const elRaw = document.getElementById('score-raw');
