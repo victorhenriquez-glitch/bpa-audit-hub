@@ -789,7 +789,7 @@ window.BPA_DATA = {
     "clientName": "Pacific Lawn Sprinklers",
     "clientSlug": "pacific-lawn-sprinklers",
     "domain": "pacificlawnsprinklers.com",
-    "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit",
+    "workbookUrl": "https://docs.google.com/spreadsheets/d/1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk/edit?gid=76618020#gid=76618020",
     "gdocUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit",
     "industry": "Residential & Commercial Irrigation, Lawn Sprinkler Systems & Landscape Lighting",
     "industry_en": "Residential & Commercial Irrigation, Lawn Sprinkler Systems & Landscape Lighting",
@@ -858,7 +858,7 @@ window.BPA_DATA = {
                 "Character length remains under 155 characters."
             ],
             "verificationMethod": "curl -s https://www.pacificlawnsprinklers.com/san-antonio-tx/ | grep -i 'meta name=\"description\"'",
-            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+            "workbookUrl": "https://docs.google.com/spreadsheets/d/1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk/edit?gid=76618020#gid=76618020"
         },
         {
             "id": "PLS-SPRINT-02",
@@ -883,7 +883,7 @@ window.BPA_DATA = {
                 "Crawler encounters zero 404 errors on telephone strings."
             ],
             "verificationMethod": "Inspect page source for href=\"tel:888-438-7224\"",
-            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+            "workbookUrl": "https://docs.google.com/spreadsheets/d/1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk/edit?gid=76618020#gid=76618020"
         },
         {
             "id": "PLS-SPRINT-03",
@@ -906,7 +906,7 @@ window.BPA_DATA = {
                 "curl -ILs returns HTTP 301 redirect to https://www.pacificlawnsprinklers.com/services/lawn-sprinkler-systems/"
             ],
             "verificationMethod": "curl -ILs 'https://www.pacificlawnsprinklers.com/Services/Lawn-Sprinkler-Systems/Inspection-Wet-Check' | grep -i 'HTTP/'",
-            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+            "workbookUrl": "https://docs.google.com/spreadsheets/d/1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk/edit?gid=76618020#gid=76618020"
         },
         {
             "id": "PLS-SPRINT-04",
@@ -929,7 +929,7 @@ window.BPA_DATA = {
                 "Link points to absolute https:// URL with 200 OK."
             ],
             "verificationMethod": "Verify href attribute in post HTML",
-            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+            "workbookUrl": "https://docs.google.com/spreadsheets/d/1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk/edit?gid=76618020#gid=76618020"
         },
         {
             "id": "PLS-DEV-01",
@@ -952,7 +952,7 @@ window.BPA_DATA = {
                 "Canonical tag on /pls-corporate-form/ matches self: https://www.pacificlawnsprinklers.com/pls-corporate-form/"
             ],
             "verificationMethod": "curl -s https://www.pacificlawnsprinklers.com/pls-corporate-form/ | grep -i 'canonical'",
-            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+            "workbookUrl": "https://docs.google.com/spreadsheets/d/1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk/edit?gid=76618020#gid=76618020"
         },
         {
             "id": "PLS-DEV-02",
@@ -977,7 +977,7 @@ window.BPA_DATA = {
                 "Zero 404 responses encountered on pagination links."
             ],
             "verificationMethod": "curl -ILs https://www.pacificlawnsprinklers.com/about/blog/page/4/ | grep -i 'page/5/'",
-            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+            "workbookUrl": "https://docs.google.com/spreadsheets/d/1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk/edit?gid=76618020#gid=76618020"
         },
         {
             "id": "PLS-DEV-03",
@@ -1002,7 +1002,7 @@ window.BPA_DATA = {
                 "All navigation menus and footer widgets link directly to canonical 200 OK URLs."
             ],
             "verificationMethod": "Verify menu HTML source code for modern lowercase slugs",
-            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+            "workbookUrl": "https://docs.google.com/spreadsheets/d/1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk/edit?gid=76618020#gid=76618020"
         },
         {
             "id": "PLS-DEV-04",
@@ -1026,7 +1026,7 @@ window.BPA_DATA = {
                 "Category archive pages output dynamic H1 including category name."
             ],
             "verificationMethod": "curl -s 'https://www.pacificlawnsprinklers.com/about/blog/?cat=14' | grep -i '<h1'",
-            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+            "workbookUrl": "https://docs.google.com/spreadsheets/d/1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk/edit?gid=76618020#gid=76618020"
         },
         {
             "id": "PLS-CNT-01",
@@ -1050,7 +1050,7 @@ window.BPA_DATA = {
                 "Broken image call removed from post HTML."
             ],
             "verificationMethod": "Inspect page title lengths in Screaming Frog",
-            "workbookUrl": "https://docs.google.com/document/d/1uXIWLw67yXgxljBnEjvVMjzMHDkIZS8Vq5o_aUmY8eI/edit"
+            "workbookUrl": "https://docs.google.com/spreadsheets/d/1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk/edit?gid=76618020#gid=76618020"
         }
     ],
     "completedTasks": [

@@ -260,7 +260,7 @@ for (const task of owl.tasks) {
 // TEST 15: Test Pacific Lawn Sprinklers Ground-Truth, Roles & Modal Execution
 console.log('\n--- Testing renderClient("pacific-lawn-sprinklers") ---');
 const pls = window.BPA_DATA['pacific-lawn-sprinklers'];
-assert(Boolean(pls.workbookUrl && pls.workbookUrl.startsWith('https://docs.google.com/')), 'Pacific Lawn Sprinklers has verified cloud workbookUrl');
+assert(Boolean(pls.workbookUrl && pls.workbookUrl.includes('1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk')), 'Pacific Lawn Sprinklers has verified cloud Google Sheet workbookUrl');
 assert(!pls.cmsStack.theme.toLowerCase().includes('divi'), 'Pacific Lawn Sprinklers theme does NOT assume Divi');
 assert(pls.cmsStack.theme.includes('bpa-pacific'), 'Pacific Lawn Sprinklers references real custom BPA theme (bpa-pacific)');
 assert(pls.kpis.totalCrawledUrls === 4052, 'Pacific Lawn Sprinklers totalCrawledUrls is 4052');
@@ -291,7 +291,7 @@ for (const task of pls.tasks) {
     console.error(`Error opening modal for ${task.id}:`, e);
   }
   assert(modalPassed, `Modal opens cleanly for Pacific Lawn Sprinklers task ${task.id}`);
-  assert(Boolean(task.workbookUrl && task.workbookUrl.startsWith('https://docs.google.com/')), `Task ${task.id} includes cloud workbookUrl link`);
+  assert(Boolean(task.workbookUrl && task.workbookUrl.includes('1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk')), `Task ${task.id} includes cloud Google Sheet workbookUrl link`);
 }
 
 console.log('\n====================================================');
