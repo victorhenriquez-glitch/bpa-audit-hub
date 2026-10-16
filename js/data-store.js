@@ -479,7 +479,311 @@ window.BPA_DATA = {
             "summary": "Completed comprehensive before-migration benchmark across GSC, XML Sitemaps, Screaming Frog Spider Crawl, Semrush, and GA4. Compiled 8-tab Master Workbook and Pre-Migration Technical Discovery document for Tuesday huddle."
         }
     ]
-}
+  },
+  'owl-be-there': {
+    "clientName": "Owl Be There",
+    "clientSlug": "owl-be-there",
+    "domain": "owlbethere.com",
+    "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit",
+    "industry": "Senior Living Placement & Advisory Franchise Network (Corporate + 7 Locations)",
+    "industry_en": "Senior Living Placement & Advisory Franchise Network (Corporate + 7 Locations)",
+    "auditDate": "October 2026",
+    "auditCycle": "Monthly Technical SEO Audit & Deep Crawl Cross-Validation (7.0h Retainer)",
+    "auditCycle_en": "Monthly Technical SEO Audit & Deep Crawl Cross-Validation (7.0h Retainer)",
+    "accountManager": "Gyongyi Castellanos",
+    "technicalSeoLead": "Víctor Henríquez",
+    "cmsStack": {
+      "platform": "WordPress Multisite (Subdirectory Franchise Network)",
+      "structure": "Corporate HQ + 7 Active Franchise Subsites (/charleston/, /charlottesouth/, /frederickloudoun/, /greaterwashingtondc/, /memphis/, /northorlando/, /wilmingtonwestchester/)",
+      "hosting": "Nginx + WP Defender Firewall + Jetpack Photon CDN (i0.wp.com)",
+      "seoPlugin": "Rank Math SEO",
+      "theme": "BPA Custom In-House Themes (owlbethere v1.0.0 Parent + owlbethere-zee Franchise Child) with Gutenberg/ACF & SCSS"
+    },
+    "kpis": {
+      "totalCrawledUrls": 1376,
+      "clean200HtmlPages": 95,
+      "indexableHtmlCount": 95,
+      "internal301Redirects": 5,
+      "broken404Pages": 0,
+      "wafFalsePositive403": 1,
+      "duplicateH1s": 2,
+      "crossLocationMetaBleeds": 3,
+      "crawlDepthBreakdown": {
+        "level1": 12,
+        "level2": 66,
+        "level3": 17,
+        "level4Plus": 0
+      },
+      "healthScores": {
+        "rawSemrushScore": 96,
+        "calibratedTrueHealth": 96,
+        "calibrationNote": "Semrush Baseline recorded 96% Site Health (vs. 92% Top-10% benchmark) and 89% AI Search Health (0 AI bots blocked). October Semrush re-crawl was interrupted at page 1 (HTTP 403 Forbidden) because WP Defender Firewall blocks User-Agent SiteAuditBot/0.97. Live Screaming Frog crawl of 1,376 URLs verified 100% of all 95 indexable HTML pages (25 Corporate + 70 Franchise Location pages) return 200 OK with 0 broken links.",
+        "calibrationNote_en": "Semrush Baseline recorded 96% Site Health (vs. 92% Top-10% benchmark) and 89% AI Search Health (0 AI bots blocked). October Semrush re-crawl was interrupted at page 1 (HTTP 403 Forbidden) because WP Defender Firewall blocks User-Agent SiteAuditBot/0.97. Live Screaming Frog crawl of 1,376 URLs verified 100% of all 95 indexable HTML pages (25 Corporate + 70 Franchise Location pages) return 200 OK with 0 broken links."
+      }
+    },
+    "sprintSummary": {
+      "totalEstimatedMinutes": 35,
+      "totalEstimatedHours": "0.6 hrs",
+      "billable": true,
+      "approvalStatus": "Ready for AM Retainer Approval (Gyongyi)",
+      "approvalStatus_en": "Ready for AM Retainer Approval (Gyongyi)",
+      "budgetImpact": "Austere 35-min CMS Sprint (0.6 hrs of 7.0h monthly retainer — leaves 6.4 hrs untouched and requires zero dev hours this month)."
+    },
+    "tasks": [
+      {
+        "id": "OBT-SPRINT-01",
+        "phase": "Current Sprint",
+        "sprintOrder": 1,
+        "title": "Fix 3 Cross-Location City Name Bleeds in Franchise Meta Descriptions",
+        "category": "Local SEO & Metadata",
+        "priority": "Critical",
+        "status": "Ready for CMS Execution",
+        "assignedRole": "Víctor Henríquez",
+        "estimatedMinutes": 10,
+        "billable": true,
+        "rootCause": "WHERE ON PAGE / DOM: <head> -> <meta name=\"description\"> & <meta property=\"og:description\"> (Rank Math Meta Box). Copy-paste territory bleed across 3 franchise 'Assisted Living Placement Guidance' pages: (1) North Orlando (/northorlando/) outputs 'Memphis / Greater Memphis'; (2) Memphis (/memphis/) outputs 'Wilmington and West Chester / Delaware and Pennsylvania'; (3) Wilmington & West Chester (/wilmingtonwestchester/) outputs 'Frederick & Loudoun / Maryland and Virginia'.",
+        "businessImpact": "Eliminates severe geographic keyword cannibalization and prevents families searching in Orlando, Memphis, or Wilmington from seeing a completely different state/city in Google SERP snippets.",
+        "sampleUrls": [
+          "https://owlbethere.com/northorlando/senior-living-guidance/assisted-living-placement-guidance/",
+          "https://owlbethere.com/memphis/senior-living-guidance/assisted-living-placement-guidance/",
+          "https://owlbethere.com/wilmingtonwestchester/senior-living-guidance/assisted-living-placement-guidance/"
+        ],
+        "technicalInstructions": "WHERE IN CMS: WordPress Multisite Admin -> Subsite Pages -> Edit 'Assisted Living Placement Guidance' -> Rank Math SEO Snippet Editor -> Description field:\n\n1. North Orlando (/northorlando/senior-living-guidance/assisted-living-placement-guidance/):\n   Replace 'Memphis' / 'Greater Memphis' with:\n   \"Find trusted assisted living placement guidance in North Orlando and Central Florida. Owl Be There helps families compare communities and make confident choices.\"\n\n2. Memphis (/memphis/senior-living-guidance/assisted-living-placement-guidance/):\n   Replace 'Wilmington and West Chester' / 'Delaware and Pennsylvania' with:\n   \"Trusted assisted living placement guidance in Greater Memphis, TN. Owl Be There helps local families compare senior care options at no cost to you.\"\n\n3. Wilmington & West Chester (/wilmingtonwestchester/senior-living-guidance/assisted-living-placement-guidance/):\n   Replace 'Frederick & Loudoun' / 'Maryland and Virginia' with:\n   \"Personalized assisted living placement guidance in Wilmington, DE and West Chester, PA. Compare vetted local senior living communities with Owl Be There.\"",
+        "acceptanceCriteria": [
+          "Each of the 3 franchise URLs displays its own verified city and state in <meta name=\"description\"> and <meta property=\"og:description\">.",
+          "All 3 descriptions remain under 155 characters / 920 pixels."
+        ],
+        "verificationMethod": "curl -s https://owlbethere.com/northorlando/senior-living-guidance/assisted-living-placement-guidance/ | grep -i 'meta name=\"description\"'",
+        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+      },
+      {
+        "id": "OBT-SPRINT-02",
+        "phase": "Current Sprint",
+        "sprintOrder": 2,
+        "title": "Update 5 Internal Links Pointing to 301 Redirects (/about/ & /contact/)",
+        "category": "Crawl Budget & Internal Links",
+        "priority": "High",
+        "status": "Ready for CMS Execution",
+        "assignedRole": "Víctor Henríquez",
+        "estimatedMinutes": 10,
+        "billable": true,
+        "rootCause": "WHERE ON PAGE / DOM:\n• 4 Franchise Homepages (/frederickloudoun/ under H3 'Stacey Saylor', /memphis/ under H3 'Candace Gibson', /greaterwashingtondc/ under H3 'Theresa Henry', /charlottesouth/ under H3 'Mary Arcure') -> Inside Section [meet-the-team__actions], the primary CTA button 'Learn More About Your Local Advisors' links to /[subsite]/about/ (301) instead of /[subsite]/about-us/ (200 OK).\n• 1 Corporate Blog Post (/blog/assisted-living-vs-memory-care-key-differences-and-how-to-find-the-best-fit/) -> Inside Main Body paragraph under H2 'Learn. Understand. Feel Confident.', the inline link 'Find Your Local Advisor' points to https://owlbethere.com/contact/ (301) instead of https://owlbethere.com/contact-us/ (200 OK).",
+        "businessImpact": "Eliminates 100% of editorial internal 301 redirect hops across the Corporate + 7 Location network, speeding up user navigation and preserving link equity.",
+        "sampleUrls": [
+          "https://owlbethere.com/frederickloudoun/about/ -> https://owlbethere.com/frederickloudoun/about-us/",
+          "https://owlbethere.com/memphis/about/ -> https://owlbethere.com/memphis/about-us/",
+          "https://owlbethere.com/greaterwashingtondc/about/ -> https://owlbethere.com/greaterwashingtondc/about-us/",
+          "https://owlbethere.com/charlottesouth/about/ -> https://owlbethere.com/charlottesouth/about-us/",
+          "https://owlbethere.com/contact/ -> https://owlbethere.com/contact-us/"
+        ],
+        "technicalInstructions": "1. Open the 4 Franchise Homepages in WP Admin (/frederickloudoun/, /memphis/, /greaterwashingtondc/, /charlottesouth/).\n2. Scroll to the 'Meet Your Local Senior Living Advisor' block (meet-the-team__actions) below each advisor's bio.\n3. Update the button URL on 'Learn More About Your Local Advisors' from /[subsite]/about/ to /[subsite]/about-us/ (matching Charleston, North Orlando, and Wilmington).\n4. Open the Corporate blog post '/blog/assisted-living-vs-memory-care-key-differences-and-how-to-find-the-best-fit/', scroll to H2 'Learn. Understand. Feel Confident.', and update the anchor 'Find Your Local Advisor' from /contact/ to /contact-us/.",
+        "acceptanceCriteria": [
+          "All 4 franchise homepage 'Meet the Team' buttons point directly to /[subsite]/about-us/ (HTTP 200 OK).",
+          "Blog post CTA link points directly to https://owlbethere.com/contact-us/ (HTTP 200 OK)."
+        ],
+        "verificationMethod": "curl -s https://owlbethere.com/memphis/ | grep -i 'about-us'",
+        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+      },
+      {
+        "id": "OBT-SPRINT-03",
+        "phase": "Current Sprint",
+        "sprintOrder": 3,
+        "title": "Add Descriptive Alt Text to 2 Editorial Content Photos",
+        "category": "Accessibility & Image SEO",
+        "priority": "Medium",
+        "status": "Ready for CMS Execution",
+        "assignedRole": "Víctor Henríquez",
+        "estimatedMinutes": 4,
+        "billable": true,
+        "rootCause": "WHERE ON PAGE / DOM:\n1. https://owlbethere.com/contact-us/ -> Section [wp-block-column image-col] right column beside H2 'Looking for a Local Advisor?': <img src=\".../2025/09/Photo-1.jpg\"> has empty alt=\"\".\n2. https://owlbethere.com/senior-living-guidance/assisted-living-placement-guidance/ -> Section [text-image-v8__block] under H2 'Factors Families Should Consider Before Choosing Assisted Living': <img src=\".../2025/07/Frame-38-6.jpg\"> has empty alt=\"\".",
+        "businessImpact": "Improves WCAG 2.1 Level A accessibility compliance for screen readers and strengthens contextual image relevance on core Corporate conversion pages.",
+        "sampleUrls": [
+          "https://owlbethere.com/contact-us/",
+          "https://owlbethere.com/senior-living-guidance/assisted-living-placement-guidance/"
+        ],
+        "technicalInstructions": "1. In WordPress Media Library (or Gutenberg block settings on /contact-us/), locate 'Photo-1.jpg' beside heading 'Looking for a Local Advisor?' and set Alt Text: \"Owl Be There senior living advisor consulting with family\".\n2. On /senior-living-guidance/assisted-living-placement-guidance/, locate 'Frame-38-6.jpg' inside the 'Factors Families Should Consider Before Choosing Assisted Living' block and set Alt Text: \"Caregiver supporting smiling senior resident in assisted living community\".",
+        "acceptanceCriteria": [
+          "Both editorial images render non-empty, descriptive alt attributes in live HTML source."
+        ],
+        "verificationMethod": "curl -s https://owlbethere.com/contact-us/ | grep -i 'Photo-1.jpg'",
+        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+      },
+      {
+        "id": "OBT-SPRINT-04",
+        "phase": "Current Sprint",
+        "sprintOrder": 4,
+        "title": "Optimize Truncated SERP Titles (>60c, 7 Pages) & Meta Descriptions (>155c, 16 Pages)",
+        "category": "On-Page SEO & CTR",
+        "priority": "Medium",
+        "status": "Ready for CMS Execution",
+        "assignedRole": "Víctor Henríquez",
+        "estimatedMinutes": 11,
+        "billable": true,
+        "rootCause": "WHERE ON PAGE / DOM: <head> -> <title> & <meta name=\"description\"> (Rank Math Snippet Editor). Screaming Frog identified 7 indexable pages with <title> tags exceeding 60 characters / 580px (primarily /wilmingtonwestchester/ service and contact pages up to 68 chars / 625px) and 16 additional pages with meta descriptions exceeding 155 characters / 985px (up to 203 chars / 1,310px on /wilmingtonwestchester/about-us/).",
+        "businessImpact": "Prevents Google SERP ellipsis (...) truncation on local franchise landing pages and blog posts, improving organic click-through rate (CTR).",
+        "sampleUrls": [
+          "https://owlbethere.com/wilmingtonwestchester/about-us/",
+          "https://owlbethere.com/wilmingtonwestchester/contact-us/",
+          "https://owlbethere.com/wilmingtonwestchester/senior-living-guidance/memory-care-placement-guidance/",
+          "https://owlbethere.com/charleston/about-us/",
+          "https://owlbethere.com/blog/finding-peace-of-mind-when-a-loved-one-has-dementia/"
+        ],
+        "technicalInstructions": "1. In Rank Math Snippet Editor across the 7 long-title pages (listed in Master Workbook Tab 2 under OBT-SPRINT-04), tighten title tags to <= 60 characters (e.g., 'Contact Us - Wilmington & West Chester | Owl Be There' -> 53 chars).\n2. Trim the 16 over-length meta descriptions (particularly /wilmingtonwestchester/about-us/ at 203 chars and /charleston/about-us/ at 176 chars) to 140-155 characters (< 920px).",
+        "acceptanceCriteria": [
+          "All targeted titles measure <= 60 characters and <= 580 pixels.",
+          "All targeted meta descriptions measure <= 155 characters and <= 920 pixels."
+        ],
+        "verificationMethod": "Screaming Frog list-mode verification of the 23 updated URLs.",
+        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+      },
+      {
+        "id": "OBT-DEV-01",
+        "phase": "Phase 2 (November)",
+        "sprintOrder": 5,
+        "title": "Dynamic Category Title in Blog Archive Template (archive.php) — Fix Duplicate H1s",
+        "category": "Semantic Heading Hierarchy",
+        "priority": "Medium",
+        "status": "Queued for Phase 2",
+        "assignedRole": "Dev Team",
+        "estimatedMinutes": 30,
+        "billable": true,
+        "rootCause": "1. SYMPTOM & LIVE EVIDENCE: Both blog category archives (/blog/category/family-caregiver-resources/ and /blog/category/cost-planning/) render the exact same hardcoded H1 inside <main> -> Hero Banner: 'Guidance, Insights, and Real Stories to Help You Navigate Senior Living'.\n2. ROOT CAUSE: In /wp-content/themes/owlbethere/archive.php, the hero banner pulls the global Blog index headline instead of querying single_cat_title() when is_category() is true.",
+        "businessImpact": "Eliminates H1 duplication across blog category archives and establishes clear topical relevance for each senior care resource category.",
+        "sampleUrls": [
+          "https://owlbethere.com/blog/category/family-caregiver-resources/",
+          "https://owlbethere.com/blog/category/cost-planning/"
+        ],
+        "technicalInstructions": "3. READY-TO-TEST CODE (PHP):\n```php\n// In /wp-content/themes/owlbethere/archive.php (Hero H1 block)\nif ( is_category() ) {\n    $archive_h1 = single_cat_title( '', false ) . ' — Senior Living Resources & Guides';\n} elseif ( is_tag() ) {\n    $archive_h1 = single_tag_title( '', false ) . ' — Owl Be There Blog';\n} else {\n    $archive_h1 = 'Guidance, Insights, and Real Stories to Help You Navigate Senior Living';\n}\necho '<h1 class=\"blog-hero__title\">' . esc_html( $archive_h1 ) . '</h1>';\n```\n4. ARCHITECTURAL RECOMMENDATION: Place directly inside `/wp-content/themes/owlbethere/archive.php` (or its hero template-part) so any future blog categories automatically inherit unique semantic `<h1>` tags.",
+        "acceptanceCriteria": [
+          "/blog/category/family-caregiver-resources/ renders H1 'Family Caregiver Resources — Senior Living Resources & Guides'.",
+          "/blog/category/cost-planning/ renders H1 'Cost & Planning — Senior Living Resources & Guides'.",
+          "Zero duplicate H1s reported across blog archives."
+        ],
+        "verificationMethod": "curl -s https://owlbethere.com/blog/category/cost-planning/ | grep -i '<h1'",
+        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+      },
+      {
+        "id": "OBT-DEV-02",
+        "phase": "Phase 2 (November)",
+        "sprintOrder": 6,
+        "title": "LocalBusiness JSON-LD Schema Enrichment Across All 7 Franchise Subsites",
+        "category": "Schema & AI Visibility",
+        "priority": "High",
+        "status": "Queued for Phase 2",
+        "assignedRole": "Dev Team",
+        "estimatedMinutes": 60,
+        "billable": true,
+        "rootCause": "1. SYMPTOM & LIVE EVIDENCE: In <head> -> <script type=\"application/ld+json\" class=\"rank-math-schema\"> across all 7 franchise subsites (/charleston/, /charlottesouth/, /frederickloudoun/, /greaterwashingtondc/, /memphis/, /northorlando/, /wilmingtonwestchester/), the LocalBusiness node outputs name, url, telephone, email, and address, but omits geo (GeoCoordinates) and openingHoursSpecification. Additionally, states inside areaServed (e.g., Virginia, Maryland, Delaware) are typed as @type: City instead of @type: AdministrativeArea.\n2. ROOT CAUSE: Incomplete LocalBusiness schema generator in /wp-content/themes/owlbethere-zee/functions.php.",
+        "businessImpact": "Strengthens Google Local Pack eligibility, Rich Results validation, and AI Search / LLM entity extraction across all 7 franchise markets.",
+        "sampleUrls": [
+          "https://owlbethere.com/charleston/",
+          "https://owlbethere.com/charlottesouth/",
+          "https://owlbethere.com/frederickloudoun/",
+          "https://owlbethere.com/greaterwashingtondc/",
+          "https://owlbethere.com/memphis/",
+          "https://owlbethere.com/northorlando/",
+          "https://owlbethere.com/wilmingtonwestchester/"
+        ],
+        "technicalInstructions": "3. READY-TO-TEST CODE (PHP Filter for Rank Math JSON-LD):\n```php\n// In /wp-content/themes/owlbethere-zee/functions.php\nadd_filter( 'rank_math/json_ld', function( $data, $jsonld ) {\n    foreach ( $data as $key => &$entity ) {\n        if ( isset( $entity['@type'] ) && $entity['@type'] === 'LocalBusiness' ) {\n            $lat = get_field( 'location_latitude', 'option' );\n            $lng = get_field( 'location_longitude', 'option' );\n            if ( $lat && $lng ) {\n                $entity['geo'] = [\n                    '@type'     => 'GeoCoordinates',\n                    'latitude'  => (float) $lat,\n                    'longitude' => (float) $lng,\n                ];\n            }\n            if ( empty( $entity['openingHoursSpecification'] ) ) {\n                $entity['openingHoursSpecification'] = [[\n                    '@type'     => 'OpeningHoursSpecification',\n                    'dayOfWeek' => ['Monday','Tuesday','Wednesday','Thursday','Friday'],\n                    'opens'     => '08:30',\n                    'closes'    => '17:30'\n                ]];\n            }\n        }\n    }\n    return $data;\n}, 99, 2 );\n```\n4. ARCHITECTURAL RECOMMENDATION: Implement in `/wp-content/themes/owlbethere-zee/functions.php` reading coordinates from the subsite ACF Options page, and map state-level `areaServed` entries to `@type: AdministrativeArea`.",
+        "acceptanceCriteria": [
+          "All 7 franchise homepages output valid geo (GeoCoordinates) and openingHoursSpecification inside LocalBusiness JSON-LD.",
+          "State entities in areaServed use @type: AdministrativeArea with 0 warnings in Google Rich Results Test."
+        ],
+        "verificationMethod": "curl -s https://owlbethere.com/charleston/ | grep -o 'GeoCoordinates'",
+        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+      },
+      {
+        "id": "OBT-DEV-03",
+        "phase": "Phase 2 (November)",
+        "sprintOrder": 7,
+        "title": "Convert 4 Uncompressed PNG Assets (901 KB – 1.43 MB Replicated Across 7 Subsites) to WebP",
+        "category": "Core Web Vitals & LCP",
+        "priority": "Medium",
+        "status": "Queued for Phase 2",
+        "assignedRole": "Dev Team",
+        "estimatedMinutes": 45,
+        "billable": true,
+        "rootCause": "1. SYMPTOM & LIVE EVIDENCE: Screaming Frog identified 30 image URLs exceeding 800 KB caused by 4 uncompressed PNG files cloned across the Corporate site and all 7 franchise media folders:\n• Kelly_and_David_Circular_Transparent-1-1-2.png (1.43 MB) — on /about-us/ inside Leadership Team Grid under 'Meet Our Founders'.\n• group.png (1.19 MB x 7 subsites) — on /[subsite]/senior-living-guidance/ inside Main Guidance Section.\n• hero-photo-assisted-living.png (1.07 MB x 7 subsites) — on /[subsite]/senior-living-guidance/assisted-living-placement-guidance/ inside Above-the-Fold Hero Banner (LCP element).\n• section-photo-living-guidance-hub-933x1024.png (901 KB x 7 subsites) — on /[subsite]/ inside Senior Living Options Section.\n2. ROOT CAUSE: Original high-res PNGs were uploaded into each subsite's `/wp-content/uploads/sites/[id]/` folder without WebP compression.",
+        "businessImpact": "Reduces hero and section image payload by >85% (from ~1.1 MB to <120 KB per page), directly improving mobile Largest Contentful Paint (LCP) across all 7 franchise markets.",
+        "sampleUrls": [
+          "https://owlbethere.com/wp-content/uploads/2025/09/Kelly_and_David_Circular_Transparent-1-1-2.png",
+          "https://owlbethere.com/charleston/wp-content/uploads/sites/6/2025/07/hero-photo-assisted-living.png",
+          "https://owlbethere.com/charleston/wp-content/uploads/sites/6/2025/07/group.png",
+          "https://owlbethere.com/charleston/wp-content/uploads/sites/6/2025/07/section-photo-living-guidance-hub-933x1024.png"
+        ],
+        "technicalInstructions": "3. READY-TO-TEST CODE / CLI BATCH:\n```bash\nfor f in $(find wp-content/uploads -name \"hero-photo-assisted-living.png\" -o -name \"group.png\" -o -name \"section-photo-living-guidance-hub-933x1024.png\" -o -name \"Kelly_and_David_Circular_Transparent-1-1-2.png\"); do\n  cwebp -q 82 \"$f\" -o \"${f%.png}.webp\"\ndone\n```\n4. ARCHITECTURAL RECOMMENDATION: Trigger WebP Express bulk conversion across all multisite blogs (`sites/3/` through `sites/11/`) or ensure Jetpack Photon CDN rewrites `.png` hero block sources to `format=webp`.",
+        "acceptanceCriteria": [
+          "All 4 master images and their 7 subsite copies serve as WebP under 150 KB.",
+          "Zero images > 500 KB remain in Screaming Frog crawl."
+        ],
+        "verificationMethod": "curl -ILs https://owlbethere.com/wp-content/uploads/2025/09/Kelly_and_David_Circular_Transparent-1-1-2.png | grep -i 'content-length'",
+        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+      },
+      {
+        "id": "OBT-DEV-04",
+        "phase": "Phase 2 (November)",
+        "sprintOrder": 8,
+        "title": "Minify First-Party Theme CSS/JS & Add Empty alt=\"\" to Decorative Theme SVGs",
+        "category": "Performance & Accessibility",
+        "priority": "Low",
+        "status": "Queued for Phase 2",
+        "assignedRole": "Dev Team",
+        "estimatedMinutes": 60,
+        "billable": true,
+        "rootCause": "1. SYMPTOM & LIVE EVIDENCE:\n• Semrush flagged 231 warnings for unminified JS/CSS across `/wp-content/themes/owlbethere/assets/js/*.js` and `/wp-content/themes/owlbethere/acf-blocks/*` (71 JS files and 56 CSS files total).\n• Screaming Frog identified 37 decorative background/icon image tags missing an `alt` attribute entirely (`banner-cover-img.jpg` inside `/wp-content/themes/owlbethere/acf-blocks/banner2/cta-v1.php` across 21 pages, plus `play-icon.svg`).\n2. ROOT CAUSE: Build pipeline outputs unminified block assets in production, and decorative `<img>` tags in `cta-v1.php` omit `alt=\"\" role=\"presentation\"`.",
+        "businessImpact": "Clears 231 Semrush asset warnings and silences screen-reader filename announcements on decorative background banners.",
+        "sampleUrls": [
+          "https://owlbethere.com/wp-content/themes/owlbethere/acf-blocks/banner2/banner-cover-img.jpg",
+          "https://owlbethere.com/wp-content/themes/owlbethere/assets/images/play-icon.svg"
+        ],
+        "technicalInstructions": "3. READY-TO-TEST CODE (PHP):\n```php\n// In /wp-content/themes/owlbethere/acf-blocks/banner2/cta-v1.php\n<img src=\"<?php echo esc_url( get_template_directory_uri() . '/acf-blocks/banner2/banner-cover-img.jpg' ); ?>\" alt=\"\" role=\"presentation\" loading=\"lazy\" decoding=\"async\" />\n```\n4. ARCHITECTURAL RECOMMENDATION: Add `alt=\"\" role=\"presentation\"` to decorative template `<img>` tags in `owlbethere` parent theme and enable production asset minification (`terser` / `cssnano`) in the theme build step.",
+        "acceptanceCriteria": [
+          "banner-cover-img.jpg and play-icon.svg include explicit alt=\"\" role=\"presentation\" in HTML output.",
+          "Theme CSS and JS assets serve minified in production."
+        ],
+        "verificationMethod": "curl -s https://owlbethere.com/ | grep -i 'banner-cover-img.jpg'",
+        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+      },
+      {
+        "id": "OBT-DEV-05",
+        "phase": "Phase 2 (November)",
+        "sprintOrder": 9,
+        "title": "WP Defender Firewall Allowlist for SiteAuditBot & Deploy Root /llms.txt",
+        "category": "Crawl Governance & AI Search",
+        "priority": "Low",
+        "status": "Queued for Phase 2",
+        "assignedRole": "Dev Team",
+        "estimatedMinutes": 15,
+        "billable": true,
+        "rootCause": "1. SYMPTOM & LIVE EVIDENCE:\n• Semrush October re-crawl failed with 'Audit Interrupted: HTTP 403 Forbidden' on `https://owlbethere.com/` when crawling as `SiteAuditBot/0.97` (verified via live curl test).\n• Semrush AI Search Health (89%) flagged 1 notice: `https://owlbethere.com/llms.txt` returns HTTP 404.\n2. ROOT CAUSE: WP Defender Firewall blocks `SiteAuditBot` User-Agent, and no `/llms.txt` markdown index exists at the web root.",
+        "businessImpact": "Unblocks automated monthly Semrush crawls and boosts AI Search Health from 89% toward 100%.",
+        "sampleUrls": [
+          "https://owlbethere.com/",
+          "https://owlbethere.com/llms.txt"
+        ],
+        "technicalInstructions": "1. In WordPress Network Admin -> WP Defender -> Firewall -> User Agent Banning -> Allowlist: add `SiteAuditBot` and `SemrushBot`.\n2. Deploy static `/llms.txt` in the corporate web root summarizing Owl Be There's senior living placement services and 7 franchise locations.",
+        "acceptanceCriteria": [
+          "curl -ILs -A 'SiteAuditBot/0.97' https://owlbethere.com/ returns HTTP/2 200.",
+          "https://owlbethere.com/llms.txt returns HTTP/2 200 with text/plain or text/markdown content."
+        ],
+        "verificationMethod": "curl -ILs -A 'SiteAuditBot/0.97' https://owlbethere.com/",
+        "workbookUrl": "https://docs.google.com/document/d/1qrPUvWdespxclmh_pzzt3C0om2czSN-OocdLfnTpdpw/edit"
+      }
+    ],
+    "completedTasks": [
+      {
+        "id": "OBT-CMP-01",
+        "title": "Full 1,376-URL Screaming Frog Crawl, Semrush Reconciliation & 5-Tab Master Workbook",
+        "category": "Technical Audit Baseline",
+        "completedDate": "October 16, 2026",
+        "verifiedDate": "October 16, 2026",
+        "verifiedBy": "Víctor Henríquez",
+        "investedMinutes": 45,
+        "assignedRole": "Víctor Henríquez",
+        "summary": "Completed full empirical crawl across Corporate HQ and all 7 franchise subsites (95 indexable HTML pages, 100% 200 OK, 0 broken links). Pinpointed exact DOM/page locations for 3 cross-location city meta bleeds, 5 internal 301 redirect links, 2 missing editorial alt attributes, duplicate category H1s, and LocalBusiness Schema enhancements."
+      }
+    ]
+  }
 };
 
 // Sanitization & Defensive Helpers

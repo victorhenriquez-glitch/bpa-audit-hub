@@ -95,18 +95,21 @@ window.switchClient = function(slug) {
   if (!window.BPA_DATA || !window.BPA_DATA[slug]) return;
   window.currentClient = slug;
 
-  const btnOhdeer = document.getElementById('btn-client-ohdeer');
-  const btnUslawns = document.getElementById('btn-client-uslawns');
+  const btnMap = {
+    'oh-deer': document.getElementById('btn-client-ohdeer'),
+    'us-lawns': document.getElementById('btn-client-uslawns'),
+    'owl-be-there': document.getElementById('btn-client-owlbethere')
+  };
 
-  if (btnOhdeer && btnUslawns) {
-    if (slug === 'oh-deer') {
-      btnOhdeer.className = 'px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-bpa-magenta shadow-xs border border-purple-100';
-      btnUslawns.className = 'px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-600 hover:text-bpa-violet';
-    } else {
-      btnUslawns.className = 'px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-bpa-magenta shadow-xs border border-purple-100';
-      btnOhdeer.className = 'px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-600 hover:text-bpa-violet';
+  const activeClass = 'px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-bpa-magenta shadow-xs border border-purple-100';
+  const inactiveClass = 'px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-600 hover:text-bpa-violet';
+
+  Object.keys(btnMap).forEach(key => {
+    const btn = btnMap[key];
+    if (btn) {
+      btn.className = (key === slug) ? activeClass : inactiveClass;
     }
-  }
+  });
 
   window.renderClient(slug);
 };

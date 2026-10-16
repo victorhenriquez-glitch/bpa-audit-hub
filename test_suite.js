@@ -103,6 +103,7 @@ function assert(condition, testName) {
 assert(window.BPA_DATA && typeof window.BPA_DATA === 'object', 'BPA_DATA exists on window');
 assert(window.BPA_DATA['oh-deer'] !== undefined, 'oh-deer client data is loaded');
 assert(window.BPA_DATA['us-lawns'] !== undefined, 'us-lawns client data is loaded');
+assert(window.BPA_DATA['owl-be-there'] !== undefined, 'owl-be-there client data is loaded');
 
 // TEST 2: Sanitize Utility
 assert(typeof window.sanitize === 'function', 'window.sanitize function is available');
@@ -111,7 +112,7 @@ assert(window.sanitize(null) === '', 'window.sanitize handles null gracefully');
 assert(window.sanitize(undefined) === '', 'window.sanitize handles undefined gracefully');
 
 // TEST 3: Client Schema Validation
-for (const slug of ['oh-deer', 'us-lawns']) {
+for (const slug of ['oh-deer', 'us-lawns', 'owl-be-there']) {
   const c = window.BPA_DATA[slug];
   assert(Boolean(c.clientName), `[${slug}] Has clientName`);
   assert(Boolean(c.domain), `[${slug}] Has domain`);
@@ -214,6 +215,44 @@ for (const task of usLawns.tasks) {
     console.error(`Error opening modal for ${task.id}:`, e);
   }
   assert(modalPassed, `Modal opens cleanly for task ${task.id}`);
+}
+
+// TEST 14: Test Owl Be There Ground-Truth, Dev Team Role & Modal Execution
+console.log('\n--- Testing renderClient("owl-be-there") ---');
+const owl = window.BPA_DATA['owl-be-there'];
+assert(Boolean(owl.workbookUrl && owl.workbookUrl.startsWith('https://docs.google.com/')), 'Owl Be There has verified cloud workbookUrl');
+assert(!owl.cmsStack.theme.toLowerCase().includes('divi'), 'Owl Be There theme does NOT assume Divi');
+assert(owl.cmsStack.theme.includes('owlbethere') && owl.cmsStack.theme.includes('owlbethere-zee'), 'Owl Be There references real parent/child BPA themes');
+assert(owl.kpis.totalCrawledUrls === 1376, 'Owl Be There totalCrawledUrls is 1376');
+assert(owl.kpis.clean200HtmlPages === 95, 'Owl Be There clean200HtmlPages is 95');
+assert(owl.kpis.broken404Pages === 0, 'Owl Be There broken404Pages is 0');
+
+let owlPassed = true;
+try {
+  window.switchClient('owl-be-there');
+} catch (e) {
+  owlPassed = false;
+  console.error('Error switching to Owl Be There:', e);
+}
+assert(owlPassed, 'switchClient("owl-be-there") executes without errors');
+assert(elementsMap['client-name'].textContent === 'Owl Be There', 'Owl Be There client-name element populated correctly');
+assert(elementsMap['count-all'].textContent === 9, 'Owl Be There total tasks count is 9');
+assert(elementsMap['count-sprint'].textContent === 4, 'Owl Be There current sprint tasks count is 4');
+assert(elementsMap['count-dev'].textContent === 5, 'Owl Be There Dev Team tasks count is 5');
+
+const owlDevTasks = owl.tasks.filter(t => t.id.startsWith('OBT-DEV-'));
+assert(owlDevTasks.every(t => t.assignedRole === 'Dev Team'), 'All Owl Be There dev tasks are assigned strictly to "Dev Team"');
+
+for (const task of owl.tasks) {
+  let modalPassed = true;
+  try {
+    window.openTaskModal(task.id);
+  } catch (e) {
+    modalPassed = false;
+    console.error(`Error opening modal for ${task.id}:`, e);
+  }
+  assert(modalPassed, `Modal opens cleanly for Owl Be There task ${task.id}`);
+  assert(Boolean(task.workbookUrl), `Task ${task.id} includes workbookUrl traceability link`);
 }
 
 console.log('\n====================================================');
