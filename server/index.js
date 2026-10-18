@@ -13,8 +13,17 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// In-memory or file-backed state store initialized with seed data
+// In-memory state store with disk-backed cache persistence
 let clientsStore = {};
+const cachePath = path.join(__dirname, '../data/runtime-cache.json');
+
+function saveDataStore() {
+  try {
+    fs.writeFileSync(cachePath, JSON.stringify(clientsStore, null, 2), 'utf8');
+  } catch (err) {
+    console.error('Error saving runtime cache to disk:', err);
+  }
+}
 
 function initDataStore() {
   const clientsDir = path.join(__dirname, '../data/clients');
@@ -30,6 +39,25 @@ function initDataStore() {
         console.error(`Error loading client ${file}:`, err);
       }
     });
+  }
+
+  // Load and merge persisted runtime cache if present
+  if (fs.existsSync(cachePath)) {
+    try {
+      const cached = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
+      Object.keys(cached).forEach(slug => {
+        if (clientsStore[slug]) {
+          if (cached[slug].tasks) clientsStore[slug].tasks = cached[slug].tasks;
+          if (cached[slug].completedTasks) clientsStore[slug].completedTasks = cached[slug].completedTasks;
+          if (cached[slug].monthlyKpiReports) clientsStore[slug].monthlyKpiReports = cached[slug].monthlyKpiReports;
+        } else {
+          clientsStore[slug] = cached[slug];
+        }
+      });
+      console.log('✓ Runtime cache loaded and restored from disk');
+    } catch (err) {
+      console.error('Error loading runtime cache:', err);
+    }
   }
 }
 
@@ -107,6 +135,7 @@ app.patch('/api/clients/:slug/tasks/:taskId', (req, res) => {
     };
 
     client.completedTasks.unshift(completedEntry);
+    saveDataStore();
     return res.json({ success: true, action: 'completed', task: completedEntry });
   } else if (status === 'active') {
     const completedIndex = client.completedTasks.findIndex(t => t.id === taskId);
@@ -131,6 +160,7 @@ app.patch('/api/clients/:slug/tasks/:taskId', (req, res) => {
     };
 
     client.tasks.unshift(reopenedTask);
+    saveDataStore();
     return res.json({ success: true, action: 'reopened', task: reopenedTask });
   }
 
@@ -149,6 +179,7 @@ app.post('/api/clients/:slug/kpis', (req, res) => {
 
   client.monthlyKpiReports = client.monthlyKpiReports || [];
   client.monthlyKpiReports.unshift(report);
+  saveDataStore();
 
   res.json({ success: true, message: 'Monthly KPI report stored', report });
 });
