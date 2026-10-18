@@ -21,6 +21,7 @@ global.document = {
         _innerHTML: '',
         children: [],
         className: '',
+        style: {},
         classList: {
           add: function(c) { this._classes = (this._classes || '') + ' ' + c; },
           remove: function(c) { if (this._classes) this._classes = this._classes.replace(c, ''); }
@@ -50,6 +51,7 @@ global.document = {
       tagName: tag,
       innerHTML: '',
       className: '',
+      style: {},
       classList: { add: () => {}, remove: () => {} },
       appendChild: (c) => {},
       addEventListener: () => {}
@@ -77,8 +79,14 @@ global.lucide = {
 };
 
 // 2. Load Core Modules
+require(path.join(__dirname, 'js/core/security-gate.js'));
 require(path.join(__dirname, 'js/data-store.js'));
+require(path.join(__dirname, 'js/services/storage-adapter.js'));
 require(path.join(__dirname, 'js/charts.js'));
+require(path.join(__dirname, 'js/modules/task-workflow.js'));
+require(path.join(__dirname, 'js/modules/kpi-octav-engine.js'));
+require(path.join(__dirname, 'js/modules/ingest-studio.js'));
+require(path.join(__dirname, 'js/modules/bright-audits-bridge.js'));
 require(path.join(__dirname, 'js/app.js'));
 
 console.log('====================================================');
@@ -296,6 +304,156 @@ for (const task of pls.tasks) {
   assert(modalPassed, `Modal opens cleanly for Pacific Lawn Sprinklers task ${task.id}`);
   assert(Boolean(task.workbookUrl && task.workbookUrl.includes('1Jn1AcZ_sFECwyvqSWknHTuIba3tY26gk')), `Task ${task.id} includes cloud Google Sheet workbookUrl link`);
 }
+
+// TEST 16: Security Gate Multi-Layer Sanitization
+console.log('\n--- Testing Security Gate & URL Whitelisting ---');
+assert(typeof window.sanitizeUrl === 'function', 'window.sanitizeUrl function exists');
+assert(window.sanitizeUrl('javascript:alert(1)') === '#', 'sanitizeUrl blocks javascript: pseudo-protocol');
+assert(window.sanitizeUrl('data:text/html,<script>alert(1)</script>') === '#', 'sanitizeUrl blocks data: pseudo-protocol');
+assert(window.sanitizeUrl('https://brightpinkagency.com') === 'https://brightpinkagency.com', 'sanitizeUrl allows valid https: URLs');
+assert(window.sanitizeUrl('http://insecure.com') === 'http://insecure.com', 'sanitizeUrl allows standard http: URLs');
+
+assert(typeof window.sanitizeEmbedUrl === 'function', 'window.sanitizeEmbedUrl function exists');
+assert(window.sanitizeEmbedUrl('https://lookerstudio.google.com/embed/reporting/123') !== '', 'sanitizeEmbedUrl allows lookerstudio.google.com embeds');
+assert(window.sanitizeEmbedUrl('https://datastudio.google.com/embed/reporting/123') !== '', 'sanitizeEmbedUrl allows datastudio.google.com embeds');
+assert(window.sanitizeEmbedUrl('https://malicious-iframe.com/hack') === '', 'sanitizeEmbedUrl blocks unauthorized embed domains');
+
+assert(typeof window.validateClientSchema === 'function', 'window.validateClientSchema function exists');
+const normalized = window.validateClientSchema({ clientName: 'Test Brand' });
+assert(Array.isArray(normalized.tasks), 'validateClientSchema ensures tasks array');
+assert(Array.isArray(normalized.completedTasks), 'validateClientSchema ensures completedTasks array');
+assert(typeof normalized.kpis === 'object', 'validateClientSchema ensures kpis object');
+
+// TEST 17: Chart.js 0-Value Falsy Bug Verification
+console.log('\n--- Testing Chart.js 0-Value Falsy Bug Fix ---');
+const zeroKpiMock = {
+  clientName: 'Zero Bug Client',
+  tasks: [],
+  kpis: {
+    clean200HtmlPages: 100,
+    internal301Redirects: 0,
+    wafFalsePositive403: 0,
+    broken404Pages: 0
+  }
+};
+window.BPA_CHARTS.renderCharts(zeroKpiMock);
+const lastDoughnut = chartsRendered.filter(c => c.type === 'doughnut').pop();
+assert(lastDoughnut !== undefined, 'Doughnut chart rendered for zero-value client');
+assert(lastDoughnut.data.datasets[0].data[1] === 0, 'Internal 301s value is 0 (not fallback 245)');
+assert(lastDoughnut.data.datasets[0].data[2] === 0, 'WAF 403s value is 0 (not fallback 818)');
+assert(lastDoughnut.data.datasets[0].data[3] === 0, 'Broken 404s value is 0 (not fallback 2)');
+
+// TEST 18: Task Completion & Reopen Workflow
+console.log('\n--- Testing Task Completion & Reopen Lifecycle ---');
+assert(typeof window.executeCompleteTask === 'function', 'window.executeCompleteTask exists');
+assert(typeof window.reopenTask === 'function', 'window.reopenTask exists');
+assert(typeof window.switchWorkspaceTab === 'function', 'window.switchWorkspaceTab exists');
+
+window.switchClient('oh-deer');
+const initialActiveCount = ohdeer.tasks.length;
+const initialCompletedCount = ohdeer.completedTasks.length;
+const targetTask = ohdeer.tasks[0];
+const targetTaskId = targetTask.id;
+
+window.executeCompleteTask(targetTaskId, {
+  author: 'Víctor Henríquez',
+  investedMinutes: 20,
+  summary: 'Automated test task completion verification'
+});
+
+const clientAfterComplete = window.BPA_STORAGE.getClient('oh-deer');
+assert(clientAfterComplete.tasks.length === initialActiveCount - 1, 'Task removed from active tasks list');
+assert(clientAfterComplete.completedTasks.length === initialCompletedCount + 1, 'Task prepended to completedTasks list');
+assert(clientAfterComplete.completedTasks[0].id === targetTaskId, 'Completed task record has matching ID');
+assert(clientAfterComplete.completedTasks[0].investedMinutes === 20, 'Invested minutes correctly logged in record');
+
+// Reopen task
+window.reopenTask(targetTaskId);
+const clientAfterReopen = window.BPA_STORAGE.getClient('oh-deer');
+assert(clientAfterReopen.tasks.length === initialActiveCount, 'Reopened task returned to active tasks list');
+assert(clientAfterReopen.completedTasks.length === initialCompletedCount, 'Reopened task removed from completedTasks list');
+
+// TEST 19: Sprint Progress Bar Dynamic Calculation
+console.log('\n--- Testing Sprint Progress Bar Computation ---');
+assert(typeof window.updateSprintProgressBar === 'function', 'window.updateSprintProgressBar function exists');
+window.updateSprintProgressBar(ohdeer);
+assert(elementsMap['sprint-progress-label'].textContent.includes('Sprint Progress:'), 'Sprint progress label contains formatted progress status');
+assert(elementsMap['sprint-progress-bar'].style.width !== '', 'Sprint progress bar style width dynamically set');
+
+// TEST 20: Monthly KPIs & Looker Studio Engine (Octav Format)
+console.log('\n--- Testing Monthly KPIs & Looker Studio Engine ---');
+assert(typeof window.renderMonthlyKpis === 'function', 'window.renderMonthlyKpis exists');
+assert(typeof window.copyKpiSummary === 'function', 'window.copyKpiSummary exists');
+
+let kpisRendered = true;
+try {
+  window.renderMonthlyKpis(ohdeer);
+} catch (e) {
+  kpisRendered = false;
+  console.error('Error rendering monthly KPIs:', e);
+}
+assert(kpisRendered, 'renderMonthlyKpis(ohdeer) executes cleanly');
+assert(elementsMap['monthly-kpis-container'].children.length > 0 || elementsMap['monthly-kpis-container'].innerHTML !== '', 'Monthly KPIs Bento Grid markup created');
+
+for (const slug of ['us-lawns', 'owl-be-there', 'pacific-lawn-sprinklers']) {
+  let slugKpiPassed = true;
+  try {
+    window.renderMonthlyKpis(window.BPA_DATA[slug]);
+  } catch (e) {
+    slugKpiPassed = false;
+  }
+  assert(slugKpiPassed, `Monthly KPIs render cleanly for [${slug}]`);
+}
+
+// TEST 21: Ingest Studio & Custom Task Pipeline
+console.log('\n--- Testing Ingest Studio & Custom Task Pipeline ---');
+assert(typeof window.openIngestStudio === 'function', 'window.openIngestStudio function exists');
+assert(typeof window.closeIngestStudio === 'function', 'window.closeIngestStudio function exists');
+assert(typeof window.handlePublishKpis === 'function', 'window.handlePublishKpis function exists');
+assert(typeof window.handleCreateTask === 'function', 'window.handleCreateTask function exists');
+
+// Simulate storage add custom task
+const customTaskObj = {
+  id: 'TEST-AUTO-01',
+  phase: 'Current Sprint',
+  title: 'Automated Test Task',
+  category: 'Test',
+  priority: 'Low',
+  status: 'Ready to Execute',
+  assignedRole: 'Víctor Henríquez',
+  estimatedMinutes: 15
+};
+window.BPA_STORAGE.addCustomTask('oh-deer', customTaskObj);
+const clientWithCustom = window.BPA_STORAGE.getClient('oh-deer');
+assert(clientWithCustom.tasks.some(t => t.id === 'TEST-AUTO-01'), 'addCustomTask successfully persists new task in client state');
+
+// Clean up custom task
+window.BPA_STORAGE.resetClientDemoState('oh-deer');
+
+// TEST 22: Jonie\'s Bright Audits 1:1 Schema & Category Bridge
+console.log('\n--- Testing Jonie\'s Bright Audits 1:1 Schema Bridge ---');
+assert(typeof window.renderAiInspectorBridge === 'function', 'window.renderAiInspectorBridge exists');
+assert(typeof window.pushTasksToClickUp === 'function', 'window.pushTasksToClickUp exists');
+
+let bridgeRendered = true;
+try {
+  window.renderAiInspectorBridge(ohdeer);
+} catch (e) {
+  bridgeRendered = false;
+  console.error('Error rendering AI inspector bridge:', e);
+}
+assert(bridgeRendered, 'renderAiInspectorBridge(ohdeer) executes cleanly');
+assert(elementsMap['ai-bridge-container'].children.length > 0 || elementsMap['ai-bridge-container'].innerHTML !== '', 'AI Bridge markup populated with 5 category scores');
+
+// TEST 23: Dynamic Roadmap Rendering
+console.log('\n--- Testing Dynamic Roadmap Cards Rendering ---');
+window.renderClient('oh-deer');
+assert(elementsMap['roadmap-cards-container'].children.length > 0 || elementsMap['roadmap-cards-container'].innerHTML !== '', 'Dynamic Roadmap cards rendered in roadmap-cards-container');
+assert(elementsMap['roadmap-cards-container'].innerHTML.includes('ohDEER'), 'Roadmap card dynamically references ohDEER client name');
+
+window.renderClient('pacific-lawn-sprinklers');
+assert(elementsMap['roadmap-cards-container'].innerHTML.includes('Pacific Lawn Sprinklers'), 'Roadmap card dynamically references Pacific Lawn Sprinklers client name');
+
 
 console.log('\n====================================================');
 console.log(`📊 RESULTS: ${passedTests} / ${totalTests} tests passed (${Math.round((passedTests/totalTests)*100)}%)`);

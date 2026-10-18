@@ -117,7 +117,9 @@ window.switchClient = function(slug) {
 
 // --- 4. RENDER CLIENT PROFILE ---
 window.renderClient = function(slug) {
-  const data = window.BPA_DATA ? window.BPA_DATA[slug] : null;
+  const data = (window.BPA_STORAGE && typeof window.BPA_STORAGE.getClient === 'function')
+    ? window.BPA_STORAGE.getClient(slug)
+    : (window.BPA_DATA ? window.BPA_DATA[slug] : null);
   if (!data) return;
 
   try {
@@ -186,6 +188,19 @@ window.renderClient = function(slug) {
       const elRaw = document.getElementById('score-raw');
       if (elRaw) elRaw.textContent = data.kpis.healthScores.rawSemrushScore + '%';
 
+      const elRawSub = document.getElementById('score-raw-sub');
+      if (elRawSub) {
+        const waf = data.kpis.wafFalsePositive403 || 0;
+        const err404 = data.kpis.broken404Pages || 0;
+        if (waf > 0) {
+          elRawSub.textContent = `${waf.toLocaleString()} WAF 403 Blocks`;
+        } else if (err404 > 0) {
+          elRawSub.textContent = `${err404.toLocaleString()} 404 Errors Flagged`;
+        } else {
+          elRawSub.textContent = 'Clean / 0 False Positives';
+        }
+      }
+
       const elCalibrated = document.getElementById('score-calibrated');
       if (elCalibrated) elCalibrated.innerHTML = `${data.kpis.healthScores.calibratedTrueHealth}<span class="text-2xl">%</span>`;
 
@@ -194,6 +209,12 @@ window.renderClient = function(slug) {
         const note = data.kpis.healthScores.calibrationNote_en || data.kpis.healthScores.calibrationNote;
         elSop.innerHTML = window.sanitize(note);
       }
+    }
+
+    const elSopBtn = document.getElementById('sop-sprint-btn-text');
+    if (elSopBtn) {
+      const sprintTime = (data.sprintSummary && data.sprintSummary.totalEstimatedHours) ? data.sprintSummary.totalEstimatedHours : '45 min';
+      elSopBtn.textContent = `View Sprint (${sprintTime})`;
     }
 
     // KPIs
@@ -220,10 +241,86 @@ window.renderClient = function(slug) {
       }
     }
 
+    // Dynamic Roadmap Cards
+    const elRoadmap = document.getElementById('roadmap-cards-container');
+    if (elRoadmap) {
+      const roadmapItems = data.roadmap || [
+        {
+          phase: 'Phase 2 — Upcoming Retainer Cycle',
+          hours: '4.0 hrs',
+          title: `${data.clientName} Code Architecture & Template Normalization`,
+          description: `Consolidation of site templates, structured data refinements, and internal link normalization across ${data.domain}.`,
+          deliverables: [
+            'Global heading hierarchy alignment and normalization (2.5h)',
+            'Internal redirect and dead link cleanup in menu & footer (1.5h)'
+          ],
+          badge: 'Planned / Next Retainer'
+        },
+        {
+          phase: 'Phase 3 — Quarterly Technical Roadmap',
+          hours: '4.5 hrs',
+          title: `${data.clientName} Local Entity & Speed Enhancement`,
+          description: `Advanced schema entity maps, Core Web Vitals optimization, and high-authority location expansion.`,
+          deliverables: [
+            'Rich snippet entity validation and local hub links (2.5h)',
+            'Asset minification, WebP conversion & cache audit (2.0h)'
+          ],
+          badge: 'Upcoming Roadmap'
+        }
+      ];
+
+      elRoadmap.innerHTML = roadmapItems.map((item, idx) => `
+        <div class="bg-white rounded-3xl p-6 border border-purple-100 shadow-xs space-y-4 hover:border-purple-200 transition-colors">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold ${idx === 0 ? 'bg-purple-50 text-purple-900 border border-purple-200' : 'bg-pink-50 text-bpa-magenta border border-pink-200'}">
+              ${window.sanitize(item.phase)}
+            </span>
+            <span class="text-xs font-mono font-bold text-slate-500">${window.sanitize(item.hours)}</span>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-bpa-violet">
+              ${window.sanitize(item.title)}
+            </h3>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              ${window.sanitize(item.description)}
+            </p>
+          </div>
+          <div class="space-y-2 text-xs pt-2 border-t border-purple-50">
+            ${(item.deliverables || []).map(d => `
+              <div class="flex items-center gap-2 text-slate-700 font-medium">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-500 shrink-0"></i>
+                <span>${window.sanitize(d)}</span>
+              </div>
+            `).join('')}
+          </div>
+          <div class="pt-2">
+            <span class="inline-block px-3 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 text-slate-600">
+              ${window.sanitize(item.badge || 'Ready for estimation')}
+            </span>
+          </div>
+        </div>
+      `).join('');
+    }
+
     // Update Visualizations & Task List
     window.renderCharts(data);
     window.updateTaskCounts(data);
     window.renderTasks(data.tasks || []);
+
+    // Update Sprint Progress Bar if workflow module is present
+    if (typeof window.updateSprintProgressBar === 'function') {
+      window.updateSprintProgressBar(data);
+    }
+
+    // Update Monthly KPIs if KPI engine is present
+    if (typeof window.renderMonthlyKpis === 'function') {
+      window.renderMonthlyKpis(data);
+    }
+
+    // Update AI Inspector Bridge if bridge is present
+    if (typeof window.renderAiInspectorBridge === 'function') {
+      window.renderAiInspectorBridge(data);
+    }
 
     if (window.lucide) lucide.createIcons();
   } catch (err) {
@@ -296,13 +393,19 @@ window.renderTasks = function(tasks) {
             <span class="text-xs font-mono font-bold text-slate-400">${window.sanitize(task.id)}</span>
             <span class="text-xs text-slate-500 font-semibold">• ${window.sanitize(date)}</span>
           </div>
-          <div class="flex items-center gap-3">
-            <span class="text-xs font-mono font-bold text-slate-700 bg-slate-50 px-2 py-1 rounded-lg border border-slate-100">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-mono font-bold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">
               ⏱️ ${invested} min
             </span>
             <span class="text-xs font-semibold text-purple-900 bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-100">
               ${window.sanitize(role)}
             </span>
+            ${!window.isClientView ? `
+              <button onclick="reopenTask('${task.id}')" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-200 transition-colors flex items-center gap-1 shadow-2xs" title="Return task to active sprint">
+                <i data-lucide="rotate-ccw" class="w-3 h-3 text-purple-600"></i>
+                <span>Reopen</span>
+              </button>
+            ` : ''}
           </div>
         </div>
         <div>
@@ -490,6 +593,13 @@ window.renderTasks = function(tasks) {
         </div>
 
         <div class="flex items-center gap-2 shrink-0">
+          ${!window.isClientView ? `
+            <button onclick="promptCompleteTask('${task.id}')" class="px-3 py-1.5 rounded-lg font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-all flex items-center gap-1.5 shadow-2xs" title="Mark this task as completed">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>Complete</span>
+            </button>
+          ` : ''}
+
           <button onclick="openTaskModal('${task.id}')" class="px-3 py-1.5 rounded-lg font-semibold text-bpa-violet bg-bpa-purple-light hover:bg-purple-100 border border-purple-200 transition-colors flex items-center gap-1.5">
             <i data-lucide="eye" class="w-3.5 h-3.5 text-bpa-magenta"></i>
             <span>View Details</span>

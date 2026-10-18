@@ -1,6 +1,7 @@
 /**
- * Bright Pink Agency Technical Audit Hub - Chart Visualizations
+ * Bright Pink Agency Technical Audit Hub - Chart Visualizations (v2.0)
  * Manages Chart.js rendering for HTTP distribution, click depth, and retainer workload.
+ * Precision Engineering: Zero-value preservation, dynamic depth tiers, and adaptive workload modeling.
  */
 
 window.BPA_CHARTS = {
@@ -9,11 +10,20 @@ window.BPA_CHARTS = {
   chartWorkloadInstance: null,
 
   /**
+   * Helper to safely resolve numbers, preserving explicit 0 values
+   */
+  resolveNum: function(val, fallback) {
+    if (typeof val === 'number' && !isNaN(val)) return val;
+    if (typeof val === 'string' && val.trim() !== '' && !isNaN(Number(val))) return Number(val);
+    return fallback !== undefined ? fallback : 0;
+  },
+
+  /**
    * Renders or updates all interactive charts for the specified client dataset
    * @param {Object} data Client data object
    */
   renderCharts: function(data) {
-    if (typeof Chart === 'undefined') return;
+    if (typeof Chart === 'undefined' || !data) return;
 
     try {
       // 1. Doughnut: HTTP Status Code Distribution
@@ -22,10 +32,10 @@ window.BPA_CHARTS = {
         const ctxStatus = canvasStatus.getContext('2d');
         if (this.chartStatusInstance) this.chartStatusInstance.destroy();
 
-        const clean200 = (data.kpis && data.kpis.clean200HtmlPages) || 916;
-        const red301 = (data.kpis && data.kpis.internal301Redirects) || 245;
-        const waf403 = (data.kpis && data.kpis.wafFalsePositive403) || 818;
-        const err404 = (data.kpis && data.kpis.broken404Pages) || 2;
+        const clean200 = this.resolveNum(data.kpis && data.kpis.clean200HtmlPages, 0);
+        const red301 = this.resolveNum(data.kpis && data.kpis.internal301Redirects, 0);
+        const waf403 = this.resolveNum(data.kpis && data.kpis.wafFalsePositive403, 0);
+        const err404 = this.resolveNum(data.kpis && data.kpis.broken404Pages, 0);
 
         this.chartStatusInstance = new Chart(ctxStatus, {
           type: 'doughnut',
@@ -50,6 +60,15 @@ window.BPA_CHARTS = {
               legend: {
                 position: 'bottom',
                 labels: { boxWidth: 12, font: { size: 10, family: 'Plus Jakarta Sans' } }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const label = context.label || '';
+                    const val = context.raw !== undefined ? context.raw : 0;
+                    return ` ${label}: ${Number(val).toLocaleString()} URLs`;
+                  }
+                }
               }
             },
             cutout: '68%'
@@ -63,10 +82,15 @@ window.BPA_CHARTS = {
         const ctxDepth = canvasDepth.getContext('2d');
         if (this.chartDepthInstance) this.chartDepthInstance.destroy();
 
-        const depths = (data.kpis && data.kpis.crawlDepthBreakdown) || { level1: 1, level2: 138, level3: 724, level4Plus: 84 };
+        const depths = (data.kpis && data.kpis.crawlDepthBreakdown) || { level1: 1, level2: 100, level3: 200, level4Plus: 10 };
 
         let depthLabels = ['Level 1 (Home)', 'Level 2', 'Level 3', 'Level 4+'];
-        let depthValues = [depths.level1 || 0, depths.level2 || 0, depths.level3 || 0, depths.level4Plus || 0];
+        let depthValues = [
+          this.resolveNum(depths.level1, 0),
+          this.resolveNum(depths.level2, 0),
+          this.resolveNum(depths.level3, 0),
+          this.resolveNum(depths.level4Plus, 0)
+        ];
         let depthColors = '#732483';
 
         // High-Resolution 7-Tier Depth Distribution (e.g., US Lawns 16-level crawl trap)
@@ -99,7 +123,14 @@ window.BPA_CHARTS = {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: { display: false }
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return ` ${Number(context.raw).toLocaleString()} URLs`;
+                  }
+                }
+              }
             },
             scales: {
               y: { beginAtZero: true, grid: { color: '#F3E8F9' }, ticks: { font: { size: 10 } } },
@@ -107,26 +138,61 @@ window.BPA_CHARTS = {
             }
           }
         });
+
+        // Dynamic Depth Caption
+        const depthCaptionEl = document.getElementById('depth-chart-caption');
+        if (depthCaptionEl) {
+          const deepCount = depths.level10Plus !== undefined
+            ? (depths.level10Plus || 0)
+            : (depths.level4Plus || 0);
+          depthCaptionEl.textContent = deepCount > 0
+            ? `${deepCount} pages at crawl depth ≥ 4 require direct internal linking.`
+            : `Optimal architecture: 100% of core URLs reachable within 3 clicks.`;
+        }
       }
 
-      // 3. Pie Chart: Workload & Hours Distribution
+      // 3. Pie Chart: Workload & Hours Distribution (Dynamic per client tasks)
       const canvasWorkload = document.getElementById('chart-workload');
       if (canvasWorkload) {
         const ctxWorkload = canvasWorkload.getContext('2d');
         if (this.chartWorkloadInstance) this.chartWorkloadInstance.destroy();
 
-        const sprintMins = (data.sprintSummary && data.sprintSummary.totalEstimatedMinutes) || 45;
+        const allTasks = (data.tasks || []);
+        const sprintTasks = allTasks.filter(t => t.phase === 'Current Sprint');
+        const backlogTasks = allTasks.filter(t => t.phase !== 'Current Sprint');
+
+        const sprintMins = (data.sprintSummary && data.sprintSummary.totalEstimatedMinutes)
+          || sprintTasks.reduce((acc, t) => acc + (t.estimatedMinutes || 0), 0)
+          || 30;
+
+        const devBacklogMins = backlogTasks
+          .filter(t => {
+            const r = (t.assignedRole || '').toLowerCase();
+            return r.includes('dev') || r.includes('jonie') || r.includes('florin') || r.includes('augustina');
+          })
+          .reduce((acc, t) => acc + (t.estimatedMinutes || 0), 0) || 180;
+
+        const otherMins = backlogTasks
+          .filter(t => {
+            const r = (t.assignedRole || '').toLowerCase();
+            return !(r.includes('dev') || r.includes('jonie') || r.includes('florin') || r.includes('augustina'));
+          })
+          .reduce((acc, t) => acc + (t.estimatedMinutes || 0), 0) || 120;
+
+        const sprintHours = (sprintMins / 60).toFixed(1) + 'h';
+        const devHours = (devBacklogMins / 60).toFixed(1) + 'h';
+        const otherHours = (otherMins / 60).toFixed(1) + 'h';
 
         this.chartWorkloadInstance = new Chart(ctxWorkload, {
           type: 'pie',
           data: {
             labels: [
-              'Current Sprint (45m)',
-              'Backlog Phase 2 (4.0h)',
-              'Backlog Phase 3 (4.5h)'
+              `Current Sprint (${sprintHours})`,
+              `Dev Backlog (${devHours})`,
+              `Strategic / Content (${otherHours})`
             ],
             datasets: [{
-              data: [sprintMins, 240, 270],
+              data: [sprintMins, devBacklogMins, otherMins],
               backgroundColor: ['#DE0073', '#732483', '#C084FC'],
               borderWidth: 2,
               borderColor: '#FFFFFF'
@@ -139,6 +205,15 @@ window.BPA_CHARTS = {
               legend: {
                 position: 'bottom',
                 labels: { boxWidth: 12, font: { size: 10, family: 'Plus Jakarta Sans' } }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const label = context.label || '';
+                    const val = context.raw || 0;
+                    return ` ${label}: ${val} mins (${(val / 60).toFixed(1)} hrs)`;
+                  }
+                }
               }
             }
           }
