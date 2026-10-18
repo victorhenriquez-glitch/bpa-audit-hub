@@ -1,0 +1,13 @@
+modules = ["nodejs-20"]
+run = "node server/index.js"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["node", "server/index.js"]
+deploymentTarget = "autoscale"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
