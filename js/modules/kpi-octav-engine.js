@@ -18,14 +18,36 @@
       return;
     }
 
-    const reports = client.monthlyKpiReports || [];
-    const report = reports.length > 0 ? reports[0] : getDefaultReportForClient(client);
+    const reports = Array.isArray(client.monthlyKpiReports) ? client.monthlyKpiReports : [];
+    if (reports.length === 0) {
+      container.innerHTML = `
+        <div class="bg-white rounded-3xl p-10 text-center border border-purple-100 shadow-xs space-y-3">
+          <div class="w-12 h-12 rounded-2xl bg-pink-50 text-bpa-magenta flex items-center justify-center mx-auto">
+            <i data-lucide="line-chart" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-base font-bold text-bpa-violet">No Monthly KPIs or Looker Studio Report Uploaded Yet</h3>
+          <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
+            Per BPA Rule #27 (Zero-Fabrication Policy), synthetic KPI numbers are never displayed. Upload verified Google Search Console, GA4, and Looker Studio data for <strong>${w.sanitize(client.clientName)}</strong> to enable this view.
+          </p>
+          <div class="pt-2">
+            <button onclick="openIngestStudio('kpis')" class="px-4 py-2 rounded-xl text-xs font-bold text-white gradient-magenta hover:opacity-95 shadow-xs inline-flex items-center gap-1.5">
+              <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+              <span>Upload Verified Monthly KPIs</span>
+            </button>
+          </div>
+        </div>
+      `;
+      if (w.lucide && typeof w.lucide.createIcons === 'function') w.lucide.createIcons();
+      return;
+    }
+
+    const report = reports[0];
 
     const gsc = report.gsc || { clicks: 0, impressions: 0, ctr: 0, position: 0 };
-    const sem = report.semrush || { backlinks: 0, refDomains: 0, aiVisibilityScore: 75 };
+    const sem = report.semrush || { backlinks: 0, refDomains: 0, aiVisibilityScore: 0 };
     const ga4 = report.ga4 || { activeUsers: 0, keyEvents: 0 };
     const health = (client.kpis && client.kpis.healthScores) ? client.kpis.healthScores : { calibratedTrueHealth: 92, rawSemrushScore: 78 };
-    const lookerUrl = report.lookerStudioUrl || client.lookerStudioUrl || 'https://lookerstudio.google.com/embed/reporting/e515ba10-c47e-4b23-904d-9a858f02ca0d/page/1M';
+    const lookerUrl = report.lookerStudioUrl || client.lookerStudioUrl || '';
     const sanitizedEmbed = (w.sanitizeEmbedUrl && typeof w.sanitizeEmbedUrl === 'function') ? w.sanitizeEmbedUrl(lookerUrl) : lookerUrl;
 
     const authors = report.authors || ['Octav Fedor', 'Víctor Henríquez'];

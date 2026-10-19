@@ -1070,8 +1070,8 @@ window.BPA_DATA = {
         "clientName": "IMAGE Studios",
         "clientSlug": "image-studios",
         "domain": "imagestudios.co",
-        "workbookUrl": "https://docs.google.com/spreadsheets/d/1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ/edit?usp=sharing",
-        "gdocUrl": "https://docs.google.com/document/d/1XOTrGmBVm1pboFRl5VvZfGzqQzYhljUpTlQBEP1ikik/edit?tab=t.w28ix0cqml65",
+        "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+        "gdocUrl": "https://docs.google.com/document/d/1_IumZ4vcxTsEaE98rOXflP2eCACOhcsxzFmOVKtwdWI/edit?tab=t.0",
         "industry": "Luxury Salon Suite Rental Franchise Network (150+ US Locations & 3,000+ Pros)",
         "industry_en": "Luxury Salon Suite Rental Franchise Network (150+ US Locations & 3,000+ Pros)",
         "auditDate": "October 2026",
@@ -1113,7 +1113,7 @@ window.BPA_DATA = {
             "billable": true,
             "approvalStatus": "Aligned with Ruben Garcia (AM) & Florin Chiriac (Dev)",
             "approvalStatus_en": "Aligned with Ruben Garcia (AM) & Florin Chiriac (Dev)",
-            "budgetImpact": "October Retainer Budget: 15.0 Hours (10.0h Base + 5.0h Carry-Over). 26 Roadmap items resolved in Month 1 (10 closed via live QA + 12 resolved via 5 surgical PHP template Dev tickets + 4 GA4/Reporting tasks), leaving 3.5 hrs buffer."
+            "budgetImpact": "October Retainer Budget: 15.0 Hours (10.0h Base + 5.0h Carry-Over). 26 Roadmap items resolved in Month 1: 10 closed via live QA (0 dev hours) + 12 resolved via 5 surgical PHP template tickets (Florin) + 4 GA4/Reporting tasks, leaving 3.5 hrs strategic buffer."
         },
         "tasks": [
             {
@@ -1121,114 +1121,125 @@ window.BPA_DATA = {
                 "phase": "Current Sprint",
                 "sprintOrder": 1,
                 "title": "GA4 Conversion Event Cleanup, Direct/Unassigned Attribution & AI Regex Filter (NEW-03, NEW-04, NEW-08)",
+                "title_en": "GA4 Conversion Event Cleanup, Direct/Unassigned Attribution & AI Regex Filter (NEW-03, NEW-04, NEW-08)",
                 "category": "Analytics & Attribution (GA4)",
                 "priority": "High",
                 "status": "Ready for Execution",
                 "assignedRole": "Víctor Henríquez",
                 "estimatedMinutes": 90,
                 "billable": true,
-                "rootCause": "Post-migration GA4 tracking includes false-positive conversion firing on directory pro search submissions, unassigned/direct traffic attribution gaps, and a malformed regex in the AI traffic exploration filter.",
-                "businessImpact": "Ensures accurate lead conversion reporting for salon suite rental inquiries and cleanly segments AI search referral traffic in monthly client reports.",
+                "clickupUrl": "https://app.clickup.com/t/868mdar3n",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "rootCause": "🎯 Consolidation Impact: Resolves 3 ClickUp Subtasks (NEW-03, NEW-04 & NEW-08). Directory zip searches (?zipSearch=...) currently trigger lead conversion events, skewing salon suite inquiry data. In addition, AI search traffic lacks a dedicated channel group, and cross-domain tracking has gaps causing direct/unassigned attribution.",
+                "businessImpact": "Gives Ruben Garcia accurate salon suite lead conversion figures for client reporting and introduces clean segmentation for incoming AI traffic (ChatGPT, Perplexity, Claude, Gemini).",
                 "sampleUrls": [
                     "https://imagestudios.co/open-your-salon/",
                     "https://imagestudios.co/look-for-a-salon-pro/"
                 ],
-                "technicalInstructions": "1. In GA4 Admin -> Events & Key Events: Verify that pro directory search queries (?zipSearch=...) do not trigger primary lead conversion events.\n2. Audit GTM-P2WKVLD cross-domain and referral exclusion settings to reduce Unassigned/Direct session bucketing.\n3. Update GA4 AI Traffic channel regex filter to match chatgpt\\.com|perplexity\\.ai|claude\\.ai|gemini\\.google\\.com|copilot\\.microsoft\\.com.",
+                "technicalInstructions": "1. In GA4 Admin -> Events & Key Events: Ensure pro directory search queries do not fire primary lead conversion events.\n2. In GTM-P2WKVLD: Audit cross-domain and referral exclusions to minimize Unassigned sessions.\n3. Add AI Traffic Channel Group with regex: chatgpt\\.com|perplexity\\.ai|claude\\.ai|gemini\\.google\\.com|copilot\\.microsoft\\.com.",
                 "acceptanceCriteria": [
-                    "Directory zip-code searches no longer inflate lead conversion counts.",
-                    "AI referral traffic regex validates cleanly in GA4 Explorations."
+                    "Directory zip-code searches no longer inflate lead conversion metrics.",
+                    "AI referral traffic channel validates cleanly in GA4 Explorations."
                 ],
-                "verificationMethod": "Verify in GA4 DebugView and Realtime conversion stream",
-                "workbookUrl": "https://docs.google.com/spreadsheets/d/1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ/edit?usp=sharing"
+                "verificationMethod": "Verify live in GA4 DebugView and Realtime conversion stream"
             },
             {
                 "id": "IMG-SPRINT-02",
                 "phase": "Current Sprint",
                 "sprintOrder": 2,
                 "title": "Commercial Hub Title/Meta CTR Optimization & Desktop vs. Mobile CTR Audit (Item 13.0, NEW-05, NEW-12)",
+                "title_en": "Commercial Hub Title/Meta CTR Optimization & Desktop vs. Mobile CTR Audit (Item 13.0, NEW-05, NEW-12)",
                 "category": "On-Page SEO & SERP CTR",
                 "priority": "High",
                 "status": "Ready for Execution",
                 "assignedRole": "Víctor Henríquez",
                 "estimatedMinutes": 60,
                 "billable": true,
-                "rootCause": "Key commercial pages (/open-your-salon/, /studio-tour/, /locations/, /look-for-a-salon-pro/) require post-migration CTR benchmarking in Google Search Console to maximize renter-intent click capture.",
-                "businessImpact": "Increases organic click-through rate on high-intent commercial queries ('salon suites for rent', 'rent a salon suite') across mobile and desktop SERPs.",
+                "clickupUrl": "https://app.clickup.com/t/868mdar3r",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "rootCause": "🎯 Consolidation Impact: Resolves 3 ClickUp Subtasks (Item 13.0, NEW-05 & NEW-12). High-intent commercial pages (/open-your-salon/, /locations/, /studio-tour/, /look-for-a-salon-pro/) need CTR benchmarking by device in Google Search Console to capture maximum renter inquiries.",
+                "businessImpact": "Increases organic click-through rate for high-value queries ('salon suites for rent', 'rent a salon suite') across mobile and desktop search results.",
                 "sampleUrls": [
                     "https://imagestudios.co/open-your-salon/",
                     "https://imagestudios.co/studio-tour/",
                     "https://imagestudios.co/locations/",
                     "https://imagestudios.co/look-for-a-salon-pro/"
                 ],
-                "technicalInstructions": "1. Export 90-day GSC Desktop vs. Mobile query CTR performance for /open-your-salon/, /locations/, /studio-tour/, and /look-for-a-salon-pro/.\n2. Refine Yoast SEO Title and Meta Description copy on any commercial hub exhibiting below-benchmark mobile CTR while preserving renter-intent positioning.",
+                "technicalInstructions": "1. Export 90-day GSC Desktop vs. Mobile CTR breakdown for commercial hub queries.\n2. Benchmark mobile vs. desktop click-through behavior.\n3. Refine Yoast SEO titles (<60 chars) and meta descriptions (<155 chars) where mobile CTR lags behind desktop.",
                 "acceptanceCriteria": [
-                    "All 4 commercial hubs have verified pixel-safe Title (<60 chars) and Meta Description (<155 chars) tags.",
+                    "All 4 commercial hubs have verified pixel-safe titles and meta descriptions.",
                     "Desktop vs. Mobile CTR findings documented for October reporting."
                 ],
-                "verificationMethod": "curl -s https://imagestudios.co/open-your-salon/ | grep -iE '<title|meta name=\"description\"'",
-                "workbookUrl": "https://docs.google.com/spreadsheets/d/1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ/edit?usp=sharing"
+                "verificationMethod": "curl -s https://imagestudios.co/open-your-salon/ | grep -iE '<title|meta name=\"description\"'"
             },
             {
                 "id": "IMG-SPRINT-03",
                 "phase": "Current Sprint",
                 "sprintOrder": 3,
                 "title": "Compile Validated October Raw Report (Proof of Work + Proof of Value YoY) for Ruben's Client Deck",
+                "title_en": "Compile Validated October Raw Report (Proof of Work + Proof of Value YoY) for Ruben's Client Deck",
                 "category": "Executive Monthly Reporting",
                 "priority": "High",
                 "status": "Ready for Execution",
                 "assignedRole": "Víctor Henríquez",
                 "estimatedMinutes": 90,
                 "billable": true,
-                "rootCause": "Per BPA Monthly Reporting Lifecycle (Rule 18), Technical SEO compiles the validated raw metrics (GSC, GA4, Semrush, GBP) and QA summary so Account Manager Ruben Garcia can build the executive visual slide deck for the stakeholder meeting.",
-                "businessImpact": "Provides Ruben Garcia with undeniable Proof of Work (26 roadmap items resolved/closed) and Proof of Value (post-migration organic growth metrics) for client retention.",
+                "clickupUrl": "https://app.clickup.com/t/868mdar3d",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "rootCause": "🎯 BPA Lifecycle Standard (Rule 18): Technical SEO delivers validated raw data (GSC, GA4, Semrush, GBP) and technical proof so Account Manager Ruben Garcia can create an executive client slide deck with complete confidence.",
+                "businessImpact": "Arms Ruben Garcia with undeniable Proof of Work (26 roadmap tasks resolved/closed in Month 1) and Proof of Value (YoY organic growth) to secure long-term client retention.",
                 "sampleUrls": [
                     "https://imagestudios.co/"
                 ],
-                "technicalInstructions": "1. Consolidate October QA closure log (10 items verified live) + 5 Dev Ticket specs.\n2. Extract YoY & MoM Google Search Console Clicks, Impressions, CTR, and Average Position + GA4 Organic Sessions & Key Events.\n3. Deliver structured Raw Report to Ruben Garcia and execute bidirectional QA on the draft client slides.",
+                "technicalInstructions": "1. Consolidate October QA closure log (10 items verified live) + 5 Dev Ticket specs.\n2. Extract YoY & MoM Google Search Console Clicks, Impressions, CTR, and Average Position + GA4 Organic Sessions & Key Events.\n3. Deliver structured Raw Report to Ruben Garcia and execute bidirectional QA on draft presentation slides.",
                 "acceptanceCriteria": [
                     "Raw Report delivered to Ruben Garcia ahead of client stakeholder presentation.",
                     "Draft presentation slides QA-verified for 100% technical accuracy."
                 ],
-                "verificationMethod": "Bidirectional review with Account Manager Ruben Garcia",
-                "workbookUrl": "https://docs.google.com/spreadsheets/d/1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ/edit?usp=sharing"
+                "verificationMethod": "Bidirectional review with Account Manager Ruben Garcia"
             },
             {
                 "id": "IMG-DEV-01",
                 "phase": "Phase 2 (Dev Backlog)",
                 "sprintOrder": 4,
                 "title": "Replace Corrupted /llms.txt Static File in Web Root (NEW-01 / Item 4.0)",
+                "title_en": "Replace Corrupted /llms.txt Static File in Web Root (NEW-01 / Item 4.0)",
                 "category": "AI Search & Technical Files",
                 "priority": "High",
                 "status": "Ready for Dev Execution",
                 "assignedRole": "Dev Team",
                 "estimatedMinutes": 15,
                 "billable": true,
-                "rootCause": "1. SYMPTOM & LIVE EVIDENCE: https://imagestudios.co/llms.txt outputs malformed URLs with stripped colons and slashes ('site_url httpsimagestudios360.com', '- httpsimagestudios360.comopen-your-salon') and references the 404 path /suite-rentals.\n2. ROOT CAUSE: A plain-text regex filter stripped '://' punctuation during initial file creation and left legacy pre-migration imagestudios360.com references.",
-                "businessImpact": "Restores valid AI crawler discovery directives (ChatGPT, Perplexity, Google AI Overviews) pointing to canonical https://imagestudios.co/ commercial hubs.",
+                "clickupUrl": "https://app.clickup.com/t/868mdar3k",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "rootCause": "🎯 Dev Ticket Standard: 1. SYMPTOM: https://imagestudios.co/llms.txt outputs malformed URLs with stripped colons/slashes ('httpsimagestudios360.com') and references the 404 path /suite-rentals. 2. ROOT CAUSE: Regex stripped punctuation during file creation. 3. ARCHITECTURE: Static text file in WordPress web root.",
+                "businessImpact": "Restores clean AI crawler discovery directives (ChatGPT, Perplexity, Google AI Overviews) pointing to canonical https://imagestudios.co/ commercial hubs.",
                 "sampleUrls": [
                     "https://imagestudios.co/llms.txt"
                 ],
                 "technicalInstructions": "Replace /llms.txt in the WordPress public root directory with the validated file:\n\n# IMAGE Studios LLMs.txt\nsite_name: IMAGE Studios\nsite_url: https://imagestudios.co/\nsite_type: Salon Suite Rental Franchise Network\n\npreferred_content:\n  - https://imagestudios.co/\n  - https://imagestudios.co/open-your-salon/\n  - https://imagestudios.co/locations/\n  - https://imagestudios.co/studio-tour/\n  - https://imagestudios.co/blog/\n  - https://imagestudios.co/look-for-a-salon-pro/",
                 "acceptanceCriteria": [
                     "https://imagestudios.co/llms.txt returns HTTP 200 OK with properly formatted https://imagestudios.co/ URLs.",
-                    "Zero references to imagestudios360.com or /suite-rentals remain in the file."
+                    "Zero references to imagestudios360.com or /suite-rentals remain."
                 ],
-                "verificationMethod": "curl -s https://imagestudios.co/llms.txt",
-                "workbookUrl": "https://docs.google.com/spreadsheets/d/1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ/edit?usp=sharing"
+                "verificationMethod": "curl -s https://imagestudios.co/llms.txt"
             },
             {
                 "id": "IMG-DEV-02",
                 "phase": "Phase 2 (Dev Backlog)",
                 "sprintOrder": 5,
                 "title": "Remove Self-Referencing Domain from Organization Schema sameAs Array (Item 3.0 & NEW-02)",
+                "title_en": "Remove Self-Referencing Domain from Organization Schema sameAs Array (Item 3.0 & NEW-02)",
                 "category": "Structured Data (Schema.org)",
                 "priority": "Medium",
                 "status": "Ready for Dev Execution",
                 "assignedRole": "Dev Team",
                 "estimatedMinutes": 15,
                 "billable": true,
-                "rootCause": "1. SYMPTOM & LIVE EVIDENCE: On https://imagestudios.co/ (and sitewide header), the Organization JSON-LD block (@id: https://imagestudios.co/#organization) includes 'https://imagestudios.co/' as the 7th element inside its own sameAs array.\n2. ROOT CAUSE: Root domain URL was appended to the social profile array in the theme schema helper.",
-                "businessImpact": "Eliminates self-referential entity loop in Knowledge Graph signals while retaining all 6 verified external social and GBP authority profiles.",
+                "clickupUrl": "https://app.clickup.com/t/868mdar3j",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "rootCause": "🎯 Dev Ticket Standard: 1. SYMPTOM: On https://imagestudios.co/, the Organization JSON-LD block includes 'https://imagestudios.co/' as the 7th element inside its own sameAs array. 2. ROOT CAUSE: Root domain URL was appended to the social profile array. 3. ARCHITECTURE: Schema generator in theme helper functions.",
+                "businessImpact": "Eliminates self-referential entity loops in Knowledge Graph signals while preserving all 6 verified external social and GBP authority profiles.",
                 "sampleUrls": [
                     "https://imagestudios.co/"
                 ],
@@ -1237,22 +1248,24 @@ window.BPA_DATA = {
                     "Organization JSON-LD sameAs array contains only the 6 external profile URLs.",
                     "Schema validates with 0 warnings in validator.schema.org."
                 ],
-                "verificationMethod": "curl -s https://imagestudios.co/ | grep -A 10 '\"sameAs\"'",
-                "workbookUrl": "https://docs.google.com/spreadsheets/d/1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ/edit?usp=sharing"
+                "verificationMethod": "curl -s https://imagestudios.co/ | grep -A 10 '\"sameAs\"'"
             },
             {
                 "id": "IMG-DEV-03",
                 "phase": "Phase 2 (Dev Backlog)",
                 "sprintOrder": 6,
                 "title": "301 Redirect /suite-rentals/ to /open-your-salon/ + Fix 3,216 Missing Trailing-Slash Template Links (NEW-10, Item 36.0, NEW-06)",
+                "title_en": "301 Redirect /suite-rentals/ to /open-your-salon/ + Fix 3,216 Missing Trailing-Slash Template Links (NEW-10, Item 36.0, NEW-06)",
                 "category": "Crawl Budget & Redirect Hops",
                 "priority": "Critical",
                 "status": "Ready for Dev Execution",
                 "assignedRole": "Dev Team",
                 "estimatedMinutes": 45,
                 "billable": true,
-                "rootCause": "1. SYMPTOM & LIVE EVIDENCE: (A) https://imagestudios.co/suite-rentals/ returns HTTP 404 Not Found in production. (B) Screaming Frog flagged 3,216 internal 301 redirects (45.51% of crawled URLs): 2,862 are /pros/[slug] links and 354 are /bios/[slug] and location links missing a trailing slash (/).\n2. ROOT CAUSE: Legacy /suite-rentals/ URL lacks a 301 rule after consolidation into /open-your-salon/, and PHP templates output anchor hrefs without trailingslashit().",
-                "businessImpact": "Recovers link equity on the legacy /suite-rentals/ commercial URL and eliminates 3,216 unnecessary internal 301 redirect hops in a single template update.",
+                "clickupUrl": "https://app.clickup.com/t/868mdar41",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "rootCause": "🎯 Dev Ticket Standard: 1. SYMPTOM: (A) https://imagestudios.co/suite-rentals/ returns 404. (B) Screaming Frog flagged 3,216 internal 301 redirects (45.5% of site): 2,862 /pros/ links and 354 /bios/ links missing trailing slashes. 2. ROOT CAUSE: Missing server rewrite and template link helpers omit trailingslashit(). 3. ARCHITECTURE: Nginx rewrite + CPT single templates.",
+                "businessImpact": "Recovers organic equity on the legacy commercial URL /suite-rentals/ and eliminates 3,216 internal 301 redirect hops in one quick template deployment.",
                 "sampleUrls": [
                     "https://imagestudios.co/suite-rentals/",
                     "https://imagestudios.co/pros/lauryn-howland",
@@ -1264,46 +1277,50 @@ window.BPA_DATA = {
                     "https://imagestudios.co/suite-rentals/ returns HTTP 301 -> https://imagestudios.co/open-your-salon/ (200 OK).",
                     "All /pros/, /bios/, and location links in DOM include a trailing slash (/)."
                 ],
-                "verificationMethod": "curl -ILs https://imagestudios.co/suite-rentals/ | head -n 15",
-                "workbookUrl": "https://docs.google.com/spreadsheets/d/1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ/edit?usp=sharing"
+                "verificationMethod": "curl -ILs https://imagestudios.co/suite-rentals/ | head -n 15"
             },
             {
                 "id": "IMG-DEV-04",
                 "phase": "Phase 2 (Dev Backlog)",
                 "sprintOrder": 7,
                 "title": "Semantic Heading Hierarchy Upgrade (H4 to H2) on /pros/ and /locations/ Templates (Item 17.0)",
+                "title_en": "Semantic Heading Hierarchy Upgrade (H4 to H2) on /pros/ and /locations/ Templates (Item 17.0)",
                 "category": "Heading Hierarchy & On-Page SEO",
                 "priority": "High",
                 "status": "Ready for Dev Execution",
                 "assignedRole": "Dev Team",
                 "estimatedMinutes": 45,
                 "billable": true,
-                "rootCause": "1. SYMPTOM & LIVE EVIDENCE: On /pros/* (e.g. /pros/kiran-y-gurung/), primary section headings 'Services' and 'Availability' are wrapped in <h4> tags (skipping H3). On /locations/, the page has 0 <h2> tags and wraps all 30+ US State headings ('Alabama', 'Arizona'...) in <h4> tags directly under <h1>.\n2. ROOT CAUSE: Templates single-pros.php and page-locations.php used <h4> for visual sizing instead of semantic <h2> tags with CSS classes.",
-                "businessImpact": "Restores strict H1 -> H2 semantic document outline across 2,862 Salon Pro pages and the core /locations/ directory hub.",
+                "clickupUrl": "https://app.clickup.com/t/868mdar3m",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "rootCause": "🎯 Dev Ticket Standard: 1. SYMPTOM: On /pros/* (2,862 pages), 'Services' and 'Availability' use <h4> skipping H2/H3. On /locations/, the page has 0 <h2> tags and wraps 30+ US States in <h4> directly under <h1>. 2. ROOT CAUSE: Templates used <h4> for visual font size rather than semantic structure. 3. ARCHITECTURE: CPT templates in child theme.",
+                "businessImpact": "Restores strict H1 -> H2 semantic document outline across 2,862 Salon Pro pages and the core /locations/ directory hub with zero visual style breakage.",
                 "sampleUrls": [
                     "https://imagestudios.co/pros/kiran-y-gurung/",
                     "https://imagestudios.co/locations/"
                 ],
-                "technicalInstructions": "1. In single-pros.php (per Thursday engineering sync): Change <h4>Services</h4> and <h4>Availability</h4> to <h2 class=\"pro-section-heading\">Services</h2> and <h2 class=\"pro-section-heading\">Availability</h2>.\n2. In page-locations.php: Change state group headings from <h4><?php echo esc_html($state); ?></h4> to <h2 class=\"state-heading\"><?php echo esc_html($state); ?></h2> while retaining existing CSS font-size classes.",
+                "technicalInstructions": "1. In single-pros.php: Change <h4>Services</h4> and <h4>Availability</h4> to <h2 class=\"pro-section-heading\">Services</h2> and <h2 class=\"pro-section-heading\">Availability</h2>.\n2. In page-locations.php: Change state group headings from <h4><?php echo esc_html($state); ?></h4> to <h2 class=\"state-heading\"><?php echo esc_html($state); ?></h2> while preserving CSS classes.",
                 "acceptanceCriteria": [
                     "Services and Availability render as <h2> across all /pros/* pages.",
                     "US State headings render as <h2> on /locations/."
                 ],
-                "verificationMethod": "curl -s https://imagestudios.co/pros/kiran-y-gurung/ | grep -iE '<h[1-4]'",
-                "workbookUrl": "https://docs.google.com/spreadsheets/d/1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ/edit?usp=sharing"
+                "verificationMethod": "curl -s https://imagestudios.co/pros/kiran-y-gurung/ | grep -iE '<h[1-4]'"
             },
             {
                 "id": "IMG-DEV-05",
                 "phase": "Phase 2 (Dev Backlog)",
                 "sprintOrder": 8,
                 "title": "Dynamic Yoast Filters for /pros/ & Multi-Studio City Titles, Fallback Meta Descriptions & Image Attributes (Items 15, 18, 23, 27, NEW-11)",
+                "title_en": "Dynamic Yoast Filters for /pros/ & Multi-Studio City Titles, Fallback Meta Descriptions & Image Attributes (Items 15, 18, 23, 27, NEW-11)",
                 "category": "Dynamic Templates & Metadata",
                 "priority": "High",
                 "status": "Ready for Dev Execution",
                 "assignedRole": "Dev Team",
                 "estimatedMinutes": 60,
                 "billable": true,
-                "rootCause": "1. SYMPTOM & LIVE EVIDENCE: 239 duplicate <title> tags and 862 short <title> tags (<30 chars) across /pros/* (e.g. 'Hello Sugar | IMAGE Studios' 5x, 'Suite 109 | IMAGE Studios' 4x) and multi-studio cities ('Salon Suites for Rent in San Antonio, TX' 3x on /stone-oak-tx/, Dallas 3x, Austin 3x), plus 905 missing meta descriptions on /pros/* and 165 images missing width/height.\n2. ROOT CAUSE: Templates lack disambiguating variables ($pro_name + $city_state on /pros/, $branch_name on multi-studio locations) and fallback meta description logic.",
+                "clickupUrl": "https://app.clickup.com/t/868mdar43",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "rootCause": "🎯 Dev Ticket Standard: 1. SYMPTOM: 239 duplicate <title> tags and 862 short titles across /pros/* and multi-studio cities (San Antonio 3x, Dallas 3x, Austin 3x), plus 905 missing meta descriptions on /pros/* and 165 images missing dimensions. 2. ROOT CAUSE: Templates lack disambiguating variables and fallback meta description logic. 3. ARCHITECTURE: Yoast SEO filters in functions.php.",
                 "businessImpact": "Eliminates 239 duplicate titles, 862 short titles, and 905 missing meta descriptions in a single functions.php deployment.",
                 "sampleUrls": [
                     "https://imagestudios.co/pros/hello-sugar-4/",
@@ -1316,21 +1333,23 @@ window.BPA_DATA = {
                     "0 duplicate titles across /pros/* and multi-studio cities (San Antonio, Dallas, Austin).",
                     "0 empty meta descriptions across all 2,862 /pros/* profiles."
                 ],
-                "verificationMethod": "curl -s https://imagestudios.co/pros/kaitlin-kirsner/ | grep -i 'meta name=\"description\"'",
-                "workbookUrl": "https://docs.google.com/spreadsheets/d/1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ/edit?usp=sharing"
+                "verificationMethod": "curl -s https://imagestudios.co/pros/kaitlin-kirsner/ | grep -i 'meta name=\"description\"'"
             },
             {
                 "id": "IMG-CNT-01",
                 "phase": "Phase 2 (Content)",
                 "sprintOrder": 9,
                 "title": "Answer-First Commercial Copy, Salon Suite Cost FAQ Hub & Blog Content Overhaul (Items 29, 30, 31, 32, 33)",
+                "title_en": "Answer-First Commercial Copy, Salon Suite Cost FAQ Hub & Blog Content Overhaul (Items 29, 30, 31, 32, 33)",
                 "category": "Content & AIO Strategy (Months 2–4)",
                 "priority": "Medium",
                 "status": "Scheduled in 4-Month Roadmap",
                 "assignedRole": "Content Team",
                 "estimatedMinutes": 180,
                 "billable": true,
-                "rootCause": "Long-term editorial and AI Overview (AIO) expansion items from the 52-task post-migration roadmap requiring content drafting by Octav/Dana and client approval by IMAGE Studios.",
+                "clickupUrl": "https://app.clickup.com/t/868mdar4a",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "rootCause": "🎯 Roadmap Phasing Principle (Rule 19): Long-term editorial and AI Overview (AIO) expansion items from the 52-task post-migration backlog scheduled across Months 2–4 to protect October retainer hours.",
                 "businessImpact": "Expands non-branded renter-intent topical authority ('salon suite rental cost', 'booth rental vs suite rental') and AI Overview citation footprint across Months 2–4.",
                 "sampleUrls": [
                     "https://imagestudios.co/open-your-salon/",
@@ -1340,43 +1359,65 @@ window.BPA_DATA = {
                 "acceptanceCriteria": [
                     "Editorial drafts approved by IMAGE Studios stakeholders prior to staging publication."
                 ],
-                "verificationMethod": "Editorial QA and Rich Results validation upon publication",
-                "workbookUrl": "https://docs.google.com/spreadsheets/d/1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ/edit?usp=sharing"
+                "verificationMethod": "Editorial QA and Rich Results validation upon publication"
             }
         ],
         "completedTasks": [
             {
                 "id": "IMG-CMP-01",
                 "title": "Post-Migration Canonical Tag Verification Across 319 Dynamic Search Filter URLs (Items 2.0 & 28.0)",
+                "title_en": "Post-Migration Canonical Tag Verification Across 319 Dynamic Search Filter URLs (Items 2.0 & 28.0)",
                 "category": "Canonical & Indexation QA",
                 "completedDate": "October 19, 2026",
                 "verifiedDate": "October 19, 2026",
                 "verifiedBy": "Víctor Henríquez",
                 "investedMinutes": 45,
                 "assignedRole": "Víctor Henríquez",
-                "summary": "Audited all 319 URLs flagged as 'Canonicalised' in Screaming Frog. Confirmed 100% (319/319) are dynamic query parameter filter URLs on /look-for-a-salon-pro/?zipSearch=... that properly output <link rel=\"canonical\" href=\"https://imagestudios.co/look-for-a-salon-pro/\"> strictly inside <head>. Closed Items 2.0 & 28.0 with zero dev hours needed."
+                "clickupUrl": "https://app.clickup.com/t/868mdar49",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "summary": "🎯 QA Resolution: Closed 2 ClickUp Items (Items 2.0 & 28.0) with ZERO Dev Time. Audited all 319 URLs flagged as 'Canonicalised' in Screaming Frog. Confirmed 100% (319/319) are normal salon pro search filter URLs (?zipSearch=...) that properly point <link rel=\"canonical\" href=\"https://imagestudios.co/look-for-a-salon-pro/\"> strictly inside <head>. Verified clean in production DOM.",
+                "sampleUrls": [
+                    "https://imagestudios.co/look-for-a-salon-pro/?zipSearch=78732&services=&locationId=46396",
+                    "https://imagestudios.co/look-for-a-salon-pro/?zipSearch=85374&services=&&locationId=36025"
+                ]
             },
             {
                 "id": "IMG-CMP-02",
                 "title": "Noindex Directive Audit Across All 10 Flagged URLs — Verified Yoast XML Sitemaps (Item 24.0)",
+                "title_en": "Noindex Directive Audit Across All 10 Flagged URLs — Verified Yoast XML Sitemaps (Item 24.0)",
                 "category": "Crawl Directives QA",
                 "completedDate": "October 19, 2026",
                 "verifiedDate": "October 19, 2026",
                 "verifiedBy": "Víctor Henríquez",
                 "investedMinutes": 30,
                 "assignedRole": "Víctor Henríquez",
-                "summary": "Inspected all 10 URLs flagged under 'Directives: Noindex' in Screaming Frog (sitemap_index.xml, page-sitemap.xml, post-sitemap.xml, studio_locations-sitemap.xml, etc.). Confirmed all 10 are Yoast XML sitemaps sending intentional X-Robots-Tag: noindex, follow HTTP headers. Closed Item 24.0 as expected best practice."
+                "clickupUrl": "https://app.clickup.com/t/868mdar44",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "summary": "🎯 QA Resolution: Closed Item 24.0 with ZERO Dev Time. Inspected all 10 URLs flagged under 'Directives: Noindex' in Screaming Frog (sitemap_index.xml, page-sitemap.xml, etc.). Confirmed all 10 are Yoast XML sitemaps sending intentional X-Robots-Tag: noindex, follow HTTP headers. This prevents XML markup from appearing in search results while ensuring crawlers still discover all internal URLs.",
+                "sampleUrls": [
+                    "https://imagestudios.co/sitemap_index.xml",
+                    "https://imagestudios.co/page-sitemap.xml"
+                ]
             },
             {
                 "id": "IMG-CMP-03",
                 "title": "Sitewide Structured Data (Schema.org JSON-LD) Live DOM QA & Preventative VideoObject Save (Items 6, 7, 8, 14, 19, 21, 22)",
+                "title_en": "Sitewide Structured Data (Schema.org JSON-LD) Live DOM QA & Preventative VideoObject Save (Items 6, 7, 8, 14, 19, 21, 22)",
                 "category": "Structured Data QA",
                 "completedDate": "October 19, 2026",
                 "verifiedDate": "October 19, 2026",
                 "verifiedBy": "Víctor Henríquez",
                 "investedMinutes": 75,
                 "assignedRole": "Víctor Henríquez",
-                "summary": "Verified live DOM JSON-LD deployment across all 6 core page templates: ProfessionalService/LocalBusiness on Locations (Item 6.0), Service & FAQPage on /open-your-salon/ (Items 7.0 & 8.0), BreadcrumbList sitewide (Item 14.0), CollectionPage & ItemList on /locations/ (Item 19.0), and ProfilePage & Person on both /pros/* and /bios/* (Item 21.0). Prevented invalid VideoObject injection on /studio-tour/ (Item 22.0) after verifying it embeds a 3D Matterport iframe rather than a video file."
+                "clickupUrl": "https://app.clickup.com/t/868mdar3u",
+                "workbookUrl": "https://docs.google.com/spreadsheets/d/1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc/edit?gid=550147078#gid=550147078",
+                "summary": "🎯 QA Resolution: Closed 7 ClickUp Items (Items 6.0, 7.0, 8.0, 14.0, 19.0, 21.0 & 22.0) with ZERO Dev Time. Verified live DOM JSON-LD deployment across all 6 core page templates (LocalBusiness on Locations, Service & FAQPage on /open-your-salon/, Breadcrumbs sitewide, CollectionPage on /locations/, and ProfilePage & Person on /pros/* and /bios/*). Prevented invalid VideoObject injection on /studio-tour/ after verifying it embeds a 3D Matterport iframe (not a video), saving the client from GSC critical video schema errors.",
+                "sampleUrls": [
+                    "https://imagestudios.co/studio-tour/",
+                    "https://imagestudios.co/open-your-salon/",
+                    "https://imagestudios.co/locations/",
+                    "https://imagestudios.co/pros/kiran-y-gurung/"
+                ]
             }
         ]
     }

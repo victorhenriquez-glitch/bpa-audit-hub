@@ -458,8 +458,8 @@ assert(elementsMap['roadmap-cards-container'].innerHTML.includes('Pacific Lawn S
 // TEST 24: Test IMAGE Studios Ground-Truth, Roles & Modal Execution
 console.log('\n--- Testing renderClient("image-studios") ---');
 const imgStudios = window.BPA_DATA['image-studios'];
-assert(Boolean(imgStudios.workbookUrl && imgStudios.workbookUrl.includes('1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ')), 'IMAGE Studios has verified cloud Google Sheet workbookUrl');
-assert(Boolean(imgStudios.gdocUrl && imgStudios.gdocUrl.includes('1XOTrGmBVm1pboFRl5VvZfGzqQzYhljUpTlQBEP1ikik')), 'IMAGE Studios has verified cloud Google Doc gdocUrl');
+assert(Boolean(imgStudios.workbookUrl && imgStudios.workbookUrl.includes('1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc')), 'IMAGE Studios has verified cloud Google Sheet workbookUrl');
+assert(Boolean(imgStudios.gdocUrl && imgStudios.gdocUrl.includes('1_IumZ4vcxTsEaE98rOXflP2eCACOhcsxzFmOVKtwdWI')), 'IMAGE Studios has verified cloud Google Doc gdocUrl');
 assert(!imgStudios.cmsStack.theme.toLowerCase().includes('divi'), 'IMAGE Studios theme does NOT assume Divi');
 assert(imgStudios.cmsStack.theme.includes('image-studios'), 'IMAGE Studios references real custom theme (image-studios)');
 assert(imgStudios.kpis.totalCrawledUrls === 7066, 'IMAGE Studios totalCrawledUrls is 7066');
@@ -488,7 +488,13 @@ for (const task of imgStudios.tasks) {
     console.error(`Error opening modal for ${task.id}:`, e);
   }
   assert(modalPassed, `Modal opens cleanly for IMAGE Studios task ${task.id}`);
-  assert(Boolean(task.workbookUrl && task.workbookUrl.includes('1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ')), `Task ${task.id} includes cloud Google Sheet workbookUrl link`);
+  assert(Boolean(task.workbookUrl && task.workbookUrl.includes('1HBVuKfPH9s33tiehTDsEdZ-IZvZvJezc')), `Task ${task.id} includes cloud Google Sheet workbookUrl link`);
+  assert(Boolean(task.clickupUrl && task.clickupUrl.includes('app.clickup.com')), `Task ${task.id} includes verified ClickUp subtask link`);
+}
+
+for (const cmp of imgStudios.completedTasks) {
+  assert(Boolean(cmp.clickupUrl && cmp.clickupUrl.includes('app.clickup.com')), `Completed QA task ${cmp.id} includes verified ClickUp subtask link`);
+  assert(Array.isArray(cmp.sampleUrls) && cmp.sampleUrls.length > 0, `Completed QA task ${cmp.id} includes live proof URLs`);
 }
 
 

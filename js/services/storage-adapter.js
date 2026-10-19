@@ -156,6 +156,15 @@
       // Recalculate sprint hours if applicable
       this.recalculateSprint(clientSlug);
 
+      if (this.isBackendAvailable && typeof fetch === 'function') {
+        const apiStatus = (status === 'completed' || status === 'Completed') ? 'completed' : 'active';
+        fetch(`/api/clients/${clientSlug}/tasks/${taskId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: apiStatus, options: meta })
+        }).catch(() => {});
+      }
+
       return true;
     },
 
@@ -186,6 +195,14 @@
       this.localCache[clientSlug] = this.localCache[clientSlug] || {};
       this.localCache[clientSlug].monthlyKpiReports = reports;
       this.saveLocalCache();
+
+      if (this.isBackendAvailable && typeof fetch === 'function') {
+        fetch(`/api/clients/${clientSlug}/kpis`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(report)
+        }).catch(() => {});
+      }
       return true;
     },
 
@@ -200,6 +217,40 @@
       this.localCache[clientSlug].tasks = tasks;
       this.saveLocalCache();
       this.recalculateSprint(clientSlug);
+      return true;
+    },
+
+    updateTaskMinutes: function(clientSlug, taskId, newMinutes, isCompleted) {
+      const client = this.getClient(clientSlug);
+      if (!client) return false;
+      const mins = Math.max(0, Math.round(Number(newMinutes) || 0));
+
+      const tasks = client.tasks.slice();
+      const completedTasks = client.completedTasks.slice();
+
+      if (isCompleted) {
+        const cIdx = completedTasks.findIndex(t => t.id === taskId);
+        if (cIdx === -1) return false;
+        completedTasks[cIdx] = Object.assign({}, completedTasks[cIdx], { investedMinutes: mins });
+      } else {
+        const idx = tasks.findIndex(t => t.id === taskId);
+        if (idx === -1) return false;
+        tasks[idx] = Object.assign({}, tasks[idx], { estimatedMinutes: mins });
+      }
+
+      this.localCache[clientSlug] = this.localCache[clientSlug] || {};
+      this.localCache[clientSlug].tasks = tasks;
+      this.localCache[clientSlug].completedTasks = completedTasks;
+      this.saveLocalCache();
+      this.recalculateSprint(clientSlug);
+
+      if (this.isBackendAvailable && typeof fetch === 'function') {
+        fetch(`/api/clients/${clientSlug}/tasks/${taskId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'update_minutes', options: { minutes: mins, isCompleted: Boolean(isCompleted) } })
+        }).catch(() => {});
+      }
       return true;
     },
 

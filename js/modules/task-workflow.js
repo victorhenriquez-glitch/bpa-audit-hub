@@ -334,6 +334,9 @@
       const mins = task.investedMinutes !== undefined ? task.investedMinutes : 15;
       const role = task.assignedRole || task.verifiedBy || 'Víctor Henríquez';
       const date = task.completedDate || task.verifiedDate || 'October 2026';
+      const proofUrls = task.sampleUrls || [];
+      const clickupUrl = task.clickupUrl || '';
+      const sheetUrl = task.workbookUrl || client.workbookUrl || '';
 
       card.innerHTML = `
         <!-- Timeline Dot -->
@@ -348,32 +351,73 @@
               <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-100 text-emerald-800 border border-emerald-200">
                 VERIFIED & COMPLETED
               </span>
+              ${task.category ? `
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-100">
+                  ${w.sanitize(task.category)}
+                </span>
+              ` : ''}
               <span class="text-xs font-mono font-bold text-slate-400">${w.sanitize(task.id)}</span>
               <span class="text-xs text-slate-500 font-semibold">• ${w.sanitize(date)}</span>
             </div>
 
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-mono font-bold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">
-                ⏱️ ${mins} min
-              </span>
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="promptEditTaskMinutes('${task.id}', true)" class="text-xs font-mono font-bold text-slate-700 bg-slate-50 hover:bg-purple-50 hover:text-bpa-magenta px-2.5 py-1 rounded-lg border border-slate-200 hover:border-purple-200 transition-colors flex items-center gap-1 cursor-pointer" title="Click to adjust logged minutes">
+                <span>⏱️ ${mins} min</span>
+                <i data-lucide="pencil" class="w-3 h-3 text-slate-400"></i>
+              </button>
               <span class="text-xs font-semibold text-purple-900 bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-100">
                 ${w.sanitize(role)}
               </span>
-              ${!w.isClientView ? `
-                <button onclick="reopenTask('${task.id}')" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-200 transition-colors flex items-center gap-1" title="Return task to active sprint">
-                  <i data-lucide="rotate-ccw" class="w-3 h-3 text-purple-600"></i>
-                  <span>Reopen</span>
-                </button>
+              ${clickupUrl ? `
+                <a href="${w.sanitizeUrl ? w.sanitizeUrl(clickupUrl) : w.sanitize(clickupUrl)}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-pink-900 bg-pink-50 hover:bg-pink-100 border border-pink-200 transition-colors flex items-center gap-1" title="Open verified ClickUp subtask">
+                  <i data-lucide="check-square" class="w-3 h-3 text-bpa-magenta"></i>
+                  <span>ClickUp</span>
+                  <i data-lucide="external-link" class="w-3 h-3 text-bpa-magenta"></i>
+                </a>
               ` : ''}
+              ${sheetUrl ? `
+                <a href="${w.sanitizeUrl ? w.sanitizeUrl(sheetUrl) : w.sanitize(sheetUrl)}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors flex items-center gap-1" title="Open in Master Google Sheet">
+                  <i data-lucide="sheet" class="w-3 h-3 text-emerald-600"></i>
+                  <span>Sheet</span>
+                </a>
+              ` : ''}
+              <button onclick="reopenTask('${task.id}')" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-200 transition-colors flex items-center gap-1" title="Return task to active sprint">
+                <i data-lucide="rotate-ccw" class="w-3 h-3 text-purple-600"></i>
+                <span>Reopen</span>
+              </button>
             </div>
           </div>
 
           <div>
             <h3 class="text-base font-bold text-slate-900">${w.sanitize(title)}</h3>
             <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-              <strong>Proof of Work / Impact:</strong> ${w.sanitize(summary)}
+              <strong>What Was Verified & Solved:</strong> ${w.sanitize(summary)}
             </p>
           </div>
+
+          ${proofUrls.length > 0 ? `
+            <div class="bg-emerald-50/40 rounded-xl border border-emerald-100 p-2.5 text-xs space-y-1.5">
+              <div class="font-bold text-emerald-900 flex items-center gap-1.5">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>Verified Live Proof URLs (${proofUrls.length})</span>
+              </div>
+              <div class="grid grid-cols-1 gap-1.5">
+                ${proofUrls.map(u => {
+                  const parsed = (typeof w.parseUrlItem === 'function') ? w.parseUrlItem(u) : { url: String(u) };
+                  const cleanUrl = parsed && parsed.url ? parsed.url : String(u);
+                  return `
+                    <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-lg border border-emerald-100 font-mono text-[11px] hover:border-emerald-300 transition-colors">
+                      <a href="${w.sanitizeUrl ? w.sanitizeUrl(cleanUrl) : w.sanitize(cleanUrl)}" target="_blank" rel="noopener noreferrer" class="text-emerald-800 hover:text-bpa-magenta underline truncate mr-2">${w.sanitize(String(u))}</a>
+                      <a href="${w.sanitizeUrl ? w.sanitizeUrl(cleanUrl) : w.sanitize(cleanUrl)}" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:text-bpa-magenta shrink-0 flex items-center gap-1 text-[10px] font-sans font-semibold">
+                        <span>Open Live Proof</span>
+                        <i data-lucide="external-link" class="w-3 h-3"></i>
+                      </a>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          ` : ''}
         </div>
       `;
 

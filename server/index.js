@@ -162,6 +162,20 @@ app.patch('/api/clients/:slug/tasks/:taskId', (req, res) => {
     client.tasks.unshift(reopenedTask);
     saveDataStore();
     return res.json({ success: true, action: 'reopened', task: reopenedTask });
+  } else if (status === 'update_minutes') {
+    const mins = Math.max(0, Math.round(Number(options && options.minutes) || 0));
+    const isCompleted = Boolean(options && options.isCompleted);
+    if (isCompleted) {
+      const cIdx = client.completedTasks.findIndex(t => t.id === taskId);
+      if (cIdx === -1) return res.status(404).json({ error: `Completed task ${taskId} not found` });
+      client.completedTasks[cIdx].investedMinutes = mins;
+    } else {
+      const idx = client.tasks.findIndex(t => t.id === taskId);
+      if (idx === -1) return res.status(404).json({ error: `Active task ${taskId} not found` });
+      client.tasks[idx].estimatedMinutes = mins;
+    }
+    saveDataStore();
+    return res.json({ success: true, action: 'update_minutes', taskId, minutes: mins });
   }
 
   res.status(400).json({ error: `Unsupported status ${status}` });

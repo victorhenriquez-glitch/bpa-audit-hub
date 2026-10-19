@@ -303,6 +303,34 @@ window.renderClient = function(slug) {
       `).join('');
     }
 
+    // Conditional Workspace Tabs (Rule #27: Hide Monthly KPIs & AI Bridge when client has no verified data)
+    const hasKpis = Array.isArray(data.monthlyKpiReports) && data.monthlyKpiReports.length > 0;
+    const hasAiBridge = Boolean(data.brightAuditsBridge && data.brightAuditsBridge.scores);
+
+    const tabKpis = document.getElementById('tab-btn-kpis');
+    if (tabKpis && tabKpis.classList) {
+      if (hasKpis) {
+        tabKpis.classList.remove('hidden');
+      } else {
+        tabKpis.classList.add('hidden');
+      }
+    }
+
+    const tabAiBridge = document.getElementById('tab-btn-ai-bridge');
+    if (tabAiBridge && tabAiBridge.classList) {
+      if (hasAiBridge) {
+        tabAiBridge.classList.remove('hidden');
+      } else {
+        tabAiBridge.classList.add('hidden');
+      }
+    }
+
+    if ((window.currentWorkspaceTab === 'kpis' && !hasKpis) || (window.currentWorkspaceTab === 'ai-bridge' && !hasAiBridge)) {
+      if (typeof window.switchWorkspaceTab === 'function') {
+        window.switchWorkspaceTab('audit');
+      }
+    }
+
     // Update Visualizations & Task List
     window.renderCharts(data);
     window.updateTaskCounts(data);
@@ -360,7 +388,9 @@ window.renderTasks = function(tasks) {
   if (!container) return;
   container.innerHTML = '';
 
-  const client = window.BPA_DATA ? window.BPA_DATA[window.currentClient] : null;
+  const client = (window.BPA_STORAGE && typeof window.BPA_STORAGE.getClient === 'function')
+    ? window.BPA_STORAGE.getClient(window.currentClient)
+    : (window.BPA_DATA ? window.BPA_DATA[window.currentClient] : null);
   if (!client) return;
 
   // Handle Completed Tab Filter
@@ -379,42 +409,92 @@ window.renderTasks = function(tasks) {
 
     completedTasks.forEach(task => {
       const card = document.createElement('div');
+      card.className = 'bg-white rounded-2xl p-5 border border-emerald-200/80 shadow-xs space-y-3.5 hover:border-emerald-300 transition-all';
       const title = task.title_en || task.title || 'Untitled Completed Task';
       const impact = task.summary || task.impactSummary_en || task.impactSummary || 'Verified completed in maintenance cycle.';
       const invested = task.investedMinutes !== undefined ? task.investedMinutes : 15;
       const role = task.assignedRole || task.verifiedBy || 'Víctor Henríquez';
       const date = task.completedDate || task.verifiedDate || 'October 2026';
+      const proofUrls = task.sampleUrls || [];
+      const clickupUrl = task.clickupUrl || '';
+      const sheetUrl = task.workbookUrl || client.workbookUrl || '';
 
       card.innerHTML = `
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
             <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-100 text-emerald-800 border border-emerald-200">
               COMPLETED
             </span>
+            ${task.category ? `
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-100">
+                ${window.sanitize(task.category)}
+              </span>
+            ` : ''}
             <span class="text-xs font-mono font-bold text-slate-400">${window.sanitize(task.id)}</span>
             <span class="text-xs text-slate-500 font-semibold">• ${window.sanitize(date)}</span>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-mono font-bold text-slate-700 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">
-              ⏱️ ${invested} min
-            </span>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="promptEditTaskMinutes('${task.id}', true)" class="text-xs font-mono font-bold text-slate-700 bg-slate-50 hover:bg-purple-50 hover:text-bpa-magenta px-2.5 py-1 rounded-lg border border-slate-200 hover:border-purple-200 transition-colors flex items-center gap-1 cursor-pointer" title="Click to adjust logged minutes">
+              <span>⏱️ ${invested} min</span>
+              <i data-lucide="pencil" class="w-3 h-3 text-slate-400"></i>
+            </button>
             <span class="text-xs font-semibold text-purple-900 bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-100">
               ${window.sanitize(role)}
             </span>
-            ${!window.isClientView ? `
-              <button onclick="reopenTask('${task.id}')" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-200 transition-colors flex items-center gap-1 shadow-2xs" title="Return task to active sprint">
-                <i data-lucide="rotate-ccw" class="w-3 h-3 text-purple-600"></i>
-                <span>Reopen</span>
-              </button>
+            ${clickupUrl ? `
+              <a href="${window.sanitizeUrl(clickupUrl)}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-pink-900 bg-pink-50 hover:bg-pink-100 border border-pink-200 transition-colors flex items-center gap-1" title="Open verified ClickUp subtask">
+                <i data-lucide="check-square" class="w-3 h-3 text-bpa-magenta"></i>
+                <span>ClickUp</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-bpa-magenta"></i>
+              </a>
             ` : ''}
+            ${sheetUrl ? `
+              <a href="${window.sanitizeUrl(sheetUrl)}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors flex items-center gap-1" title="Open in Master Google Sheet">
+                <i data-lucide="sheet" class="w-3 h-3 text-emerald-600"></i>
+                <span>Sheet</span>
+              </a>
+            ` : ''}
+            <button onclick="reopenTask('${task.id}')" class="px-2.5 py-1 rounded-lg text-xs font-semibold text-slate-600 bg-white hover:bg-purple-50 border border-slate-200 hover:border-purple-200 transition-colors flex items-center gap-1 shadow-2xs" title="Return task to active sprint">
+              <i data-lucide="rotate-ccw" class="w-3 h-3 text-purple-600"></i>
+              <span>Reopen</span>
+            </button>
           </div>
         </div>
         <div>
           <h3 class="text-base font-bold text-slate-800">${window.sanitize(title)}</h3>
           <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-            <strong>Achieved Impact:</strong> ${window.sanitize(impact)}
+            <strong>What Was Verified & Solved:</strong> ${window.sanitize(impact)}
           </p>
         </div>
+        ${proofUrls.length > 0 ? `
+          <div class="bg-emerald-50/40 rounded-xl border border-emerald-100 p-2.5 text-xs">
+            <div class="flex items-center justify-between cursor-pointer" onclick="toggleUrlsDrawer('${task.id}')">
+              <span class="font-bold text-emerald-900 flex items-center gap-1.5">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+                Verified Live Proof URLs (${proofUrls.length})
+              </span>
+              <span class="text-[11px] text-emerald-700 font-semibold hover:underline flex items-center gap-1">
+                <span id="drawer-toggle-text-${task.id}">Show</span>
+                <i data-lucide="chevron-down" id="drawer-icon-${task.id}" class="w-3.5 h-3.5 transition-transform"></i>
+              </span>
+            </div>
+            <div id="urls-drawer-${task.id}" class="hidden pt-2.5 space-y-1.5 border-t border-emerald-100/80 mt-2">
+              ${proofUrls.map(u => {
+                const parsed = window.parseUrlItem(u);
+                const cleanUrl = parsed && parsed.url ? parsed.url : String(u);
+                return `
+                  <div class="flex items-center justify-between bg-white px-3 py-1.5 rounded-lg border border-emerald-100 font-mono text-[11px] hover:border-emerald-300 transition-colors">
+                    <a href="${window.sanitizeUrl(cleanUrl)}" target="_blank" rel="noopener noreferrer" class="text-emerald-800 hover:text-bpa-magenta underline truncate mr-2">${window.sanitize(String(u))}</a>
+                    <a href="${window.sanitizeUrl(cleanUrl)}" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:text-bpa-magenta shrink-0 flex items-center gap-1 text-[10px] font-sans font-semibold">
+                      <span>Open Live Proof</span>
+                      <i data-lucide="external-link" class="w-3 h-3"></i>
+                    </a>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        ` : ''}
       `;
       container.appendChild(card);
     });
@@ -506,10 +586,11 @@ window.renderTasks = function(tasks) {
         </div>
 
         <div class="flex items-center gap-3">
-          <span class="text-xs font-mono font-bold text-slate-700 bg-slate-50 px-2 py-1 rounded-lg border border-slate-100 flex items-center gap-1">
+          <button onclick="promptEditTaskMinutes('${task.id}', false)" class="text-xs font-mono font-bold text-slate-700 bg-slate-50 hover:bg-purple-50 hover:text-bpa-magenta px-2.5 py-1 rounded-lg border border-slate-200 hover:border-purple-200 transition-colors flex items-center gap-1 cursor-pointer" title="Click to adjust estimated minutes">
             <i data-lucide="clock" class="w-3.5 h-3.5 text-bpa-magenta"></i>
-            ${task.estimatedMinutes} min
-          </span>
+            <span>${task.estimatedMinutes} min</span>
+            <i data-lucide="pencil" class="w-3 h-3 text-slate-400"></i>
+          </button>
           <span class="text-xs font-semibold text-purple-900 bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-100 flex items-center gap-1">
             <i data-lucide="user" class="w-3.5 h-3.5 text-purple-600"></i>
             ${window.sanitize(task.assignedRole)}
@@ -593,25 +674,29 @@ window.renderTasks = function(tasks) {
           <strong>Impact:</strong> ${window.sanitize(taskImpact)}
         </div>
 
-        <div class="flex items-center gap-2 shrink-0">
-          ${!window.isClientView ? `
-            <button onclick="promptCompleteTask('${task.id}')" class="px-3 py-1.5 rounded-lg font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-all flex items-center gap-1.5 shadow-2xs" title="Mark this task as completed">
-              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
-              <span>Complete</span>
-            </button>
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          ${task.clickupUrl ? `
+            <a href="${window.sanitizeUrl(task.clickupUrl)}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg font-semibold text-pink-900 bg-pink-50 hover:bg-pink-100 border border-pink-200 transition-colors flex items-center gap-1.5" title="Open verified ClickUp subtask">
+              <i data-lucide="check-square" class="w-3.5 h-3.5 text-bpa-magenta"></i>
+              <span>ClickUp</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-bpa-magenta"></i>
+            </a>
           ` : ''}
+
+          <button onclick="promptCompleteTask('${task.id}')" class="px-3 py-1.5 rounded-lg font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-all flex items-center gap-1.5 shadow-2xs" title="Mark this task as completed">
+            <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span>Complete</span>
+          </button>
 
           <button onclick="openTaskModal('${task.id}')" class="px-3 py-1.5 rounded-lg font-semibold text-bpa-violet bg-bpa-purple-light hover:bg-purple-100 border border-purple-200 transition-colors flex items-center gap-1.5">
             <i data-lucide="eye" class="w-3.5 h-3.5 text-bpa-magenta"></i>
             <span>View Details</span>
           </button>
 
-          ${!window.isClientView ? `
-            <button onclick="copyDevTicket('${task.id}')" class="px-3 py-1.5 rounded-lg font-bold text-white gradient-magenta hover:opacity-90 shadow-xs transition-opacity flex items-center gap-1.5">
-              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-              <span>Copy Ticket</span>
-            </button>
-          ` : ''}
+          <button onclick="copyDevTicket('${task.id}')" class="px-3 py-1.5 rounded-lg font-bold text-white gradient-magenta hover:opacity-90 shadow-xs transition-opacity flex items-center gap-1.5">
+            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+            <span>Copy Ticket</span>
+          </button>
         </div>
       </div>
     `;
@@ -818,6 +903,19 @@ window.openTaskModal = function(taskId) {
       }
     }
 
+    // 12. ClickUp Subtask Link
+    const elModalClickUp = document.getElementById('modal-clickup-link');
+    if (elModalClickUp) {
+      if (task.clickupUrl) {
+        elModalClickUp.href = task.clickupUrl;
+        elModalClickUp.classList.remove('hidden');
+        elModalClickUp.classList.add('inline-flex');
+      } else {
+        elModalClickUp.classList.add('hidden');
+        elModalClickUp.classList.remove('inline-flex');
+      }
+    }
+
     // Show Modal
     if (modal) {
       modal.classList.remove('hidden');
@@ -843,6 +941,40 @@ window.closeModal = function() {
     document.body.classList.remove('overflow-hidden');
   }
   window.currentTask = null;
+};
+
+/**
+ * Allows Account Managers, PMs, and Technical Leads to adjust estimated or logged minutes on any task.
+ */
+window.promptEditTaskMinutes = function(taskId, isCompleted) {
+  const client = (window.BPA_STORAGE && typeof window.BPA_STORAGE.getClient === 'function')
+    ? window.BPA_STORAGE.getClient(window.currentClient)
+    : (window.BPA_DATA ? window.BPA_DATA[window.currentClient] : null);
+  if (!client) return;
+
+  const list = isCompleted ? (client.completedTasks || []) : (client.tasks || []);
+  const task = list.find(t => t.id === taskId);
+  if (!task) return;
+
+  const currentMins = isCompleted ? (task.investedMinutes !== undefined ? task.investedMinutes : 15) : (task.estimatedMinutes || 15);
+  const label = isCompleted ? 'logged' : 'estimated';
+
+  if (typeof window.prompt === 'function') {
+    const input = window.prompt(`Update ${label} time (in minutes) for [${task.id}] ${task.title_en || task.title}:`, String(currentMins));
+    if (input === null) return;
+    const parsed = Math.round(Number(input));
+    if (isNaN(parsed) || parsed < 0) {
+      if (typeof window.showToast === 'function') window.showToast('Please enter a valid number of minutes.');
+      return;
+    }
+    if (window.BPA_STORAGE && typeof window.BPA_STORAGE.updateTaskMinutes === 'function') {
+      window.BPA_STORAGE.updateTaskMinutes(window.currentClient, taskId, parsed, Boolean(isCompleted));
+      window.renderClient(window.currentClient);
+      if (typeof window.showToast === 'function') {
+        window.showToast(`⏱️ Updated ${task.id} to ${parsed} min (${(parsed / 60).toFixed(2).replace(/\.00$/, '')} hrs)`);
+      }
+    }
+  }
 };
 
 // --- 10. CLICKUP & SHARE EXPORTERS ---

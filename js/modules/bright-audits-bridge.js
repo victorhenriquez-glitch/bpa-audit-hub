@@ -18,9 +18,25 @@
       return;
     }
 
-    // Schema compatible with bright-audits.replit.app
-    const bridgeData = client.brightAuditsBridge || getDefaultBridgeData(client);
-    const scores = bridgeData.scores || { seo: 90, headings: 78, code: 75, accessibility: 95, ai: 68 };
+    // Schema compatible with bright-audits.replit.app (Rule #27: Only render when verified bridge data is present)
+    const bridgeData = client.brightAuditsBridge;
+    if (!bridgeData || !bridgeData.scores) {
+      container.innerHTML = `
+        <div class="bg-white rounded-3xl p-10 text-center border border-purple-100 shadow-xs space-y-3">
+          <div class="w-12 h-12 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center mx-auto">
+            <i data-lucide="bot" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-base font-bold text-bpa-violet">No Bright Audits Scan Synced for ${w.sanitize(client.clientName)}</h3>
+          <p class="text-xs text-slate-500 max-w-md mx-auto leading-relaxed">
+            Per BPA Rule #27 (Zero-Fabrication Policy), AI Readiness & Schema Bridge metrics are only shown when a verified Bright Audits scan is linked to this client.
+          </p>
+        </div>
+      `;
+      if (w.lucide && typeof w.lucide.createIcons === 'function') w.lucide.createIcons();
+      return;
+    }
+
+    const scores = bridgeData.scores;
     const aiDetails = bridgeData.aiReadiness || {};
 
     container.innerHTML = `
