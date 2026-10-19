@@ -113,6 +113,7 @@ assert(window.BPA_DATA['oh-deer'] !== undefined, 'oh-deer client data is loaded'
 assert(window.BPA_DATA['us-lawns'] !== undefined, 'us-lawns client data is loaded');
 assert(window.BPA_DATA['owl-be-there'] !== undefined, 'owl-be-there client data is loaded');
 assert(window.BPA_DATA['pacific-lawn-sprinklers'] !== undefined, 'pacific-lawn-sprinklers client data is loaded');
+assert(window.BPA_DATA['image-studios'] !== undefined, 'image-studios client data is loaded');
 
 // TEST 2: Sanitize Utility
 assert(typeof window.sanitize === 'function', 'window.sanitize function is available');
@@ -121,7 +122,7 @@ assert(window.sanitize(null) === '', 'window.sanitize handles null gracefully');
 assert(window.sanitize(undefined) === '', 'window.sanitize handles undefined gracefully');
 
 // TEST 3: Client Schema Validation
-for (const slug of ['oh-deer', 'us-lawns', 'owl-be-there', 'pacific-lawn-sprinklers']) {
+for (const slug of ['oh-deer', 'us-lawns', 'owl-be-there', 'pacific-lawn-sprinklers', 'image-studios']) {
   const c = window.BPA_DATA[slug];
   assert(Boolean(c.clientName), `[${slug}] Has clientName`);
   assert(Boolean(c.domain), `[${slug}] Has domain`);
@@ -395,7 +396,7 @@ try {
 assert(kpisRendered, 'renderMonthlyKpis(ohdeer) executes cleanly');
 assert(elementsMap['monthly-kpis-container'].children.length > 0 || elementsMap['monthly-kpis-container'].innerHTML !== '', 'Monthly KPIs Bento Grid markup created');
 
-for (const slug of ['us-lawns', 'owl-be-there', 'pacific-lawn-sprinklers']) {
+for (const slug of ['us-lawns', 'owl-be-there', 'pacific-lawn-sprinklers', 'image-studios']) {
   let slugKpiPassed = true;
   try {
     window.renderMonthlyKpis(window.BPA_DATA[slug]);
@@ -453,6 +454,42 @@ assert(elementsMap['roadmap-cards-container'].innerHTML.includes('ohDEER'), 'Roa
 
 window.renderClient('pacific-lawn-sprinklers');
 assert(elementsMap['roadmap-cards-container'].innerHTML.includes('Pacific Lawn Sprinklers'), 'Roadmap card dynamically references Pacific Lawn Sprinklers client name');
+
+// TEST 24: Test IMAGE Studios Ground-Truth, Roles & Modal Execution
+console.log('\n--- Testing renderClient("image-studios") ---');
+const imgStudios = window.BPA_DATA['image-studios'];
+assert(Boolean(imgStudios.workbookUrl && imgStudios.workbookUrl.includes('1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ')), 'IMAGE Studios has verified cloud Google Sheet workbookUrl');
+assert(Boolean(imgStudios.gdocUrl && imgStudios.gdocUrl.includes('1XOTrGmBVm1pboFRl5VvZfGzqQzYhljUpTlQBEP1ikik')), 'IMAGE Studios has verified cloud Google Doc gdocUrl');
+assert(!imgStudios.cmsStack.theme.toLowerCase().includes('divi'), 'IMAGE Studios theme does NOT assume Divi');
+assert(imgStudios.cmsStack.theme.includes('image-studios'), 'IMAGE Studios references real custom theme (image-studios)');
+assert(imgStudios.kpis.totalCrawledUrls === 7066, 'IMAGE Studios totalCrawledUrls is 7066');
+assert(imgStudios.kpis.internal301Redirects === 3216, 'IMAGE Studios internal301Redirects is 3216');
+
+let imgPassed = true;
+try {
+  window.switchClient('image-studios');
+} catch (e) {
+  imgPassed = false;
+  console.error('Error switching to IMAGE Studios:', e);
+}
+assert(imgPassed, 'switchClient("image-studios") executes without errors');
+assert(elementsMap['client-name'].textContent === 'IMAGE Studios', 'IMAGE Studios client-name element populated correctly');
+assert(elementsMap['count-all'].textContent === 9, 'IMAGE Studios total tasks count is 9');
+assert(elementsMap['count-sprint'].textContent === 3, 'IMAGE Studios current sprint tasks count is 3');
+assert(elementsMap['count-dev'].textContent === 5, 'IMAGE Studios Dev Team tasks count is 5');
+assert(elementsMap['count-completed'].textContent === 3, 'IMAGE Studios Completed QA tasks count is 3');
+
+for (const task of imgStudios.tasks) {
+  let modalPassed = true;
+  try {
+    window.openTaskModal(task.id);
+  } catch (e) {
+    modalPassed = false;
+    console.error(`Error opening modal for ${task.id}:`, e);
+  }
+  assert(modalPassed, `Modal opens cleanly for IMAGE Studios task ${task.id}`);
+  assert(Boolean(task.workbookUrl && task.workbookUrl.includes('1EJpjMS0dfc-LmcIPf99swRgeVtN6ABxHw6AMTnCMuKQ')), `Task ${task.id} includes cloud Google Sheet workbookUrl link`);
+}
 
 
 console.log('\n====================================================');

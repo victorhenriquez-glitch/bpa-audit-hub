@@ -99,7 +99,8 @@ window.switchClient = function(slug) {
     'oh-deer': document.getElementById('btn-client-ohdeer'),
     'us-lawns': document.getElementById('btn-client-uslawns'),
     'owl-be-there': document.getElementById('btn-client-owlbethere'),
-    'pacific-lawn-sprinklers': document.getElementById('btn-client-pacificlawn')
+    'pacific-lawn-sprinklers': document.getElementById('btn-client-pacificlawn'),
+    'image-studios': document.getElementById('btn-client-imagestudios')
   };
 
   const activeClass = 'px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-bpa-magenta shadow-xs border border-purple-100';
