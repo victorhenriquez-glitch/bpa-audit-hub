@@ -108,5 +108,5 @@ Cuando estés en la llamada con Jonie y compartas pantalla, sigue esta secuencia
    * Frase 3: Llamado a la acción para aprobación del cliente.
 
 ### Paso 6: Entregarle el Contrato de la API para su Servidor
-1. Pásale el enlace o el texto de `BPA_ScreamingFrog_API_Contract_for_Jonie.md`.
-2. Dile: *"Tu servidor Linux ya está perfecto; solo necesitamos añadir `--save-report 'Redirects:All Redirects'` y `--crawl-analysis` a tu comando CLI, poner la IP de tu VPS en la lista blanca de Cloudflare y conectar estos 5 endpoints con Replit"*.
+1. Pásale el archivo [`API_ENDPOINTS.md`](file:///c:/Users/LENOVO/OneDrive/Desktop/Consultas/bpa-audit-hub/API_ENDPOINTS.md).
+2. Dile: *"Tu servidor Linux ya está perfecto; solo necesitamos añadir `--save-report 'Redirects:All Redirects'` y `--crawl-analysis` a tu comando CLI, poner la IP de tu VPS en la lista blanca de Cloudflare y conectar estos endpoints con Replit"*.
