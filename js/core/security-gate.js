@@ -91,10 +91,10 @@
     validated.kpis.broken404Pages = numOr(validated.kpis.broken404Pages, 0);
     validated.kpis.wafFalsePositive403 = numOr(validated.kpis.wafFalsePositive403, 0);
 
-    // Health scores
+    // Health scores (Rule #27: never invent synthetic fallback scores if absent)
     validated.kpis.healthScores = validated.kpis.healthScores || {};
-    validated.kpis.healthScores.rawSemrushScore = numOr(validated.kpis.healthScores.rawSemrushScore, 85);
-    validated.kpis.healthScores.calibratedTrueHealth = numOr(validated.kpis.healthScores.calibratedTrueHealth, 95);
+    validated.kpis.healthScores.rawSemrushScore = numOr(validated.kpis.healthScores.rawSemrushScore, null);
+    validated.kpis.healthScores.calibratedTrueHealth = numOr(validated.kpis.healthScores.calibratedTrueHealth, null);
 
     // Arrays
     validated.tasks = Array.isArray(validated.tasks) ? validated.tasks : [];

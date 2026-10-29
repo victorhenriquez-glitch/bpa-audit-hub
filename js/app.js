@@ -6,7 +6,6 @@
 
 window.currentClient = 'oh-deer';
 window.currentTask = null;
-window.isClientView = false;
 window.currentFilter = 'all';
 window.currentSearchTerm = '';
 
@@ -23,26 +22,27 @@ if (typeof window.sanitize !== 'function') {
   };
 }
 
+window.getActiveClientData = function(slug) {
+  const target = slug || window.currentClient;
+  if (window.BPA_STORAGE && typeof window.BPA_STORAGE.getClient === 'function') {
+    return window.BPA_STORAGE.getClient(target);
+  }
+  return (window.BPA_DATA && window.BPA_DATA[target]) ? window.BPA_DATA[target] : null;
+};
+
 // --- 1. INITIALIZATION ---
 window.initApp = function() {
   try {
     let paramClient = null;
-    let paramView = null;
     if (typeof window !== 'undefined' && window.location && window.location.search) {
       const urlParams = new URLSearchParams(window.location.search);
       paramClient = urlParams.get('client');
-      paramView = urlParams.get('view') || urlParams.get('mode');
     }
 
-    if (paramClient && window.BPA_DATA && window.BPA_DATA[paramClient]) {
+    if (paramClient && window.getActiveClientData(paramClient)) {
       window.currentClient = paramClient;
     }
 
-    if (paramView === 'client') {
-      window.isClientView = true;
-    }
-
-    window.applyViewModeUI();
     window.renderClient(window.currentClient);
 
     if (window.lucide) {
@@ -53,46 +53,9 @@ window.initApp = function() {
   }
 };
 
-// --- 2. VIEW MODE TOGGLE (CLIENT PORTAL VS AGENCY INTERNAL) ---
-window.toggleViewMode = function() {
-  window.isClientView = !window.isClientView;
-  window.applyViewModeUI();
-  const client = window.BPA_DATA ? window.BPA_DATA[window.currentClient] : null;
-  if (client) window.renderTasks(client.tasks || []);
-  if (window.lucide) lucide.createIcons();
-};
-
-window.applyViewModeUI = function() {
-  const switcher = document.getElementById('agency-client-switcher');
-  const banner = document.getElementById('client-view-banner');
-  const clickupBtn = document.getElementById('btn-clickup-summary');
-  const shareBtn = document.getElementById('btn-copy-client-link');
-  const viewBtnText = document.getElementById('view-mode-text');
-
-  if (window.isClientView) {
-    if (switcher) switcher.classList.add('hidden');
-    if (banner) {
-      banner.classList.remove('hidden');
-      banner.classList.add('flex');
-    }
-    if (clickupBtn) clickupBtn.classList.add('hidden');
-    if (shareBtn) shareBtn.classList.remove('hidden');
-    if (viewBtnText) viewBtnText.textContent = 'Agency View';
-  } else {
-    if (switcher) switcher.classList.remove('hidden');
-    if (banner) {
-      banner.classList.add('hidden');
-      banner.classList.remove('flex');
-    }
-    if (clickupBtn) clickupBtn.classList.remove('hidden');
-    if (shareBtn) shareBtn.classList.add('hidden');
-    if (viewBtnText) viewBtnText.textContent = 'Client View';
-  }
-};
-
-// --- 3. CLIENT SWITCHING ---
+// --- 2. CLIENT SWITCHING ---
 window.switchClient = function(slug) {
-  if (!window.BPA_DATA || !window.BPA_DATA[slug]) return;
+  if (!window.getActiveClientData(slug)) return;
   window.currentClient = slug;
 
   const btnMap = {
@@ -113,14 +76,16 @@ window.switchClient = function(slug) {
     }
   });
 
+  if (window.BPA_STORAGE && typeof window.BPA_STORAGE.syncClientFromBackend === 'function') {
+    window.BPA_STORAGE.syncClientFromBackend(slug);
+  }
+
   window.renderClient(slug);
 };
 
 // --- 4. RENDER CLIENT PROFILE ---
 window.renderClient = function(slug) {
-  const data = (window.BPA_STORAGE && typeof window.BPA_STORAGE.getClient === 'function')
-    ? window.BPA_STORAGE.getClient(slug)
-    : (window.BPA_DATA ? window.BPA_DATA[slug] : null);
+  const data = window.getActiveClientData(slug);
   if (!data) return;
 
   try {
@@ -761,7 +726,7 @@ window.toggleUrlsDrawer = function(taskId) {
 };
 
 window.copyUrlsList = function(taskId) {
-  const client = window.BPA_DATA ? window.BPA_DATA[window.currentClient] : null;
+  const client = window.getActiveClientData(window.currentClient);
   if (!client || !client.tasks) return;
   const task = client.tasks.find(t => t.id === taskId);
   if (!task || !task.sampleUrls) return;
@@ -796,20 +761,20 @@ window.filterTasks = function(type) {
     }
   }
 
-  const client = window.BPA_DATA ? window.BPA_DATA[window.currentClient] : null;
+  const client = window.getActiveClientData(window.currentClient);
   if (client) window.renderTasks(client.tasks || []);
 };
 
 window.handleTaskSearch = function(term) {
   window.currentSearchTerm = term;
-  const client = window.BPA_DATA ? window.BPA_DATA[window.currentClient] : null;
+  const client = window.getActiveClientData(window.currentClient);
   if (client) window.renderTasks(client.tasks || []);
 };
 
 // --- 9. MODAL CONTROLS ---
 window.openTaskModal = function(taskId) {
   try {
-    const client = window.BPA_DATA ? window.BPA_DATA[window.currentClient] : null;
+    const client = window.getActiveClientData(window.currentClient);
     if (!client || !client.tasks) return;
     const task = client.tasks.find(t => t.id === taskId);
     if (!task) return;
@@ -977,9 +942,9 @@ window.promptEditTaskMinutes = function(taskId, isCompleted) {
   }
 };
 
-// --- 10. CLICKUP & SHARE EXPORTERS ---
+// --- 10. CLICKUP EXPORTERS ---
 window.copyDevTicket = function(taskId) {
-  const client = window.BPA_DATA ? window.BPA_DATA[window.currentClient] : null;
+  const client = window.getActiveClientData(window.currentClient);
   if (!client || !client.tasks) return;
   const task = client.tasks.find(t => t.id === taskId);
   if (!task) return;
@@ -1022,19 +987,12 @@ window.copyCurrentModalTicket = function() {
   if (window.currentTask) window.copyDevTicket(window.currentTask.id);
 };
 
-window.copyClientShareLink = function() {
-  const url = `${window.location.origin}${window.location.pathname}?client=${window.currentClient}&view=client`;
-  navigator.clipboard.writeText(url).then(() => {
-    window.showToast('Client portal link copied to clipboard');
-  });
-};
-
 /**
  * Universal Objective Executive Summary for ClickUp
  * Designed for anyone (AMs, Leads, Developers) to paste into ClickUp docs or task descriptions.
  */
 window.copyExecutiveSummaryClickUp = function() {
-  const client = window.BPA_DATA ? window.BPA_DATA[window.currentClient] : null;
+  const client = window.getActiveClientData(window.currentClient);
   if (!client) return;
 
   const kpis = client.kpis || {};
@@ -1051,16 +1009,16 @@ window.copyExecutiveSummaryClickUp = function() {
 ---
 
 ### 1. Technical Health & Global Crawlability
-- **Calibrated True Health Score:** **${health.calibratedTrueHealth || 92}%**
+- **Calibrated True Health Score:** **${health.calibratedTrueHealth != null ? `${health.calibratedTrueHealth}%` : '—'}**
   *(Calibrated to filter out WAF/Cloudflare bot false positives; 100% of tested URLs respond with 200 OK to live users).*
-- **Raw Audit Score:** ${health.rawSemrushScore || 78}%
+- **Raw Audit Score:** ${health.rawSemrushScore != null ? `${health.rawSemrushScore}%` : '—'}
 - **Total Crawled URLs:** ${(kpis.totalCrawledUrls || 0).toLocaleString()} (${(kpis.clean200HtmlPages || 0).toLocaleString()} clean indexable 200 OK HTML pages)
 - **Filtered 403 WAF Blocks:** ${kpis.wafFalsePositive403 || 0} (whitelisting rule planned in sprint)
 - **Internal Links to 301 Redirects:** ${kpis.internal301Redirects || 0} (slated for Phase 2 normalization)
 - **Broken 404 Errors:** ${kpis.broken404Pages || 0}
 
 ### 2. Current Sprint Scope (Immediate Execution)
-- **Total Estimated Effort:** **${sprint.totalEstimatedHours || '0.75 hrs'}** (${sprint.totalEstimatedMinutes || 45} mins billable)
+- **Total Estimated Effort:** **${sprint.totalEstimatedHours || '—'}** (${sprint.totalEstimatedMinutes != null ? sprint.totalEstimatedMinutes : 0} mins billable)
 - **Approval Status:** ${sprint.approvalStatus_en || sprint.approvalStatus}
 - **Actionable Sprint Tasks:**
 ${activeTasks.map(t => `  • **[${t.id}] ${t.title_en || t.title}** (${t.estimatedMinutes} min) — *${t.assignedRole}*`).join('\n')}

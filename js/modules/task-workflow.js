@@ -191,10 +191,12 @@
     }
 
     let targetClient = clientSlug || w.currentClient;
-    if (w.BPA_DATA && (!w.BPA_DATA[targetClient] || !(w.BPA_DATA[targetClient].tasks || []).some(t => t.id === taskId))) {
-      const foundSlug = Object.keys(w.BPA_DATA).find(slug => {
+    const currentClientObj = w.BPA_STORAGE.getClient(targetClient);
+    if (!currentClientObj || !(currentClientObj.tasks || []).some(t => t.id === taskId)) {
+      const allSlugs = typeof w.BPA_STORAGE.getAllClientSlugs === 'function' ? w.BPA_STORAGE.getAllClientSlugs() : Object.keys(w.BPA_DATA || {});
+      const foundSlug = allSlugs.find(slug => {
         const c = w.BPA_STORAGE.getClient(slug);
-        return (c.tasks || []).some(t => t.id === taskId);
+        return c && (c.tasks || []).some(t => t.id === taskId);
       });
       if (foundSlug) targetClient = foundSlug;
     }
@@ -233,10 +235,12 @@
     }
 
     let targetClient = clientSlug || w.currentClient;
-    if (w.BPA_DATA && (!w.BPA_DATA[targetClient] || !(w.BPA_DATA[targetClient].completedTasks || []).some(t => t.id === taskId))) {
-      const foundSlug = Object.keys(w.BPA_DATA).find(slug => {
+    const currentClientObj = w.BPA_STORAGE.getClient(targetClient);
+    if (!currentClientObj || !(currentClientObj.completedTasks || []).some(t => t.id === taskId)) {
+      const allSlugs = typeof w.BPA_STORAGE.getAllClientSlugs === 'function' ? w.BPA_STORAGE.getAllClientSlugs() : Object.keys(w.BPA_DATA || {});
+      const foundSlug = allSlugs.find(slug => {
         const c = w.BPA_STORAGE.getClient(slug);
-        return (c.completedTasks || []).some(t => t.id === taskId);
+        return c && (c.completedTasks || []).some(t => t.id === taskId);
       });
       if (foundSlug) targetClient = foundSlug;
     }

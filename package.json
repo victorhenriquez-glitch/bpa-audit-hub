@@ -1,13 +1,15 @@
 {
   "name": "bpa-audit-hub",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Bright Pink Agency — Centralized Technical SEO Client Audit & Retainer Hub",
   "main": "server/index.js",
   "author": "Víctor Henríquez <victor.henriquez@brightpinkagency.com>",
   "scripts": {
     "start": "node server/index.js",
     "dev": "node server/index.js",
-    "test": "node test_suite.js"
+    "test": "node test_suite.js",
+    "ingest": "node scripts/ingest_client.js",
+    "build:data": "node scripts/ingest_client.js --sync-bundle"
   },
   "dependencies": {
     "express": "^4.19.2"

@@ -205,9 +205,9 @@
               <div class="w-7 h-7 rounded-lg bg-pink-50 text-bpa-magenta flex items-center justify-center font-bold">
                 <i data-lucide="check-square" class="w-4 h-4"></i>
               </div>
-              <h3 class="text-sm font-bold text-bpa-violet">ClickUp API Bridge</h3>
+              <h3 class="text-sm font-bold text-bpa-violet">ClickUp Batch Export</h3>
             </div>
-            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-900">/api/clickup/push</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-100 text-purple-900">4-Point Contract</span>
           </div>
 
           <div class="space-y-3 text-xs">
@@ -254,31 +254,13 @@
     }
   }
 
-  function getDefaultBridgeData(client) {
-    return {
-      scores: {
-        seo: 90,
-        headings: 78,
-        code: 75,
-        accessibility: 95,
-        ai: 72
-      },
-      aiReadiness: {
-        citationSnippetRatio: '74% of H2 sections',
-        authorityTone: 'High (9.2/10)',
-        namedEntities: ['Franchise HQ', 'Commercial Services', 'Service Territories', 'Local Branch']
-      }
-    };
-  }
-
   w.renderAiInspectorBridge = renderAiInspectorBridge;
   w.pushTasksToClickUp = pushTasksToClickUp;
 
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
       renderAiInspectorBridge,
-      pushTasksToClickUp,
-      getDefaultBridgeData
+      pushTasksToClickUp
     };
   }
 

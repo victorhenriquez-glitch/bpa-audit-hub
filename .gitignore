@@ -4,3 +4,6 @@ node_modules/
 __pycache__/
 .env*
 .vercel/
+data/runtime-cache.json
+data/crawls/
+*.tmp*

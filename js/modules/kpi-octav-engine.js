@@ -44,9 +44,9 @@
     const report = reports[0];
 
     const gsc = report.gsc || { clicks: 0, impressions: 0, ctr: 0, position: 0 };
-    const sem = report.semrush || { backlinks: 0, refDomains: 0, aiVisibilityScore: 0 };
+    const sem = report.semrush || { backlinks: 0, refDomains: 0, aiVisibilityScore: null };
     const ga4 = report.ga4 || { activeUsers: 0, keyEvents: 0 };
-    const health = (client.kpis && client.kpis.healthScores) ? client.kpis.healthScores : { calibratedTrueHealth: 92, rawSemrushScore: 78 };
+    const health = (client.kpis && client.kpis.healthScores) ? client.kpis.healthScores : { calibratedTrueHealth: null, rawSemrushScore: null };
     const lookerUrl = report.lookerStudioUrl || client.lookerStudioUrl || '';
     const sanitizedEmbed = (w.sanitizeEmbedUrl && typeof w.sanitizeEmbedUrl === 'function') ? w.sanitizeEmbedUrl(lookerUrl) : lookerUrl;
 
@@ -106,15 +106,15 @@
           <div class="bg-white rounded-2xl p-4 sm:p-5 border border-purple-100 shadow-xs bento-card space-y-2">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Organic Clicks</span>
-              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${getDeltaClass(gsc.clicksDelta || '+9.8%')}">
-                ${w.sanitize(gsc.clicksDelta || '+9.8%')}
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${getDeltaClass(gsc.clicksDelta || '—')}">
+                ${w.sanitize(gsc.clicksDelta || '—')}
               </span>
             </div>
             <div class="text-2xl sm:text-3xl font-extrabold text-bpa-violet font-mono tabular-nums">
-              ${Number(gsc.clicks).toLocaleString()}
+              ${Number(gsc.clicks || 0).toLocaleString()}
             </div>
             <div class="text-[11px] text-slate-400">
-              vs. ${Number(gsc.prevClicks || Math.round(gsc.clicks * 0.91)).toLocaleString()} prev month
+              ${gsc.prevClicks != null ? `vs. ${Number(gsc.prevClicks).toLocaleString()} prev month` : 'Baseline period'}
             </div>
           </div>
 
@@ -122,15 +122,15 @@
           <div class="bg-white rounded-2xl p-4 sm:p-5 border border-purple-100 shadow-xs bento-card space-y-2">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Impressions</span>
-              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${getDeltaClass(gsc.impressionsDelta || '+14.3%')}">
-                ${w.sanitize(gsc.impressionsDelta || '+14.3%')}
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${getDeltaClass(gsc.impressionsDelta || '—')}">
+                ${w.sanitize(gsc.impressionsDelta || '—')}
               </span>
             </div>
             <div class="text-2xl sm:text-3xl font-extrabold text-bpa-violet font-mono tabular-nums">
               ${formatLargeNumber(gsc.impressions)}
             </div>
             <div class="text-[11px] text-slate-400">
-              ${Number(gsc.impressions).toLocaleString()} total SERP views
+              ${Number(gsc.impressions || 0).toLocaleString()} total SERP views
             </div>
           </div>
 
@@ -139,14 +139,14 @@
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Average CTR</span>
               <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-blue-50 text-blue-700 border border-blue-200">
-                ${w.sanitize(gsc.ctrDelta || 'Steady')}
+                ${w.sanitize(gsc.ctrDelta || '—')}
               </span>
             </div>
             <div class="text-2xl sm:text-3xl font-extrabold text-bpa-violet font-mono tabular-nums">
-              ${gsc.ctr}%
+              ${gsc.ctr != null ? `${gsc.ctr}%` : '—'}
             </div>
             <div class="text-[11px] text-slate-400">
-              ${gsc.ctr >= 3.5 ? 'Above franchise industry benchmark (2.8%)' : 'Standard click-through rate'}
+              ${gsc.ctr >= 3.5 ? 'Above franchise industry benchmark (2.8%)' : 'Click-through rate'}
             </div>
           </div>
 
@@ -154,15 +154,15 @@
           <div class="bg-white rounded-2xl p-4 sm:p-5 border border-purple-100 shadow-xs bento-card space-y-2">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Avg. Position</span>
-              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${getDeltaClass(gsc.positionDelta || '+1.6 pos')}">
-                ${w.sanitize(gsc.positionDelta || '+1.6 pos')}
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${getDeltaClass(gsc.positionDelta || '—')}">
+                ${w.sanitize(gsc.positionDelta || '—')}
               </span>
             </div>
             <div class="text-2xl sm:text-3xl font-extrabold text-emerald-600 font-mono tabular-nums">
-              ${gsc.position}
+              ${gsc.position != null ? gsc.position : '—'}
             </div>
             <div class="text-[11px] text-slate-400">
-              Target keywords ranking in Top 15
+              Average SERP ranking position
             </div>
           </div>
         </div>
@@ -190,7 +190,7 @@
               </span>
             </div>
             <div class="text-2xl sm:text-3xl font-extrabold text-bpa-violet font-mono tabular-nums">
-              ${health.calibratedTrueHealth}<span class="text-lg text-slate-400">%</span>
+              ${health.calibratedTrueHealth != null ? health.calibratedTrueHealth : '—'}<span class="text-lg text-slate-400">%</span>
             </div>
             <div class="text-[11px] text-slate-400">
               ${(client.kpis && client.kpis.broken404Pages === 0) ? '0 broken 404 pages' : `${client.kpis.broken404Pages} 404s identified`}
@@ -201,15 +201,15 @@
           <div class="bg-white rounded-2xl p-4 sm:p-5 border border-purple-100 shadow-xs bento-card space-y-2">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Backlinks / Domains</span>
-              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${getDeltaClass(sem.backlinksDelta || '+6.7%')}">
-                ${w.sanitize(sem.backlinksDelta || '+6.7%')}
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${getDeltaClass(sem.backlinksDelta || '—')}">
+                ${w.sanitize(sem.backlinksDelta || '—')}
               </span>
             </div>
             <div class="text-2xl sm:text-3xl font-extrabold text-bpa-violet font-mono tabular-nums">
-              ${formatLargeNumber(sem.backlinks)} <span class="text-xs text-slate-500 font-sans font-bold">/ ${Number(sem.refDomains).toLocaleString()} ref</span>
+              ${formatLargeNumber(sem.backlinks)} <span class="text-xs text-slate-500 font-sans font-bold">/ ${Number(sem.refDomains || 0).toLocaleString()} ref</span>
             </div>
             <div class="text-[11px] text-slate-400">
-              Authority link growth across local directories
+              Authority link profile
             </div>
           </div>
 
@@ -222,10 +222,10 @@
               </span>
             </div>
             <div class="text-2xl sm:text-3xl font-extrabold text-purple-700 font-mono tabular-nums">
-              ${sem.aiVisibilityScore || 84}<span class="text-lg text-purple-400">/100</span>
+              ${sem.aiVisibilityScore != null ? sem.aiVisibilityScore : '—'}<span class="text-lg text-purple-400">/100</span>
             </div>
             <div class="text-[11px] text-slate-400">
-              ${sem.brandMentionsAi || 142} citations in Perplexity & SearchGPT
+              ${sem.brandMentionsAi != null ? `${sem.brandMentionsAi} citations in Perplexity & SearchGPT` : 'AI citation visibility'}
             </div>
           </div>
 
@@ -233,15 +233,15 @@
           <div class="bg-white rounded-2xl p-4 sm:p-5 border border-purple-100 shadow-xs bento-card space-y-2">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold uppercase tracking-wider text-slate-500">GA4 Key Events</span>
-              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${getDeltaClass(ga4.keyEventsDelta || '+9.3%')}">
-                ${w.sanitize(ga4.keyEventsDelta || '+9.3%')}
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${getDeltaClass(ga4.keyEventsDelta || '—')}">
+                ${w.sanitize(ga4.keyEventsDelta || '—')}
               </span>
             </div>
             <div class="text-2xl sm:text-3xl font-extrabold text-bpa-magenta font-mono tabular-nums">
-              ${Number(ga4.keyEvents || 3410).toLocaleString()}
+              ${Number(ga4.keyEvents || 0).toLocaleString()}
             </div>
             <div class="text-[11px] text-slate-400">
-              ${Number(ga4.activeUsers || 28400).toLocaleString()} active monthly users
+              ${ga4.activeUsers != null ? `${Number(ga4.activeUsers).toLocaleString()} active monthly users` : 'Key conversion events'}
             </div>
           </div>
         </div>
@@ -369,158 +369,6 @@
     return n.toLocaleString();
   }
 
-  function getDefaultReportForClient(client) {
-    const isUslawns = client.clientSlug === 'us-lawns';
-    const isOwl = client.clientSlug === 'owl-be-there';
-    const isPacific = client.clientSlug === 'pacific-lawn-sprinklers';
-
-    if (isUslawns) {
-      return {
-        period: "October 2026",
-        periodLabel: "Pre-Migration Baseline vs. September 2026",
-        publishedDate: "October 16, 2026",
-        authors: ["Víctor Henríquez", "Octav Fedor"],
-        lookerStudioUrl: "https://lookerstudio.google.com/embed/reporting/7ac7790a-9e7c-47f5-ace2-7745fb4ed5ea/page/vh4KF",
-        gsc: {
-          clicks: 64200,
-          prevClicks: 59800,
-          clicksDelta: "+7.4%",
-          impressions: 2450000,
-          prevImpressions: 2180000,
-          impressionsDelta: "+12.4%",
-          ctr: 2.62,
-          prevCtr: 2.74,
-          ctrDelta: "-0.12%",
-          position: 16.8,
-          prevPosition: 17.5,
-          positionDelta: "+0.7 pos"
-        },
-        semrush: {
-          backlinks: 48900,
-          prevBacklinks: 46200,
-          backlinksDelta: "+5.8%",
-          refDomains: 2340,
-          prevRefDomains: 2210,
-          refDomainsDelta: "+5.9%",
-          aiVisibilityScore: 78,
-          brandMentionsAi: 210
-        },
-        ga4: {
-          activeUsers: 45200,
-          prevActiveUsers: 41800,
-          activeUsersDelta: "+8.1%",
-          keyEvents: 7406,
-          prevKeyEvents: 6890,
-          keyEventsDelta: "+7.5%"
-        },
-        proofOfWorkSummary: [
-          "Completed comprehensive pre-migration benchmark across 4 technical discovery pillars.",
-          "Mapped all 204 active franchise territories and 547 deep click-depth URLs.",
-          "Identified and cataloged 1,156 thin careers CPT posts slated for noindex.",
-          "Preserved GA4 conversion architecture across 7,406 monthly lead interactions."
-        ],
-        executiveTakeaways: "Pre-migration organic traffic is at annual peak (64.2k Clicks). The Augustina Gutenberg redesign resolves deep pagination (Click Depth 10-16) and unlocks rapid indexation for excluded franchise locations."
-      };
-    }
-
-    if (isPacific) {
-      return {
-        period: "October 2026",
-        periodLabel: "October 2026 vs. September 2026",
-        publishedDate: "October 16, 2026",
-        authors: ["Víctor Henríquez", "Octav Fedor"],
-        lookerStudioUrl: "https://lookerstudio.google.com/embed/reporting/e515ba10-c47e-4b23-904d-9a858f02ca0d/page/1M",
-        gsc: {
-          clicks: 29800,
-          prevClicks: 26400,
-          clicksDelta: "+12.9%",
-          impressions: 890000,
-          prevImpressions: 760000,
-          impressionsDelta: "+17.1%",
-          ctr: 3.35,
-          prevCtr: 3.47,
-          ctrDelta: "-0.12%",
-          position: 13.9,
-          prevPosition: 15.1,
-          positionDelta: "+1.2 pos"
-        },
-        semrush: {
-          backlinks: 8720,
-          prevBacklinks: 8190,
-          backlinksDelta: "+6.5%",
-          refDomains: 612,
-          prevRefDomains: 580,
-          refDomainsDelta: "+5.5%",
-          aiVisibilityScore: 81,
-          brandMentionsAi: 95
-        },
-        ga4: {
-          activeUsers: 19400,
-          prevActiveUsers: 17200,
-          activeUsersDelta: "+12.8%",
-          keyEvents: 1840,
-          prevKeyEvents: 1610,
-          keyEventsDelta: "+14.3%"
-        },
-        proofOfWorkSummary: [
-          "Executed 4,052 URL Screaming Frog deep crawl (99.3% clean 200 OK responses).",
-          "Debunked 682 Semrush temporary 302 redirects as Cloudflare WAF bot challenges.",
-          "Isolated single critical corporate form canonical bug (/pls-corporate-form/).",
-          "Mapped all 17 permanent 301 redirects and identified root cause for 9 404 pages."
-        ],
-        executiveTakeaways: "Pacific Lawn Sprinklers organic visibility reached highest fall conversion rate (+12.9% Clicks). Crawl integrity is rock solid across all 4,000+ local landing pages with immediate 45-min sprint ready for execution."
-      };
-    }
-
-    // Default / ohDEER fallback
-    return {
-      period: "October 2026",
-      periodLabel: "October 2026 vs. September 2026",
-      publishedDate: "October 16, 2026",
-      authors: ["Octav Fedor", "Víctor Henríquez"],
-      lookerStudioUrl: "https://lookerstudio.google.com/embed/reporting/e515ba10-c47e-4b23-904d-9a858f02ca0d/page/1M",
-      gsc: {
-        clicks: 42150,
-        prevClicks: 38400,
-        clicksDelta: "+9.8%",
-        impressions: 1120000,
-        prevImpressions: 980000,
-        impressionsDelta: "+14.3%",
-        ctr: 3.76,
-        prevCtr: 3.92,
-        ctrDelta: "-0.16%",
-        position: 14.2,
-        prevPosition: 15.8,
-        positionDelta: "+1.6 pos"
-      },
-      semrush: {
-        backlinks: 14850,
-        prevBacklinks: 13920,
-        backlinksDelta: "+6.7%",
-        refDomains: 890,
-        prevRefDomains: 845,
-        refDomainsDelta: "+5.3%",
-        aiVisibilityScore: 84,
-        brandMentionsAi: 142
-      },
-      ga4: {
-        activeUsers: 28400,
-        prevActiveUsers: 26100,
-        activeUsersDelta: "+8.8%",
-        keyEvents: 3410,
-        prevKeyEvents: 3120,
-        keyEventsDelta: "+9.3%"
-      },
-      proofOfWorkSummary: [
-        "Resolved 13 paginated blog duplicate titles (%page%) via Rank Math snippet.",
-        "Configured Cloudflare WAF bot-challenge rule eliminating 818 false positive 403 halts.",
-        "Audited all 245 internal 301 redirects across multisite header and footer.",
-        "Confirmed 100% crawl stability with 0 broken 404 pages across 5,692 crawled URLs."
-      ],
-      executiveTakeaways: "Organic traffic continues strong seasonal momentum (+9.8% Clicks MoM) driven by local franchise landing pages. Technical health is pristine at 92% calibrated health with zero broken pages. Phase 2 retainer will focus on heading normalization and menu redirect pruning."
-    };
-  }
-
   function copyKpiSummary() {
     const client = (w.BPA_STORAGE && typeof w.BPA_STORAGE.getClient === 'function')
       ? w.BPA_STORAGE.getClient(w.currentClient)
@@ -528,23 +376,31 @@
 
     if (!client) return;
     const reports = client.monthlyKpiReports || [];
-    const report = reports.length > 0 ? reports[0] : getDefaultReportForClient(client);
+    if (reports.length === 0) {
+      if (typeof w.showToast === 'function') {
+        w.showToast('No verified monthly KPI report available for this client yet.');
+      }
+      return;
+    }
+    const report = reports[0];
+    const gsc = report.gsc || {};
+    const ga4 = report.ga4 || {};
 
     const summaryText = `### 📊 Monthly SEO & Retainer Executive Brief — ${client.clientName}
-**Period:** ${report.periodLabel || 'October 2026 vs. Prior Month'}
+**Period:** ${report.periodLabel || report.period || 'Monthly Baseline'}
 **Authors:** ${(report.authors || ['Octav Fedor', 'Víctor Henríquez']).join(' & ')}
 
 #### 1. Google Search Console & Growth
-- **Organic Clicks:** ${Number(report.gsc.clicks).toLocaleString()} (${report.gsc.clicksDelta || '+9.8%'})
-- **Total Impressions:** ${formatLargeNumber(report.gsc.impressions)} (${report.gsc.impressionsDelta || '+14.3%'})
-- **Average Position:** ${report.gsc.position} (${report.gsc.positionDelta || '+1.6 pos improvement'})
-- **GA4 Key Events:** ${Number(report.ga4.keyEvents).toLocaleString()} conversions (${report.ga4.keyEventsDelta || '+9.3%'})
+- **Organic Clicks:** ${Number(gsc.clicks || 0).toLocaleString()} (${gsc.clicksDelta || '—'})
+- **Total Impressions:** ${formatLargeNumber(gsc.impressions)} (${gsc.impressionsDelta || '—'})
+- **Average Position:** ${gsc.position != null ? gsc.position : '—'} (${gsc.positionDelta || '—'})
+- **GA4 Key Events:** ${Number(ga4.keyEvents || 0).toLocaleString()} conversions (${ga4.keyEventsDelta || '—'})
 
 #### 2. Proof of Work (CMS Fixes Implemented)
-${(report.proofOfWorkSummary || []).map(item => `- ${item}`).join('\n')}
+${(report.proofOfWorkSummary || []).map(item => `- ${item}`).join('\n') || '- Verified technical sprint execution.'}
 
 #### 3. Strategic AM Takeaway
-${report.executiveTakeaways || 'Technical health and indexation remain solid with high client retention value.'}
+${report.executiveTakeaways || '—'}
 `;
 
     if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
@@ -560,8 +416,7 @@ ${report.executiveTakeaways || 'Technical health and indexation remain solid wit
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
       renderMonthlyKpis,
-      copyKpiSummary,
-      getDefaultReportForClient
+      copyKpiSummary
     };
   }
 
